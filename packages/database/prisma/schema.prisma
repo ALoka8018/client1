@@ -1,0 +1,312 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Enums ----------
+
+enum UserRole {
+  CUSTOMER
+  TECHNICIAN
+  ADMIN
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  COMMERCIAL
+  INDUSTRIAL
+  INFRASTRUCTURE
+}
+
+enum BookingStatus {
+  REQUESTED
+  CONFIRMED
+  ASSIGNED
+  EN_ROUTE
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+  VOID
+}
+
+enum HealthSystem {
+  ELECTRICAL
+  PLUMBING
+  HVAC
+}
+
+enum HealthStatus {
+  OPTIMAL
+  NEEDS_ATTENTION
+}
+
+enum SupportTicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// ---------- Identity ----------
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  phone     String?
+  name      String
+  role      UserRole @default(CUSTOMER)
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  technicianProfile TechnicianProfile?
+  properties        Property[]
+  bookings          Booking[]          @relation("BookingCustomer")
+  invoices          Invoice[]
+  paymentMethods    PaymentMethod[]
+  supportTickets    SupportTicket[]
+
+  @@index([role])
+}
+
+model TechnicianProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialty String?
+  bio       String?
+  photoUrl  String?
+  rating    Decimal  @default(0) @db.Decimal(2, 1)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignedBookings Booking[] @relation("BookingTechnician")
+}
+
+model Property {
+  id           String       @id @default(cuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label        String
+  addressLine  String
+  city         String
+  propertyType PropertyType @default(RESIDENTIAL)
+  isPrimary    Boolean      @default(false)
+  latitude     Decimal?     @db.Decimal(9, 6)
+  longitude    Decimal?     @db.Decimal(9, 6)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  bookings           Booking[]
+  maintenanceRecords MaintenanceRecord[]
+  healthMetrics      PropertyHealthMetric[]
+
+  @@index([userId])
+}
+
+// ---------- Service catalog ----------
+
+model ServiceCategory {
+  id       String    @id @default(cuid())
+  key      String    @unique
+  label    String
+  icon     String?
+  services Service[]
+}
+
+model Service {
+  id          String          @id @default(cuid())
+  categoryId  String
+  category    ServiceCategory @relation(fields: [categoryId], references: [id])
+  title       String
+  description String
+  imageUrl    String?
+  rating      Decimal         @default(0) @db.Decimal(2, 1)
+  priceLabel  String
+  priceAmount Decimal         @db.Decimal(10, 2)
+  priceUnit   String?
+  ctaType     String          @default("dual")
+  active      Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  bookings Booking[]
+
+  @@index([categoryId])
+}
+
+// ---------- Bookings & jobs ----------
+
+model Booking {
+  id                 String             @id @default(cuid())
+  code               String             @unique
+  userId             String
+  user               User               @relation("BookingCustomer", fields: [userId], references: [id])
+  propertyId         String
+  property           Property           @relation(fields: [propertyId], references: [id])
+  serviceId          String?
+  service            Service?           @relation(fields: [serviceId], references: [id])
+  technicianId       String?
+  technician         TechnicianProfile? @relation("BookingTechnician", fields: [technicianId], references: [id])
+  status             BookingStatus      @default(REQUESTED)
+  scheduledAt        DateTime
+  problemDescription String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  attachments       BookingAttachment[]
+  statusEvents      BookingStatusEvent[]
+  invoice           Invoice?
+  maintenanceRecord MaintenanceRecord?
+
+  @@index([userId])
+  @@index([technicianId])
+  @@index([status])
+}
+
+model BookingAttachment {
+  id        String   @id @default(cuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  fileUrl   String
+  fileName  String
+  mimeType  String
+  createdAt DateTime @default(now())
+
+  @@index([bookingId])
+}
+
+model BookingStatusEvent {
+  id        String        @id @default(cuid())
+  bookingId String
+  booking   Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  status    BookingStatus
+  note      String?
+  createdAt DateTime      @default(now())
+
+  @@index([bookingId])
+}
+
+// ---------- Billing ----------
+
+model Invoice {
+  id        String        @id @default(cuid())
+  number    String        @unique
+  bookingId String        @unique
+  booking   Booking       @relation(fields: [bookingId], references: [id])
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  amount    Decimal       @db.Decimal(10, 2)
+  status    InvoiceStatus @default(PENDING)
+  issuedAt  DateTime      @default(now())
+  paidAt    DateTime?
+  pdfUrl    String?
+
+  @@index([userId])
+  @@index([status])
+}
+
+model PaymentMethod {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brand         String
+  last4         String
+  expiryMonth   Int
+  expiryYear    Int
+  isDefault     Boolean  @default(false)
+  providerToken String
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ---------- Property health / maintenance ----------
+
+model MaintenanceRecord {
+  id          String   @id @default(cuid())
+  propertyId  String
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  bookingId   String?  @unique
+  booking     Booking? @relation(fields: [bookingId], references: [id])
+  title       String
+  category    String
+  amount      Decimal  @db.Decimal(10, 2)
+  completedAt DateTime
+  status      String   @default("COMPLETED")
+
+  @@index([propertyId])
+}
+
+model PropertyHealthMetric {
+  id            String       @id @default(cuid())
+  propertyId    String
+  property      Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  system        HealthSystem
+  status        HealthStatus
+  healthPercent Int
+  updatedAt     DateTime     @updatedAt
+
+  @@unique([propertyId, system])
+}
+
+// ---------- Support & marketing content ----------
+
+model SupportTicket {
+  id        String              @id @default(cuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic     String
+  message   String
+  status    SupportTicketStatus @default(OPEN)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Testimonial {
+  id             String   @id @default(cuid())
+  clientName     String
+  rating         Decimal  @db.Decimal(2, 1)
+  body           String
+  beforeImageUrl String?
+  afterImageUrl  String?
+  createdAt      DateTime @default(now())
+}
+
+model BlogPost {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  title         String
+  excerpt       String
+  body          String
+  coverImageUrl String?
+  publishedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model JobPosting {
+  id          String   @id @default(cuid())
+  title       String
+  department  String
+  location    String
+  description String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}

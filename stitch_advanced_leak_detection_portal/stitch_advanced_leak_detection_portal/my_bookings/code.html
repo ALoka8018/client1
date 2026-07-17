@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIAS Engineering | My Bookings & Invoices</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .tab-active {
+            border-bottom: 2px solid #002869;
+            color: #002869;
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 20px rgba(0, 40, 105, 0.05);
+        }
+        /* Custom scrollbar for a cleaner technical look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #002869;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2d3133",
+                        "tertiary-container": "#334358",
+                        "background": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b1c5ff",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "error-container": "#ffdad6",
+                        "secondary": "#a04100",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#345baf",
+                        "secondary-container": "#fe6b00",
+                        "on-secondary-container": "#572000",
+                        "primary-container": "#0b3d91",
+                        "primary": "#002869",
+                        "on-primary-container": "#8dadff",
+                        "surface-dim": "#d8dadc",
+                        "outline-variant": "#c4c6d3",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#001947",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#7a3000",
+                        "on-tertiary-container": "#9fb0c9",
+                        "secondary-fixed-dim": "#ffb693",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#747783",
+                        "on-surface-variant": "#434652",
+                        "on-background": "#191c1e",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary": "#1d2d41",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#d3e4fe",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed-variant": "#144296",
+                        "on-surface": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "primary-fixed-dim": "#b1c5ff",
+                        "on-secondary-fixed": "#351000",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "secondary-fixed": "#ffdbcc",
+                        "primary-fixed": "#dae2ff",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "section-padding-mobile": "64px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "section-padding-desktop": "120px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl dark:bg-surface-container-highest/70 border-b border-white/20 shadow-sm shadow-primary/5 flex justify-between items-center px-margin-mobile md:px-8 h-16">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary" data-icon="menu">menu</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AIAS Engineering</h1>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">Services</a>
+<a class="text-primary font-bold font-label-md text-label-md" href="#">My Bookings</a>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all">Book Now</button>
+</div>
+<div class="md:hidden">
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-full font-label-md text-label-md">Book</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<!-- Page Title -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">My History</h2>
+<p class="text-on-surface-variant font-body-md">Manage your active maintenance, project history, and engineering invoices.</p>
+</div>
+<!-- Tabs Navigation -->
+<div class="flex border-b border-outline-variant mb-8 overflow-x-auto whitespace-nowrap">
+<button class="px-6 py-3 font-label-md text-label-md text-primary border-b-2 border-primary transition-all" id="tab-active" onclick="switchTab('active')">Active Bookings</button>
+<button class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" id="tab-completed" onclick="switchTab('completed')">Completed</button>
+<button class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" id="tab-invoices" onclick="switchTab('invoices')">Invoices</button>
+</div>
+<!-- Content Area -->
+<div class="tab-panel grid grid-cols-1 lg:grid-cols-2 gap-gutter" id="content-active">
+<!-- Active Booking Card 1 -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 custom-shadow border border-white/50 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container/10 text-on-secondary-container text-xs font-bold mb-3">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                            IN PROGRESS
+                        </span>
+<h3 class="font-headline-md text-headline-md text-primary">HVAC System Audit</h3>
+<p class="text-on-surface-variant text-sm mt-1">ID: #AIAS-88291 • West Wing Plaza</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-primary">Arrival: 14:30 PM</p>
+<p class="text-on-surface-variant text-xs">Today, Oct 24</p>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-4 flex items-center gap-4 mb-6">
+<img class="w-14 h-14 rounded-full object-cover border-2 border-primary/10" data-alt="A professional portrait of a male mechanical engineer wearing a clean white polo with a blue company logo and a smart ID badge. He is smiling warmly against a blurred industrial backdrop of modern machinery. High-fidelity photography, soft daylight, corporate professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqxz2YFA6uT7N4qcJYXNqXgCoP94xmh9MsWsOXBUmYRVk5EEqS0T9TRVgYNqNP8xYXJf0gkSGLTuYxvpKlRhBsYkZfOoHo4TCHUVa7ny0jVJES8JsqRwoi-gNJCV2dzQBZrp0MKH33Pxx-wSZ-aNcdVbmdUes-eWCreb0dr2lvoVEVXzKowRqo8eq5svzoafplGBGYKv_8U_4ZDSJsIPK5ydZYLWwWZzToErQseZXfHH1KV4jQjpndNz344x7V3UeYl-m4QUdigt4"/>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-primary">Robert Chen</h4>
+<p class="text-xs text-on-surface-variant">Senior Mechanical Specialist</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.9</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:opacity-80 transition-all">
+<span class="material-symbols-outlined text-lg">chat</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:opacity-80 transition-all">
+<span class="material-symbols-outlined text-lg">call</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="location_on">location_on</span>
+<span class="text-sm text-on-surface-variant">Track technician location</span>
+</div>
+<button class="text-primary font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                        View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Active Booking Card 2 -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 custom-shadow border border-white/50 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container/10 text-on-primary-fixed-variant text-xs font-bold mb-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            CONFIRMED
+                        </span>
+<h3 class="font-headline-md text-headline-md text-primary">Fire Safety Inspection</h3>
+<p class="text-on-surface-variant text-sm mt-1">ID: #AIAS-88304 • Logistics Hub A</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-primary">Oct 26, 09:00 AM</p>
+<p class="text-on-surface-variant text-xs">Scheduled</p>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-2xl">person</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary">Assigning Soon</h4>
+<p class="text-xs text-on-surface-variant">Technician will be assigned 24h before</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<button class="text-error font-bold text-sm hover:opacity-80 transition-all">Reschedule</button>
+<button class="text-primary font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                        View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="tab-panel hidden space-y-4" id="content-completed">
+<!-- Completed List Item -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl custom-shadow border border-white/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<h4 class="font-headline-md text-sm md:text-body-lg text-primary font-bold">Annual Generator Service</h4>
+<p class="text-xs text-on-surface-variant">Completed on Oct 12, 2024 • Tech: Sarah J.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right hidden md:block">
+<p class="text-sm font-bold text-primary">$450.00</p>
+<p class="text-xs text-on-surface-variant">Paid via Corporate Card</p>
+</div>
+<button class="border border-primary text-primary px-4 py-2 rounded-lg text-xs font-bold hover:bg-primary hover:text-on-primary transition-all">Rebook Service</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl custom-shadow border border-white/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<h4 class="font-headline-md text-sm md:text-body-lg text-primary font-bold">Lighting Upgrade (Phase 1)</h4>
+<p class="text-xs text-on-surface-variant">Completed on Sept 28, 2024 • Tech: Mike V.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right hidden md:block">
+<p class="text-sm font-bold text-primary">$1,280.00</p>
+<p class="text-xs text-on-surface-variant">Paid via PO</p>
+</div>
+<button class="border border-primary text-primary px-4 py-2 rounded-lg text-xs font-bold hover:bg-primary hover:text-on-primary transition-all">Rebook Service</button>
+</div>
+</div>
+</div>
+<div class="tab-panel hidden overflow-hidden rounded-3xl bg-surface-container-lowest border border-white/50 custom-shadow" id="content-invoices">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md text-primary">Invoice ID</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary">Service Date</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary">Amount</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-primary text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#INV-2024-001</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 12, 2024</td>
+<td class="px-6 py-4 text-sm font-bold">$450.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-extrabold uppercase tracking-wider">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline text-xs font-bold">
+<span class="material-symbols-outlined text-sm">download</span> PDF
+                            </button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#INV-2024-002</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-6 py-4 text-sm font-bold">$890.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-[10px] font-extrabold uppercase tracking-wider">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline text-xs font-bold">
+<span class="material-symbols-outlined text-sm">download</span> PDF
+                            </button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#INV-2023-098</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Sept 15, 2024</td>
+<td class="px-6 py-4 text-sm font-bold">$2,100.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-extrabold uppercase tracking-wider">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline text-xs font-bold">
+<span class="material-symbols-outlined text-sm">download</span> PDF
+                            </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 backdrop-blur-2xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,40,105,0.05)] z-50 rounded-t-3xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-[10px] mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">construction</span>
+<span class="font-label-md text-[10px] mt-1">Services</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-1 scale-90 transition-all duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-md text-[10px] mt-1">Bookings</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-[10px] mt-1">Chat</span>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-32 bg-surface-container-highest border-t border-outline-variant/20">
+<div class="flex flex-col px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+<div class="col-span-1 md:col-span-2">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">AIAS Engineering</h3>
+<p class="text-on-surface-variant max-w-md">Leading the standard in technical infrastructure maintenance and precision engineering solutions for commercial properties.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary mb-4">Company</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline text-sm" href="#">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline text-sm" href="#">Expertise</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline text-sm" href="#">Safety Standards</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary mb-4">Support</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline text-sm" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline text-sm" href="#">Terms of Service</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline text-sm" href="#">Contact Support</a></li>
+</ul>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-outline-variant/20 gap-4">
+<p class="text-on-surface-variant text-sm">© 2024 AIAS Engineering Solutions. All Rights Reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary">language</span>
+<span class="material-symbols-outlined text-primary">security</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        function switchTab(tabId) {
+            // Hide all panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+            // Show target panel
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+
+            // Reset tab styles
+            const tabs = ['active', 'completed', 'invoices'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tab-' + t);
+                btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                btn.classList.add('text-on-surface-variant');
+            });
+
+            // Set active tab style
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.add('text-primary', 'border-b-2', 'border-primary');
+            activeBtn.classList.remove('text-on-surface-variant');
+        }
+
+        // Initialize state check
+        window.onload = () => {
+            console.log("AIAS Engineering Interface Initialized");
+        };
+    </script>
+</body></html>

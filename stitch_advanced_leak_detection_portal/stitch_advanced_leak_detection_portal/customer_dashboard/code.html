@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Dashboard | AIAS Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#2d3133",
+                    "tertiary-container": "#334358",
+                    "background": "#f7f9fb",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#b1c5ff",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "error-container": "#ffdad6",
+                    "secondary": "#a04100",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#345baf",
+                    "secondary-container": "#fe6b00",
+                    "on-secondary-container": "#572000",
+                    "primary-container": "#0b3d91",
+                    "primary": "#002869",
+                    "on-primary-container": "#8dadff",
+                    "surface-dim": "#d8dadc",
+                    "outline-variant": "#c4c6d3",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#eceef0",
+                    "on-primary-fixed": "#001947",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#7a3000",
+                    "on-tertiary-container": "#9fb0c9",
+                    "secondary-fixed-dim": "#ffb693",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#747783",
+                    "on-surface-variant": "#434652",
+                    "on-background": "#191c1e",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary": "#1d2d41",
+                    "surface-variant": "#e0e3e5",
+                    "tertiary-fixed": "#d3e4fe",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary-fixed-variant": "#144296",
+                    "on-surface": "#191c1e",
+                    "surface": "#f7f9fb",
+                    "primary-fixed-dim": "#b1c5ff",
+                    "on-secondary-fixed": "#351000",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "secondary-fixed": "#ffdbcc",
+                    "primary-fixed": "#dae2ff",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "section-padding-mobile": "64px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "section-padding-desktop": "120px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "headline-md": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Montserrat"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 20px rgba(0, 40, 105, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .stepper-active {
+            background-color: #002869;
+            color: white;
+        }
+        .stepper-line {
+            height: 2px;
+            background: #e0e3e5;
+            flex-grow: 1;
+        }
+        .stepper-line-active {
+            background: #002869;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface/70 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-white/20 shadow-sm shadow-primary/5 h-16 flex justify-between items-center px-margin-mobile md:px-8">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AIAS Engineering</h1>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<nav class="flex gap-6">
+<a class="text-primary font-bold transition-opacity hover:opacity-80" href="#">Home</a>
+<a class="text-on-surface-variant transition-opacity hover:opacity-80" href="#">Services</a>
+<a class="text-on-surface-variant transition-opacity hover:opacity-80" href="#">Projects</a>
+</nav>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md hover:opacity-90 active:scale-95 transition-all">Book Now</button>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<!-- Personalized Greeting -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Welcome back, Sarah</h2>
+<p class="text-on-surface-variant mt-2 font-body-lg">Managing your property at <span class="font-semibold text-on-surface">124 Skyline Heights, Marina Bay.</span></p>
+</div>
+<div class="flex items-center gap-2 bg-surface-container rounded-full px-4 py-2 text-primary font-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+                    Verified Resident
+                </div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Track Active Jobs (Bento Large) -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<section class="glass-card rounded-3xl p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-md">IN PROGRESS</span>
+</div>
+<div class="flex items-start gap-4 mb-8">
+<div class="bg-primary-container/10 p-3 rounded-2xl">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="water_damage">water_damage</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Current Leakage Repair</h3>
+<p class="text-on-surface-variant">Ticket #AIAS-8902 • Scheduled for today</p>
+</div>
+</div>
+<!-- Progress Stepper -->
+<div class="mt-8 mb-10">
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-10 h-10 rounded-full flex items-center justify-center stepper-active shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="check">check</span>
+</div>
+<span class="text-label-md text-primary">Requested</span>
+</div>
+<div class="stepper-line stepper-line-active mx-[-10px] -mt-6"></div>
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-10 h-10 rounded-full flex items-center justify-center stepper-active shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="engineering">engineering</span>
+</div>
+<span class="text-label-md text-primary">Assigned</span>
+</div>
+<div class="stepper-line stepper-line-active mx-[-10px] -mt-6"></div>
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-10 h-10 rounded-full flex items-center justify-center stepper-active border-4 border-primary/20 bg-primary shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="local_shipping">local_shipping</span>
+</div>
+<span class="text-label-md text-primary">En Route</span>
+</div>
+<div class="stepper-line mx-[-10px] -mt-6"></div>
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="home_repair_service">home_repair_service</span>
+</div>
+<span class="text-label-md text-on-surface-variant">Completion</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl flex items-center gap-4 border border-outline-variant/30">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male engineer wearing a blue high-visibility AIAS uniform and a hard hat. The lighting is bright and corporate, set against a blurred engineering project site. He is smiling confidently, conveying trust, reliability, and technical expertise in a modern light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlRY-imQ5mgtm0W1SQqAc317BZRPxbnt9VhiPk_6TFnUREU1g7bwok3Gns8Ljd6eQK8yuOEgKd-dXpGd2R1UJyXOebgRn0YXBQprPyNpse0zPcuh3TgUS1r7OmotE8mvUpNIWhYYJsZXL-YZZv2CvVCLFCkTX9qPwV_AuQdASbwPfJHvtJ3LlDWo94JEOUhdVK1TEb0SRcZ46zgDwoYbIdYR-xRLd_4PYv6AXs7TbbBdzO5YmvZaCpcliQ6lFQlT8_MnYqxoOzJIY"/>
+</div>
+<div>
+<p class="font-bold text-primary">Engineer: Marcus Chen</p>
+<p class="text-label-md text-on-surface-variant">Estimated arrival in 15 minutes</p>
+</div>
+<button class="ml-auto bg-primary text-on-primary p-2 rounded-full hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]" data-icon="call">call</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Quick Actions Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-gutter">
+<button class="glass-card rounded-3xl p-6 flex flex-col items-center gap-4 hover:bg-primary-container/5 transition-all group">
+<div class="w-14 h-14 rounded-2xl bg-primary-container/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="add_task">add_task</span>
+</div>
+<span class="font-label-md text-primary">Book New</span>
+</button>
+<button class="glass-card rounded-3xl p-6 flex flex-col items-center gap-4 hover:bg-primary-container/5 transition-all group">
+<div class="w-14 h-14 rounded-2xl bg-primary-container/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="request_quote">request_quote</span>
+</div>
+<span class="font-label-md text-primary">Request Quote</span>
+</button>
+<button class="glass-card rounded-3xl p-6 flex flex-col items-center gap-4 hover:bg-primary-container/5 transition-all group">
+<div class="w-14 h-14 rounded-2xl bg-secondary-container/10 text-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="receipt_long">receipt_long</span>
+</div>
+<span class="font-label-md text-secondary">Pay Invoice</span>
+</button>
+</div>
+</div>
+<!-- Side Bento Column -->
+<aside class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Property Health Card -->
+<section class="glass-card rounded-3xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-primary">Property Insight</h4>
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</div>
+<div class="flex flex-col items-center py-4">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-high" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="10"></circle>
+<circle class="text-primary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="54.6" stroke-width="10"></circle>
+</svg>
+<span class="absolute text-2xl font-bold text-primary">85%</span>
+</div>
+<p class="mt-4 text-center text-on-surface-variant font-body-md">Overall Property Health</p>
+</div>
+<div class="mt-6 space-y-4">
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">Electrical</span>
+<span class="text-primary">Optimal</span>
+</div>
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">Plumbing</span>
+<span class="text-secondary">Needs Attention</span>
+</div>
+<div class="flex justify-between items-center text-label-md">
+<span class="text-on-surface-variant">HVAC</span>
+<span class="text-primary">Optimal</span>
+</div>
+</div>
+</section>
+<!-- Recommendations -->
+<section class="glass-card rounded-3xl p-6 flex-grow">
+<h4 class="font-headline-md text-headline-md text-primary mb-6">Tailored For You</h4>
+<div class="space-y-4">
+<div class="p-4 rounded-2xl bg-surface-container-low border border-white hover:border-primary/20 transition-all cursor-pointer group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="solar_power">solar_power</span>
+<h5 class="font-bold text-primary group-hover:text-secondary transition-colors">Renewable Audit</h5>
+</div>
+<p class="text-label-md text-on-surface-variant">Save up to 40% on bills with Marina Bay solar incentives.</p>
+</div>
+<div class="p-4 rounded-2xl bg-surface-container-low border border-white hover:border-primary/20 transition-all cursor-pointer group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="shield_moon">shield_moon</span>
+<h5 class="font-bold text-primary group-hover:text-secondary transition-colors">Monsoon Shield</h5>
+</div>
+<p class="text-label-md text-on-surface-variant">Prepare your roof for the upcoming heavy rain season.</p>
+</div>
+</div>
+</section>
+</aside>
+</div>
+<!-- Recent Activity Section -->
+<section class="mt-12">
+<h3 class="font-headline-md text-headline-md text-primary mb-6 px-4">Maintenance History</h3>
+<div class="glass-card rounded-3xl overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-surface-container text-on-surface-variant font-label-md">
+<tr>
+<th class="px-6 py-4">Service</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Amount</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="font-body-md divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
+<div>
+<p class="font-semibold">Electrical Panel Upgrade</p>
+<p class="text-label-md text-on-surface-variant">Preventative</p>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">May 12, 2024</td>
+<td class="px-6 py-4 font-semibold text-primary">$450.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-label-md">COMPLETED</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-label-md">Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="ac_unit">ac_unit</span>
+<div>
+<p class="font-semibold">HVAC Annual Service</p>
+<p class="text-label-md text-on-surface-variant">Maintenance</p>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Mar 05, 2024</td>
+<td class="px-6 py-4 font-semibold text-primary">$180.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-label-md">COMPLETED</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-label-md">Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface/80 backdrop-blur-2xl z-50 rounded-t-3xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,40,105,0.05)] flex justify-around items-center px-4 py-3 pb-safe">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-1 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="construction">construction</span>
+<span class="font-label-md text-label-md mt-1">Services</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md mt-1">Quote</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md mt-1">WhatsApp</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-surface-container-highest w-full pt-16 pb-32 flex flex-col px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+<div class="md:col-span-2">
+<h2 class="font-headline-md text-headline-md text-on-background mb-4">AIAS Engineering</h2>
+<p class="text-on-surface-variant max-w-sm">Precision engineering solutions for modern living. We combine technology with master craftsmanship to protect your assets.</p>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Support</h3>
+<ul class="space-y-2 text-on-surface-variant font-body-md">
+<li><a class="hover:text-secondary transition-colors underline" href="#">Expertise</a></li>
+<li><a class="hover:text-secondary transition-colors underline" href="#">Safety Standards</a></li>
+<li><a class="hover:text-secondary transition-colors underline" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Legal</h3>
+<ul class="space-y-2 text-on-surface-variant font-body-md">
+<li><a class="hover:text-secondary transition-colors underline" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-secondary transition-colors underline" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between gap-4">
+<p class="text-on-surface-variant font-body-md">© 2024 AIAS Engineering Solutions. All Rights Reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="language">language</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="security">security</span>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for stepper
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.transition = 'transform 0.3s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Services Directory | AIAS Engineering Solutions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1e",
+                    "on-primary-fixed-variant": "#144296",
+                    "inverse-primary": "#b1c5ff",
+                    "secondary-fixed-dim": "#ffb693",
+                    "on-surface": "#191c1e",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary": "#a04100",
+                    "outline": "#747783",
+                    "on-secondary-fixed-variant": "#7a3000",
+                    "surface-variant": "#e0e3e5",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e0e3e5",
+                    "tertiary-container": "#334358",
+                    "on-primary-container": "#8dadff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffdbcc",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fe6b00",
+                    "on-surface-variant": "#434652",
+                    "surface-dim": "#d8dadc",
+                    "surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "on-primary-fixed": "#001947",
+                    "surface-container-high": "#e6e8ea",
+                    "primary": "#002869",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#351000",
+                    "surface-tint": "#345baf",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-container": "#9fb0c9",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary": "#1d2d41",
+                    "primary-fixed": "#dae2ff",
+                    "primary-fixed-dim": "#b1c5ff",
+                    "surface": "#f7f9fb",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#572000",
+                    "primary-container": "#0b3d91",
+                    "outline-variant": "#c4c6d3",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-fixed": "#d3e4fe",
+                    "on-tertiary-fixed": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "section-padding-desktop": "120px",
+                    "container-max": "1280px",
+                    "section-padding-mobile": "64px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "headline-md": ["Montserrat"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .service-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 40, 105, 0.1);
+        }
+        .filter-active {
+            background-color: #002869;
+            color: white;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="bg-surface/70 backdrop-blur-xl dark:bg-surface-container-highest/70 fixed top-0 w-full z-50 border-b border-white/20 shadow-sm shadow-primary/5">
+<div class="flex justify-between items-center px-margin-mobile md:px-8 h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer md:hidden">menu</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">AIAS Engineering</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">Home</a>
+<a class="text-primary dark:text-primary-fixed font-bold font-label-md text-label-md" href="#">Services</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">Projects</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">About Us</a>
+</nav>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-label-md text-label-md font-bold hover:opacity-90 active:scale-95 transition-all">Book Now</button>
+</div>
+</header>
+<main class="pt-32 pb-section-padding-desktop">
+<!-- Hero Section -->
+<section class="px-margin-mobile md:px-8 max-w-container-max mx-auto mb-16">
+<div class="max-w-3xl">
+<h2 class="font-display-lg text-display-lg text-primary mb-6">Precision Solutions for Every Structural Challenge.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">Discover our comprehensive directory of engineering and diagnostic services. From invisible leaks to complex moisture ingress, our advanced technology finds the root cause.</p>
+<!-- Category Filter -->
+<div class="flex flex-wrap gap-4 items-center mb-8" id="service-filters">
+<button class="filter-btn filter-active px-6 py-3 rounded-full border border-outline/30 font-label-md text-label-md transition-all" data-filter="all">All Services</button>
+<button class="filter-btn px-6 py-3 rounded-full border border-outline/30 text-on-surface-variant font-label-md text-label-md transition-all hover:bg-surface-container" data-filter="residential">Residential</button>
+<button class="filter-btn px-6 py-3 rounded-full border border-outline/30 text-on-surface-variant font-label-md text-label-md transition-all hover:bg-surface-container" data-filter="commercial">Commercial</button>
+<button class="filter-btn px-6 py-3 rounded-full border border-outline/30 text-on-surface-variant font-label-md text-label-md transition-all hover:bg-surface-container" data-filter="diagnostic">Diagnostic &amp; Tech</button>
+</div>
+</div>
+</section>
+<!-- Service Card Grid -->
+<section class="px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter" id="services-grid">
+<!-- Service 1 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="residential">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">water_drop</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Water Leakage</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Acoustic and ultrasonic detection for pinpointing hidden water leaks in internal and external plumbing systems.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 2 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="residential">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">opacity</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Seepage Control</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Comprehensive analysis of wall and ceiling dampness using high-accuracy non-destructive methods.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 3 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="diagnostic">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">thermostat</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Thermal Imaging</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Infrared technology to visualize heat patterns, energy loss, and hidden moisture bridges behind surfaces.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 4 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="diagnostic">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">sensors</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Moisture Testing</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Electronic sensor mapping to determine precise moisture content within concrete, masonry, and wood.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 5 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="commercial">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">corporate_fare</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Industrial Survey</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Full-scale facility structural audits identifying load-bearing issues and large-scale water ingress.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 6 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="commercial">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">foundation</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Structural Health</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Comprehensive monitoring of cracks, settlement, and vibration impact on commercial buildings.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 7 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="residential">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">house</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Roof Inspection</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Drone-assisted and physical inspections for terrace leaks, joint failures, and drainage issues.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Service 8 -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="diagnostic">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">videocam</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Borescope Inspection</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Visualizing the inside of wall cavities and pipe networks using micro-camera technology.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<!-- Adding more to reach 15 as requested -->
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="commercial">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">bolt</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Energy Audit</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Identifying thermal bridges and air leaks that cause soaring energy costs in large complexes.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="residential">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">pool</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Pool Diagnostics</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Pressure testing and ultrasonic leak detection for swimming pools and water features.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="diagnostic">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">speed</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Flow Testing</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Measuring pipe flow rates and pressure drops to diagnose internal scaling or blockages.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+<div class="service-item glass-card service-card-hover rounded-3xl p-8 flex flex-col h-full transition-all duration-300" data-category="residential">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">sanitizer</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Mould Analysis</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Surface and air sampling to identify mould types and moisture-driven health risks.</p>
+<button class="flex items-center text-secondary font-bold font-label-md text-label-md hover:gap-2 transition-all">
+                        LEARN MORE <span class="material-symbols-outlined ml-1">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Advanced Equipment Section -->
+<section class="mt-section-padding-desktop bg-surface-container-low py-24">
+<div class="px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-widest">Engineering-Grade Tech</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-4">Advanced Equipment</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Tech Item 1 -->
+<div class="flex flex-col lg:flex-row items-center gap-8 bg-white p-8 rounded-3xl shadow-sm">
+<div class="w-full lg:w-1/2 aspect-square rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up professional shot of a high-end FLIR thermal imaging camera. The device is held by a technician wearing blue safety gloves. The background is a clean, modern engineering lab with cool blue lighting and minimalist architecture. The camera screen displays a vibrant heat map of a pipe system in oranges and purples." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfZSsQJp0DO6Q5Wy5BqcKqPIa7BppUQCQ66qGD1bJ3uotj__n5_cHXDWX-GaWGhrjdjLaYbjQ9iCQ-CuWwUyBzutTMtJmv6r9w9EdOro4atjK_FE2WaGQeeq0igkLoXc8HyiiI1nx5yhUZ3VibPDyGnXgHOO2lXETSOV0Xqf8-XABTFo3ZP9CDqvN9YsAh55kmzGPRfwCiAWdtktpZQC3UKrzHIiiYfDYcdUpCozu3I5XTwKyREN1Fg_RKnBM-ADC6B85DySQutug"/>
+</div>
+<div class="w-full lg:w-1/2">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Precision Thermal Cameras</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Our high-resolution FLIR systems detect temperature variations as small as 0.05°C, revealing hidden moisture and electrical hotspots behind walls.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-on-surface-variant"><span class="material-symbols-outlined text-secondary">check_circle</span> 640x480 native resolution</li>
+<li class="flex items-center gap-3 text-on-surface-variant"><span class="material-symbols-outlined text-secondary">check_circle</span> Real-time MSX technology</li>
+<li class="flex items-center gap-3 text-on-surface-variant"><span class="material-symbols-outlined text-secondary">check_circle</span> Comprehensive heat-map reporting</li>
+</ul>
+</div>
+</div>
+<!-- Tech Item 2 -->
+<div class="flex flex-col lg:flex-row items-center gap-8 bg-white p-8 rounded-3xl shadow-sm">
+<div class="w-full lg:w-1/2 aspect-square rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional digital moisture meter with pinless sensors being used against a pristine white concrete wall. The device has a clear LCD readout displaying numerical data and a color-coded bar. The lighting is soft and bright, emphasizing a light-mode aesthetic. The setting is a high-end modern residential interior with minimalist finishes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUNS6WPUeorc2QRm0JQRQ_bd4irm5dbeCW0I7ndKdkZ7_d7iiVhV5RVE2oC4FYnPfpl77gBQNFaDgent2-RXLTnWl87g77LzWMwu_mA6mY1225HKoVv1bbGqFQrD7XcsoVqNddhcyDXItkZ6GSudGk439cupXAt4vhixjZcQN2gXt5RDuGO2bWZyA-Nfn9Vv1lwTEFeFFjG-1SWpLxKx3WLkZo7Rmbppx6CCrLzpkUdtnCE5zwiOpA0CGGPMT3qmAUNdqQJ5B2G4s"/>
+</div>
+<div class="w-full lg:w-1/2">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Smart Moisture Meters</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Non-invasive electronic impedance sensors that map moisture distribution up to 20mm deep without damaging surfaces.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-on-surface-variant"><span class="material-symbols-outlined text-secondary">check_circle</span> Dual-mode pin &amp; pinless tech</li>
+<li class="flex items-center gap-3 text-on-surface-variant"><span class="material-symbols-outlined text-secondary">check_circle</span> Calibration for 50+ material types</li>
+<li class="flex items-center gap-3 text-on-surface-variant"><span class="material-symbols-outlined text-secondary">check_circle</span> Bluetooth data logging</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="mt-section-padding-desktop px-margin-mobile">
+<div class="max-w-container-max mx-auto bg-primary rounded-[3rem] p-12 md:p-24 text-center text-white relative overflow-hidden">
+<div class="relative z-10">
+<h2 class="font-headline-lg text-headline-lg mb-6">Don't guess. Know.</h2>
+<p class="font-body-lg text-body-lg text-primary-fixed max-w-2xl mx-auto mb-10">Schedule a diagnostic survey today and receive a comprehensive engineering report with actionable solutions.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-secondary-container text-on-secondary-container px-10 py-4 rounded-full font-headline-md text-headline-md font-bold hover:scale-105 transition-transform">Book a Survey</button>
+<button class="border-2 border-white/30 text-white px-10 py-4 rounded-full font-headline-md text-headline-md font-bold hover:bg-white/10 transition-colors">Request a Quote</button>
+</div>
+</div>
+<!-- Background decorative element -->
+<div class="absolute top-0 right-0 w-96 h-96 bg-secondary-container/20 rounded-full blur-[100px] -mr-48 -mt-48"></div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-surface-container-lowest w-full pt-16 pb-32">
+<div class="flex flex-col px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-2">
+<h2 class="font-headline-md text-headline-md text-primary mb-6">AIAS Engineering</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Leading structural diagnostics and engineering solutions across the region. We specialize in non-destructive testing and root-cause analysis.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary uppercase mb-6">Company</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Expertise</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Safety Standards</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary uppercase mb-6">Legal</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant text-center md:text-left">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 AIAS Engineering Solutions. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 backdrop-blur-2xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,40,105,0.05)] z-50 rounded-t-3xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-md font-label-md">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-1">
+<span class="material-symbols-outlined">construction</span>
+<span class="text-label-md font-label-md">Services</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-label-md font-label-md">Quote</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">chat</span>
+<span class="text-label-md font-label-md">WhatsApp</span>
+</div>
+</nav>
+<script>
+        // Filter logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const serviceItems = document.querySelectorAll('.service-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
+                
+                // Update button UI
+                filterBtns.forEach(b => {
+                    b.classList.remove('filter-active');
+                    b.classList.add('text-on-surface-variant');
+                });
+                btn.classList.add('filter-active');
+                btn.classList.remove('text-on-surface-variant');
+
+                // Filter items
+                serviceItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'flex';
+                        item.classList.add('opacity-100');
+                        item.classList.remove('hidden');
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.add('hidden');
+                        item.classList.remove('opacity-100');
+                    }
+                });
+            });
+        });
+
+        // Hover Micro-interactions
+        serviceItems.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                icon.style.transform = 'scale(1.2) rotate(5deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+    </script>
+</body></html>

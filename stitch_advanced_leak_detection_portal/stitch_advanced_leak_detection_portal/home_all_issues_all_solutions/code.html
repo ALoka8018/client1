@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIAS Engineering | Advanced Leak Detection Solutions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1e",
+                    "on-primary-fixed-variant": "#144296",
+                    "inverse-primary": "#b1c5ff",
+                    "secondary-fixed-dim": "#ffb693",
+                    "on-surface": "#191c1e",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary": "#a04100",
+                    "outline": "#747783",
+                    "on-secondary-fixed-variant": "#7a3000",
+                    "surface-variant": "#e0e3e5",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e0e3e5",
+                    "tertiary-container": "#334358",
+                    "on-primary-container": "#8dadff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffdbcc",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fe6b00",
+                    "on-surface-variant": "#434652",
+                    "surface-dim": "#d8dadc",
+                    "surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "on-primary-fixed": "#001947",
+                    "surface-container-high": "#e6e8ea",
+                    "primary": "#002869",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#351000",
+                    "surface-tint": "#345baf",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-container": "#9fb0c9",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary": "#1d2d41",
+                    "primary-fixed": "#dae2ff",
+                    "primary-fixed-dim": "#b1c5ff",
+                    "surface": "#f7f9fb",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#572000",
+                    "primary-container": "#0b3d91",
+                    "outline-variant": "#c4c6d3",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-fixed": "#d3e4fe",
+                    "on-tertiary-fixed": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "section-padding-desktop": "120px",
+                    "container-max": "1280px",
+                    "section-padding-mobile": "64px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "headline-md": ["Montserrat"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-white/20 shadow-sm shadow-primary/5 h-16 flex justify-between items-center px-4 md:px-8">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">AIAS Engineering</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-primary font-bold font-label-md text-label-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">Services</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">Projects</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-label-md text-label-md" href="#">About Us</a>
+</nav>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all">
+            Book Now
+        </button>
+</header>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative min-h-[795px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center opacity-20 scale-105 animate-[pulse_8s_infinite]" data-alt="A professional engineer using advanced thermal imaging technology to detect a hidden water leak behind a pristine white wall. High-end, corporate modern aesthetic with soft, professional lighting and a palette of deep navy blues and clean whites. The atmosphere conveys technical precision and calm capability in a high-stakes infrastructure environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCY78J0D81W2xHiffk_tsruouNtW90GTnKeAVV4eSNQ3kYuI6W-lvMH90HsiuhAoEfYq1xiGH-Chtc5HV7Lz09E7VTdsXUUg-FjfXPMG4zYKJoCW7ol496TOdil8v3jzR7_CkXz_ooPWQJmJgJdHnca2tFa_45Xiop_kvAWx4QAyiQrxM8NJKPzSBDix5SxNG00CLZvmL9BaAHD6r9o9oE2umT4402-BiWvlrRVcwIbHe7jeVtT6_EUm09cGkxk-peWP9HaU_6Bkt8')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+</div>
+<div class="container max-w-container-max mx-auto px-margin-mobile md:px-8 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+<div class="reveal active">
+<span class="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary font-label-md text-label-md mb-6 uppercase tracking-widest">Precision Engineering</span>
+<h1 class="font-display-lg text-display-lg mb-6 text-primary leading-[1.1]">
+                        Hidden Water Leakage? <br/>
+<span class="text-secondary">We Find It Without Breaking Your Walls.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl">
+                        Advanced Leak Detection using Acoustic Sensors, Thermal Imaging, and Moisture Mapping. Non-invasive, accurate, and cost-effective solutions for your infrastructure.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-xl font-headline-md text-headline-md shadow-lg shadow-secondary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+                            Book Inspection <span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+</button>
+<button class="bg-white border-2 border-primary text-primary px-8 py-4 rounded-xl font-headline-md text-headline-md hover:bg-primary/5 active:scale-95 transition-all flex items-center justify-center gap-2">
+                            Call Now <span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+</div>
+<div class="hidden lg:block reveal active delay-200">
+<div class="glass-card p-4 rounded-3xl shadow-xl border border-white/40">
+<div class="w-full h-[500px] bg-cover bg-center rounded-2xl shadow-inner" data-alt="High-fidelity 3D visualization of a moisture detection sensor scan over a structural wall. The image shows glowing blue data points and heat map overlays representing subterranean water flow. Pristine, tech-focused corporate design with a sense of transparency and technical mastery." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLO7QrQORKFmhc4QCGl7gDg8YelK2XlL0VgLkMKuQpXadabtI_yBA0s4ipqJ1rI0ZTwwnURjiBUnoSlLwa1Z_W1b57SuL2TRfKvgcjhuoNm0o3r1-tCAQ7UQ7E9TxlPq84fHuYUVeaQVNG0XYvOM_RHyqYqXBFjFtCR1ExM0MGOiUKqFJ5dRttdlgZTzW0mNFyrt7yaDFXaF9XLcSXieDeLOCpdoezuIIHwRdQZRi8gXN1ljsJUXZfaz9nlr2N3CANQrrYR8CqO1o')"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Indicators (Pill Style) -->
+<section class="py-12 bg-surface-container-low border-y border-outline-variant/30">
+<div class="container max-w-container-max mx-auto px-margin-mobile md:px-8 flex flex-wrap justify-center md:justify-around gap-8">
+<div class="flex items-center gap-4 bg-white px-8 py-4 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-primary scale-125" data-icon="history" style="font-variation-settings: 'FILL' 1;">history</span>
+<div>
+<div class="font-headline-md text-headline-md text-primary">10+ Years</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase">Industry Presence</div>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white px-8 py-4 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-primary scale-125" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<div class="font-headline-md text-headline-md text-primary">5000+ Repairs</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase">Successful Audits</div>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white px-8 py-4 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-primary scale-125" data-icon="engineering" style="font-variation-settings: 'FILL' 1;">engineering</span>
+<div>
+<div class="font-headline-md text-headline-md text-primary">Expert Engineers</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase">Certified Professionals</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Service Preview (Bento Grid Style) -->
+<section class="py-section-padding-desktop">
+<div class="container max-w-container-max mx-auto px-margin-mobile md:px-8">
+<div class="text-center mb-16 reveal">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Core Engineering Solutions</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Specialized diagnostic services designed to preserve structural integrity and prevent long-term damage.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto">
+<!-- Featured Card: Water Leakage -->
+<div class="md:col-span-8 group relative overflow-hidden rounded-3xl glass-card min-h-[400px] flex items-end p-8 reveal">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A clean, cinematic photograph of a specialized acoustic leak detector device being used on a modern kitchen floor. The device glows with a soft primary blue light. The setting is upscale and minimal, emphasizing a clean and professional inspection environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4Pk4_IE8D4zycGD0es6UMkwBoO3SQc_Ou8807hDCQmbknoe10FiLMbDYU1XhGnidBwCxbm9f9MP2kljbZIQWgD00dsiBQOnCKbXeSA5nQkbL43TGtcK7_pGVG0PCybgfFEOyzPf2tYE_YVxaPqqOIpMMl_8dIG4Nn6hKZI23V-6uKttVtrUU7o_gFn-RXI4lv8loA8UqGkkqNMCJ4mBLxhCSi8ehP0MfHs6bD3LAEFNNoVEjfGVZ4U6ygT5zoEH1IOLJ9uqy2wgE')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent"></div>
+</div>
+<div class="relative z-10">
+<h3 class="font-headline-lg text-headline-lg text-white mb-2">Water Leakage Detection</h3>
+<p class="font-body-md text-body-md text-white/80 max-w-md mb-6">Using sub-surface acoustic technology to pinpoint leaks without any drilling or wall demolition.</p>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-lg font-label-md text-label-md group-hover:px-10 transition-all duration-300">Learn More</button>
+</div>
+</div>
+<!-- Side Card: Seepage Repair -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-3xl glass-card p-8 flex flex-col justify-between reveal delay-100">
+<div>
+<span class="material-symbols-outlined text-secondary text-4xl mb-4" data-icon="foundation">foundation</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Seepage Repair</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Permanent solutions for rising dampness and ceiling seepage using crystalline waterproofing.</p>
+</div>
+<div class="w-full h-40 bg-cover bg-center rounded-xl mt-6" data-alt="A macro shot of a high-tech waterproofing crystalline injection into a concrete structure. Minimalist lighting highlights the texture of the material and the precision of the engineering solution. Color palette of light grays and primary blues." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBahdvN_cTRPxgSZdoF51Y5Ga40hSt3t_rKf-GKHZ4DvL_6AUmx26W6sNaLa2BLPPNOdW7Oa2w11PqTtWhoosZ_NvI6iwTBPX9KBovJB1ixbK5b1LZ3kjMQpiGgidL8RYkumarMrotjJhY1ZxHjWBqLWiqv0_k7OVlKFK4VavySoXETJEJjsrCDTpXxg9FeRuMGFyyAuZ3iGoFvBgGekfSEJ4Yeh1rTOn5ul6BZpDc6a8TacImL_ZAhm19msa4v-OBWVu_5pqtNadU')"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works (Timeline) -->
+<section class="py-section-padding-desktop bg-surface-container">
+<div class="container max-w-container-max mx-auto px-margin-mobile md:px-8">
+<div class="text-center mb-20 reveal">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">The AIAS Inspection Process</h2>
+</div>
+<div class="relative flex flex-col md:flex-row justify-between items-start gap-12 md:gap-4">
+<!-- Line -->
+<div class="hidden md:block absolute top-10 left-0 w-full h-0.5 bg-outline-variant z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex-1 flex flex-col items-center text-center reveal">
+<div class="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center font-headline-md text-headline-md mb-6 border-8 border-surface-container">01</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Initial Audit</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Visual and sensory inspection of suspected damp areas.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex-1 flex flex-col items-center text-center reveal delay-100">
+<div class="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center font-headline-md text-headline-md mb-6 border-8 border-surface-container">02</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Tech Scan</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Deployment of thermal and acoustic sensors for precision mapping.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex-1 flex flex-col items-center text-center reveal delay-200">
+<div class="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center font-headline-md text-headline-md mb-6 border-8 border-surface-container">03</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Diagnosis</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Detailed reporting of source, extent, and repair costs.</p>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex-1 flex flex-col items-center text-center reveal delay-300">
+<div class="w-20 h-20 bg-secondary text-white rounded-full flex items-center justify-center font-headline-md text-headline-md mb-6 border-8 border-surface-container">04</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Resolution</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Execution of non-invasive repairs by certified teams.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Emergency Orange Banner -->
+<section class="py-16">
+<div class="container max-w-container-max mx-auto px-margin-mobile md:px-8">
+<div class="bg-secondary-container rounded-[2rem] p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl shadow-secondary/30 relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+<div class="relative z-10 text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-on-secondary-container mb-2">Need Immediate Leak Detection?</h2>
+<p class="font-body-lg text-body-lg text-on-secondary-container/80">Emergency response teams available 24/7 for critical infrastructure leaks.</p>
+</div>
+<button class="relative z-10 bg-on-secondary-container text-white px-10 py-5 rounded-2xl font-headline-md text-headline-md hover:scale-105 transition-transform shadow-xl">
+                        Call Emergency Hotline
+                    </button>
+</div>
+</div>
+</section>
+<!-- Before/After Slider Mockup (Custom Component) -->
+<section class="py-section-padding-desktop">
+<div class="container max-w-container-max mx-auto px-margin-mobile md:px-8">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div class="reveal">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Invisible Problems, <br/><span class="text-secondary">Visible Results.</span></h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Our thermal imaging cameras see what the human eye can't. We detect temperature anomalies that indicate moisture pooling before it even stains your paint.</p>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-body-md text-primary font-semibold">100% Non-Destructive Methodology</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-body-md text-primary font-semibold">Certified Thermographic Reporting</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-body-md text-primary font-semibold">Guaranteed Repair Success Rate</span>
+</div>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden aspect-video shadow-2xl reveal delay-200">
+<!-- Simulated Slider -->
+<div class="w-full h-full bg-cover bg-center" data-alt="A split screen comparison: on the left, a normal wall showing no visible damage; on the right, a thermal imaging view of the same wall revealing a large purple and blue moisture plume behind the surface. Crisp, high-end commercial engineering style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-DNRxnjTsQp1AIvglD8AkmdcRQH1LmvsfgNZbqMwQ3zH4AbTYmW1H62o3eFhztJ8aVr46R-g0OuA45G_T63a2g8zpIW3WEnWt3oDk31IaNEsXEGbwPxTOoopLsmtVHY-7nniwAkC0lYk5XEoK6nzzD8ch_ugMVngC_4pvp-ahmAre-4JLF25Qn7RUSH2Jn9qm0-exML61ZUIwF1negrVvXH8nvV3OpyFe5jqGTjOiHyM82VwaScNJG4zigYFisTqBYqu9Pn4-P18')"></div>
+<div class="absolute inset-y-0 left-1/2 w-1 bg-secondary-container shadow-[0_0_15px_rgba(254,107,0,0.5)] z-20">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center text-white cursor-pointer shadow-lg">
+<span class="material-symbols-outlined" data-icon="unfold_more">unfold_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest w-full pt-16 pb-32 flex flex-col px-4 md:px-8 max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="md:col-span-2">
+<span class="font-headline-md text-headline-md text-on-background font-bold mb-6 block">AIAS Engineering</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Leading the industry in non-invasive diagnostic engineering. We bridge the gap between complex issues and definitive engineering solutions.</p>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-primary mb-6 uppercase">Expertise</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Leak Detection</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Waterproofing</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Structural Health</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-primary mb-6 uppercase">Company</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Safety Standards</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline decoration-transparent hover:decoration-secondary" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-body-md text-on-surface-variant text-center md:text-left">© 2024 AIAS Engineering Solutions. All Rights Reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer" data-icon="facebook">face_nod</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+</footer>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 backdrop-blur-2xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,40,105,0.05)] z-50 rounded-t-3xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-1 scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="construction">construction</span>
+<span class="font-label-md text-label-md">Services</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Quote</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">WhatsApp</span>
+</a>
+</nav>
+<script>
+        // Reveal animations on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Interaction for the dummy slider
+        const sliderHandle = document.querySelector('.cursor-pointer');
+        if (sliderHandle) {
+            sliderHandle.addEventListener('mousedown', (e) => {
+                // Mock micro-interaction
+                console.log('Slider interact');
+            });
+        }
+    </script>
+</body></html>

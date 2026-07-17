@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Projects &amp; Gallery | AIAS Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .before-after-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #fe6b00; /* Accent Orange */
+            left: 50%;
+            cursor: ew-resize;
+            z-index: 10;
+        }
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: #fe6b00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 0 15px rgba(254, 107, 0, 0.4);
+        }
+        .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: inset(0 0 0 50%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1e",
+                        "on-primary-fixed-variant": "#144296",
+                        "inverse-primary": "#b1c5ff",
+                        "secondary-fixed-dim": "#ffb693",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#a04100",
+                        "outline": "#747783",
+                        "on-secondary-fixed-variant": "#7a3000",
+                        "surface-variant": "#e0e3e5",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-container": "#334358",
+                        "on-primary-container": "#8dadff",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdbcc",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fe6b00",
+                        "on-surface-variant": "#434652",
+                        "surface-dim": "#d8dadc",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "on-primary-fixed": "#001947",
+                        "surface-container-high": "#e6e8ea",
+                        "primary": "#002869",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#351000",
+                        "surface-tint": "#345baf",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#9fb0c9",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#1d2d41",
+                        "primary-fixed": "#dae2ff",
+                        "primary-fixed-dim": "#b1c5ff",
+                        "surface": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#572000",
+                        "primary-container": "#0b3d91",
+                        "outline-variant": "#c4c6d3",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed": "#0b1c30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "section-padding-desktop": "120px",
+                        "container-max": "1280px",
+                        "section-padding-mobile": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-white/20 shadow-sm shadow-primary/5 flex justify-between items-center px-4 md:px-8 h-16">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">menu</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">AIAS Engineering</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity" href="#">Home</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity" href="#">Services</a>
+<a class="text-primary font-bold" href="#">Projects</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity" href="#">About Us</a>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-label-md hover:opacity-90 active:scale-95 transition-all">Book Now</button>
+</div>
+<div class="md:hidden">
+<button class="bg-primary-container text-white px-4 py-2 rounded-full text-label-md">Book Now</button>
+</div>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero Header -->
+<header class="max-w-container-max mx-auto px-margin-mobile md:px-8 mb-16 text-center">
+<h1 class="font-display-lg text-display-lg text-primary mb-4">Engineering Mastery.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Witness the transformation from structural decay to long-term engineering excellence. Our gallery showcases real-world solutions for complex leakage issues.</p>
+</header>
+<!-- Before & After Comparison Grid -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-8 mb-section-padding-desktop">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Comparison 1: Bathroom Leakage -->
+<div class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-primary">Bathroom Leakage</h3>
+<div class="before-after-container aspect-[4/3] group shadow-xl shadow-primary/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A high-resolution photograph of a damaged bathroom floor with severe water leakage, visible mold growth, and cracked tiles. The scene is shot in a professional engineering style with clear, clinical lighting that highlights the structural failure. The color palette is dominated by neutral grays and whites, emphasized by the dark dampness of the water damage." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAjrup7vsA3F3nG2aKXWTjLhy3mzqWTtE21x9iuBFLPoSjrjZRykBEfectPWSYInhx6YuzE-EStCXw-LoFLvTprA7spRb6gUNrmFzkCNNC7-YYX2_18ishg_vw7BZJtWRfCdYo9rJtXYnQcxWwQBGkb0KrPD5nY9v9iLwCXohkGzotON5yGdfH0MkRknnYexNf5_dQq9OJPyZQrqBtMOuda_t_IbWZpz7VTA1oBOFrd9InNr5cB9Z5gcjtwx9Y9IcMzYIGSdcK5o40')"></div>
+<div class="after-image bg-cover bg-center" data-alt="A professionally restored bathroom floor after premium waterproofing engineering. The tiles are flawlessly aligned and grouted, with a clean, moisture-free finish. The lighting is bright and inviting, showcasing a high-end corporate modern aesthetic. Pristine white and cool blue tones dominate the scene, suggesting a hygienic and water-tight solution." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3_KhVOAbKyaJ3dEWssKtWnTZrJ4SYykYyiSE1iUEw9FLZL1lKBdc3TJEJHyqBdLunOKDkFAZRaEyl5m0xckzUh31_IDZK6rLAkfNrFsVUnK-Wmr57h_sqkWqoUS378FHj1OuWJEnbMk_npoJMMoyr_C2Ury5iy407xZ5mKfVzWMX5Y2t0MvArMOsYbPtZjZKEo9bTka-IF-yJ_QYYMMtM9XBO4DkIrGUkd6MTl99b-z1g0dhhJapExWzGg1YAvk03tx_A-EsDmqU')"></div>
+<div class="slider-handle" style="left: 50%;">
+<div class="slider-button">
+<span class="material-symbols-outlined">unfold_more</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-md">BEFORE</div>
+<div class="absolute bottom-4 right-4 bg-primary/80 text-white px-3 py-1 rounded-full text-xs backdrop-blur-md">AFTER</div>
+</div>
+<p class="font-body-md text-on-surface-variant">Complete subsurface waterproofing without breaking the structure.</p>
+</div>
+<!-- Comparison 2: Terrace Leakage -->
+<div class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-primary">Terrace Leakage</h3>
+<div class="before-after-container aspect-[4/3] group shadow-xl shadow-primary/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A wide-angle shot of a large commercial terrace showing extensive concrete spalling and pooling water after rain. The atmosphere is gloomy and industrial, emphasizing structural neglect. The lighting is overcast, throwing soft shadows into the deep cracks. Cool grays and weathered textures dominate the visual field." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDS3V5HVOKuj8kz-_2MCgtsxmGRCfxBqdS_aNGNxfO5oywgLkGoUqWbnTed59jd5hkhqGdaJelZ4YO_NDtMHHpBbiVAIZDxYlun9G-piiCUCIdcSFxX6tPrEM_iB9R8XaegwR_r5ro1VajwCh876nSMXRapG0uEArdCs9XJ3J2m3tWHzO2Ks0VHzdIY7DKGQXhes2x7yZnz3Wnwy_nTWWhN_AqdegLnZ-cjJjCwL8sxvorJhs2A7idlBhTLEuRROkpekBNVwl_TjDY')"></div>
+<div class="after-image bg-cover bg-center" data-alt="The same large terrace now finished with a sleek, reflective white heat-reflective waterproofing coating. The surface looks engineered and futuristic under bright midday sun. High-contrast lighting creates crisp shadows, highlighting the smooth, seamless finish. The mood is one of technical precision and environmental efficiency." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDlMDIMqpJ2TR_zy6GZKMknYGywz1Bdmqj-7YnE-IOZKn9lB7L1EbR_STWomj2mWe-ec6uLz9Gaz_YMcryDReTK0YZ9Tq_ERpXTgSdG-osqhQB_k6M97Mutx5ASKCEJT3Vr5fU5LDYQ2vswyKJ2HOzEIYc9P60gCA4ipsqQc9FOEnQc66PS78CgNwDCfT4bLeWvdeVhRs-gdCGFqgdUKrATV3F0K-iNoFYwE4Ma2dyXqM38oY9HDVndkrdgNZQQLMGFpFqdAiK4_SU')"></div>
+<div class="slider-handle" style="left: 50%;">
+<div class="slider-button">
+<span class="material-symbols-outlined">unfold_more</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-md">BEFORE</div>
+<div class="absolute bottom-4 right-4 bg-primary/80 text-white px-3 py-1 rounded-full text-xs backdrop-blur-md">AFTER</div>
+</div>
+<p class="font-body-md text-on-surface-variant">Polyurethane multi-layer coating for ultimate sun and rain protection.</p>
+</div>
+<!-- Comparison 3: Wall Dampness -->
+<div class="flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-primary">Wall Dampness</h3>
+<div class="before-after-container aspect-[4/3] group shadow-xl shadow-primary/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Macro photography of a damp interior wall with peeling paint, efflorescence, and salt deposits. The lighting is dramatic and directional, casting long shadows that emphasize the rough, decaying texture. The color palette is earthy and muddy, symbolizing a deep structural problem within a modern building." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYWfW_AeKkSah3uprEZhV-CBNvl6RNLUY61a9l_dnG8DEW6JD6aPXeTRj3pYROzPtCMi_W8uzpmdwaSlQYzWYFDVJIZ0xGf8FOsqZ2efiNLYej8vyT5WjIPup_ykQ3DNodzfsXTzLlvkX8330GlzDsp-_b6Y-iZGB1MMx_6IaHm3cdajAjmdr1vTaXnsb70nHRKvCL-ZLefpor6dKa5gYdfozgojk473eOe_CJyJowfz6Drn3OAwPtcBRhggXf8ATsAffyPulWT2A')"></div>
+<div class="after-image bg-cover bg-center" data-alt="A perfectly smooth, repainted interior wall with a premium matte finish in a sophisticated light gray. The lighting is soft and even, suggesting a fresh, healthy living environment. The composition is minimalist and clean, reflecting an engineering-grade repair that has permanently resolved the dampness issues." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRIj2P6nOhXRZO33039UraDg8QpCtY659kBAYwnPv-JDewS0lpzA64GpxvsNFM_XWHsCiV9fOMk2jt24lu4U23c52jrZr5PiRmFF93v88j_3VnRDNAmartBm9-vB6NwntLf8NnN3P1Q32KP1Lv6EGU81kk8KeRqXXuLYBlrgxYoElPFAbQ1laoUBK4GV0FBryL6rQJe_NcJnr0i_5Cl3HlbcBkqm0fYp-w08Kd0DzW9vwpKOLjnpHM-mRF5YcqjnYBhlIgdFC9xcM')"></div>
+<div class="slider-handle" style="left: 50%;">
+<div class="slider-button">
+<span class="material-symbols-outlined">unfold_more</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-md">BEFORE</div>
+<div class="absolute bottom-4 right-4 bg-primary/80 text-white px-3 py-1 rounded-full text-xs backdrop-blur-md">AFTER</div>
+</div>
+<p class="font-body-md text-on-surface-variant">Nano-injection technology to treat dampness from the core.</p>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="bg-surface-container-low py-section-padding-desktop overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-8">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-secondary px-3 py-1 text-white text-label-md rounded-full">4.9/5 RATING</span>
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Trusted by 5000+ Clients</h2>
+</div>
+<p class="font-body-md text-on-surface-variant max-w-sm">Authentic feedback from Google Reviews and direct client testimonials.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Testimonial 1 -->
+<div class="bg-surface p-8 rounded-3xl shadow-sm border border-white/40 flex flex-col justify-between">
+<p class="font-body-md italic text-on-surface-variant mb-6">"Their no-breakage solution for our bathroom leakage was like magic. Highly recommended for professionalism!"</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged man in business attire, smiling warmly. The lighting is soft and corporate, set against a blurred office background. The style is clean, modern, and trustworthy, with high-fidelity detail and a neutral color palette suitable for a premium engineering service website." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZcPHjA6JNyX2-ljxoDtYKpWBCJmjwbc298vlu84hNqTutV8Zo5ASoSKTGEPeTYgWBv9mA3DpMDlc3e7hSK3gMBKIr-uu6sAn0MV1_RncG4DtyULf4-TXhdEvOG4Rmac0aX9n-JGZhWBL4ouiMnL1GtRgpT_SdB4O-obSFrsJZV5S3u6PXKNSYnUVq2rZvW7qCqZn-EoZ-UwRpZU4O4DgZk3vldCoLdqXvmf7pFfXMc21rHVPe52VRWN6fcB0HkN96smQGWo37eGc"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Rajesh Kumar</p>
+<p class="text-[12px] text-outline">Real Estate Developer</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface p-8 rounded-3xl shadow-sm border border-white/40 flex flex-col justify-between">
+<p class="font-body-md italic text-on-surface-variant mb-6">"The 10-year warranty gave us the peace of mind we needed for our terrace project. Exceptional work."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A portrait of a professional woman in her 30s with a confident and friendly expression. The photograph is shot in high-key lighting with a clean, white background, emphasizing clarity and transparency. She is wearing a professional navy blue blazer, fitting the corporate modern aesthetic of the design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBchSLsNOi1nPYLLVR7V4nOP8F6E2SN9DoMp6pp_RlujR2MO2BPP67TYmdeYYF3QUnfQZG45TuHMec07j4zo4VxKpO0UWpHIYtfmF2Jbq-cZq3PS0G_6iSKpdRdwuPVIJ2wsZyKEqx8tJ23PfCiJOQnEuimRv0o3-38GprdLgGn2z__qsFhe_m4LPWft4oX1ADu3msl897UN-iJj-uvs4NUxMNFbCj29mJyEAdugAIkNuuUVKZ_SJWZJ89A2I0Y6R2-laWtT-5XJtg"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Anjali Sharma</p>
+<p class="text-[12px] text-outline">Homeowner</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface p-8 rounded-3xl shadow-sm border border-white/40 flex flex-col justify-between">
+<p class="font-body-md italic text-on-surface-variant mb-6">"Technicians were punctual and knew exactly how to solve our complicated dampness issue. Worth every penny."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A headshot of a senior gentleman with an air of authority and experience. The lighting is warm and professional, highlighting a reliable and established persona. He is dressed in a formal gray shirt, consistent with the technical mastery and reliability of AIAS Engineering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6MdWtjEbuOAH3BUyIbe3g9zdvk86CssMSykW7YHXUKFumJJvCYYy4rVsgMXjCOpJ1E2hMVWX2qkLHldJEggVjgTGev3xzh5aLwIEp_G3aliM0c7LoIT0clwGXl-ESTSpa8dDniW2Fo0C5ubWSykknHUeoRlW8VwGEUKR338NCLBPuRpVNVjJCgctakn6HGhxi02rxWxjEND6C3mwoIMoY9M9ROEY6e3AXaUOZp6VZUUgeTni1cnAMqLljzPxmFlby1eZFF_5EBQM"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Vikram Singh</p>
+<p class="text-[12px] text-outline">Architect</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 4 -->
+<div class="bg-surface p-8 rounded-3xl shadow-sm border border-white/40 flex flex-col justify-between">
+<p class="font-body-md italic text-on-surface-variant mb-6">"Finally found a waterproofing company that uses engineering-grade materials instead of local cement fixes."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A modern professional woman with glasses, looking intelligent and satisfied. The image is bright and crisp, with a soft-focus architectural project in the background. The visual style is premium and high-fidelity, reinforcing the 'calm capability' of the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoNDVmmHP2kgUHpnV1c3w_qKlua3Ut1fz283xTJjq2yrTe5v5q6WtGshYBGuytU1SozMcSaJy0MVyu7hlyFmLIVn0XhcywGHSDRLPMO4XEmKR5KVUi1e_2kBQCL3BmMTeUTayep1lU0b-MA2ynCVhDrm_JDfOMrQ7OlitKP6r6zMsKOn1XOiAu_KcDwKOSiHUq9rwPFEkgtpEFxgkFJWxKX1vvMmr3AG_PaBuOLn8WKx6FSAN-0TI8hTWesAvpgOTY2VMelxEAZ60"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Priya Desai</p>
+<p class="text-[12px] text-outline">Interior Designer</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ & Blog Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-8 py-section-padding-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+<!-- FAQ Accordion -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<details class="group border-b border-outline-variant pb-4" open="">
+<summary class="flex justify-between items-center cursor-pointer list-none font-headline-md text-primary">
+                                Do you break walls?
+                                <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-4 text-on-surface-variant bg-primary/5 p-6 rounded-2xl">
+                                No. Our "No-Breakage" philosophy utilizes nano-injection and advanced surface treatments to fix leakage without disturbing your existing structural integrity or aesthetics.
+                            </div>
+</details>
+<details class="group border-b border-outline-variant pb-4">
+<summary class="flex justify-between items-center cursor-pointer list-none font-headline-md text-primary">
+                                Is there a warranty?
+                                <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-4 text-on-surface-variant bg-primary/5 p-6 rounded-2xl">
+                                Yes. Every solution we provide comes with a written warranty ranging from 5 to 15 years, depending on the material and application technique chosen for your project.
+                            </div>
+</details>
+<details class="group border-b border-outline-variant pb-4">
+<summary class="flex justify-between items-center cursor-pointer list-none font-headline-md text-primary">
+                                How soon can you start?
+                                <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="mt-4 text-on-surface-variant bg-primary/5 p-6 rounded-2xl">
+                                We typically conduct a site inspection within 24 hours. Depending on the scale of the solution, physical work can begin within 2-3 business days.
+                            </div>
+</details>
+</div>
+</div>
+<!-- Blog Preview -->
+<div>
+<div class="flex justify-between items-center mb-8">
+<h2 class="font-headline-lg text-headline-lg text-primary">Engineering Insights</h2>
+<a class="text-secondary font-label-md flex items-center gap-2 hover:underline" href="#">View All <span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+<div class="space-y-6">
+<!-- Blog Card 1 -->
+<a class="glass-card p-4 rounded-3xl flex gap-6 hover:shadow-lg transition-all group" href="#">
+<div class="w-32 h-32 rounded-2xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="A professional close-up shot of water droplets forming on a painted wall, illustrating early signs of leakage. The lighting is moody and focused, with a shallow depth of field. The style is educational and clinical, using a palette of blues and whites to represent moisture detection and structural health." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsOthRWCxt1932eXLic_CmYMUcScqx3I5pkJRcw8mcFa6asdtfHnuae3ycsqk1ELy-_WK73k4QkemEjLpbCTGbXRNuMcMrdQ9PCcquFmM-4VZPW99Ij2uW9YqPlWYm95UXNBEe8KZVmOIepVPrvg5atT208nbzeXconbnT7Dhgl0n4aY1AQMfwYDV_2KNl3EWKBTGGW366zsP519lZjyioClq1q3ztlrrayUTEM3v0SAUt4nkPFoEJNGfL_DUMYLGcEQ5RYvlOI_c"/>
+</div>
+<div class="flex flex-col justify-center">
+<span class="text-secondary text-[12px] font-bold uppercase tracking-widest mb-1">Dampness Treatment</span>
+<h4 class="font-headline-md text-primary leading-tight group-hover:text-secondary transition-colors">Signs of Hidden Water Leakage You Can't Ignore</h4>
+<p class="text-on-surface-variant text-sm mt-2 line-clamp-1">Learn to identify moisture before it compromises your home's foundation.</p>
+</div>
+</a>
+<!-- Blog Card 2 -->
+<a class="glass-card p-4 rounded-3xl flex gap-6 hover:shadow-lg transition-all group" href="#">
+<div class="w-32 h-32 rounded-2xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="An overhead drone shot of a modern building rooftop with a pristine white waterproofing layer, surrounded by an urban skyline. The lighting is bright and airy, reflecting a clean and successful engineering project. The palette is dominated by whites and industrial blues, conveying a sense of cooling and protection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBob0vVDQ9rntTJudxTMzCG48ajHVtewVcmaXld_asv1PiTHLqOgD_jh4ufnRToW-Px4dtSTwzboI7rdknNPMEV2D0tQ9tRz86TyJ-t2w1UF9e_GSb6uaq6E3983qlHlv0KeuBLHgMNGvlENfzo4k-w7WlZuIxVHeiJYA_2WlZ94B16Bl49E9xyf66-XjqCas3sYamP-QYBXc8u_kB79iTUBkPSGNjJZWSZZGZ5A6I44YOEcWjHCYmUAuYXclJZcThktfqxTBjW4WM"/>
+</div>
+<div class="flex flex-col justify-center">
+<span class="text-secondary text-[12px] font-bold uppercase tracking-widest mb-1">Terrace Care</span>
+<h4 class="font-headline-md text-primary leading-tight group-hover:text-secondary transition-colors">Polyurethane vs Epoxy: Which is better for Rooftops?</h4>
+<p class="text-on-surface-variant text-sm mt-2 line-clamp-1">A technical breakdown of waterproofing materials for modern infrastructure.</p>
+</div>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest w-full pt-16 pb-32 flex flex-col px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-2">
+<span class="font-headline-md text-headline-md text-on-background font-bold mb-4 block">AIAS Engineering</span>
+<p class="text-on-surface-variant max-w-md">Precision engineering solutions for complex structural issues. We don't just patch problems; we engineer permanence.</p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-md text-primary">QUICK LINKS</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Expertise</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Safety Standards</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Projects Portfolio</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-md text-primary">LEGAL</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Terms of Service</a>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-8 flex flex-col md:flex-row justify-between gap-4">
+<p class="text-on-surface-variant text-sm">© 2024 AIAS Engineering Solutions. All Rights Reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">face_nod</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">linked_camera</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 backdrop-blur-2xl border-t border-white/10 shadow-lg z-50 rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">construction</span>
+<span class="text-[10px] font-bold">Services</span>
+</a>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-white rounded-full px-6 py-1">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-bold">Quote</span>
+</div>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="text-[10px] font-bold">WhatsApp</span>
+</a>
+</nav>
+<script>
+        // Simple Before/After Slider Interaction
+        document.querySelectorAll('.before-after-container').forEach(container => {
+            const handle = container.querySelector('.slider-handle');
+            const afterImg = container.querySelector('.after-image');
+            
+            let isResizing = false;
+
+            const handleMove = (e) => {
+                if (!isResizing) return;
+                
+                const rect = container.getBoundingClientRect();
+                let x = (e.pageX || e.touches[0].pageX) - rect.left;
+                
+                if (x < 0) x = 0;
+                if (x > rect.width) x = rect.width;
+                
+                const percentage = (x / rect.width) * 100;
+                handle.style.left = `${percentage}%`;
+                afterImg.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+            };
+
+            handle.addEventListener('mousedown', () => isResizing = true);
+            window.addEventListener('mouseup', () => isResizing = false);
+            window.addEventListener('mousemove', handleMove);
+
+            handle.addEventListener('touchstart', () => isResizing = true);
+            window.addEventListener('touchend', () => isResizing = false);
+            window.addEventListener('touchmove', handleMove);
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

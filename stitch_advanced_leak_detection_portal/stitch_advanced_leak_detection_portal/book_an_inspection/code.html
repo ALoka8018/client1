@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Book a Service | AIAS Engineering Solutions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1e",
+                        "on-primary-fixed-variant": "#144296",
+                        "inverse-primary": "#b1c5ff",
+                        "secondary-fixed-dim": "#ffb693",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#a04100",
+                        "outline": "#747783",
+                        "on-secondary-fixed-variant": "#7a3000",
+                        "surface-variant": "#e0e3e5",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-container": "#334358",
+                        "on-primary-container": "#8dadff",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdbcc",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fe6b00",
+                        "on-surface-variant": "#434652",
+                        "surface-dim": "#d8dadc",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "on-primary-fixed": "#001947",
+                        "surface-container-high": "#e6e8ea",
+                        "primary": "#002869",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#351000",
+                        "surface-tint": "#345baf",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#9fb0c9",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#1d2d41",
+                        "primary-fixed": "#dae2ff",
+                        "primary-fixed-dim": "#b1c5ff",
+                        "surface": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#572000",
+                        "primary-container": "#0b3d91",
+                        "outline-variant": "#c4c6d3",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed": "#0b1c30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "section-padding-desktop": "120px",
+                        "container-max": "1280px",
+                        "section-padding-mobile": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .step-active {
+            @apply border-secondary bg-secondary text-on-secondary;
+        }
+        .image-upload-dashed {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23747783' stroke-width='2' stroke-dasharray='8%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+            border-radius: 24px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary-fixed-dim selection:text-on-secondary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-white/20 shadow-sm shadow-primary/5 h-16 flex justify-between items-center px-4 md:px-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">menu</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">AIAS Engineering</span>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-medium" href="#">Home</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-medium" href="#">Services</a>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity font-medium" href="#">Projects</a>
+<a class="text-primary font-bold" href="#">Contact</a>
+</nav>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-label-md hover:scale-105 transition-transform active:scale-95">
+            Book Now
+        </button>
+</header>
+<main class="pt-24 pb-32">
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-4 md:px-8 mb-16">
+<div class="relative rounded-[40px] overflow-hidden min-h-[400px] flex items-center p-8 md:p-16">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A cinematic, wide-angle photograph of a high-tech engineering office in Bhubaneswar, with large windows overlooking a modern skyline. The interior is flooded with natural daylight, creating a bright and professional atmosphere. Structural engineering diagrams are displayed on sleek glass screens. The color palette is dominated by professional navy blues and clean whites, with warm sunset orange accents glowing from the horizon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLNHeIvNlcofyiisADUyexVdBBItuF51mItN4Sq-jWyKrUbvvUCBcsRa4MAPL4rFUYwTmPwsQncbvnmmIvfWcRoS7crsXXnK3BGObx8B6dgo3A8xNTnGNnAF1KGHaf0wpZcLwB28QQY3U27-9pY6fzBwUf1T37mQBMCco3zCMvIPeBbG2u3YV20aDShcbbdfZ-ANvoDFfO_U5rlL6OoJ3QSZdkimqRhFhsdDEc0R5VvVY1KOzAiLSZXa0-WHQXE7bPtlTuELL1Fn8"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40"></div>
+</div>
+<div class="relative z-10 max-w-2xl text-on-primary">
+<h1 class="font-display-lg text-display-lg mb-6 leading-tight">Engineering Excellence, Just a Click Away.</h1>
+<p class="font-body-lg text-body-lg text-white/80 max-w-lg">From minor structural fixes to major infrastructure overhauls, our experts provide end-to-end solutions for every engineering challenge.</p>
+</div>
+</div>
+</section>
+<div class="max-w-container-max mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Booking Form Column -->
+<div class="lg:col-span-7">
+<div class="bg-surface-container-lowest rounded-[32px] p-8 md:p-12 shadow-xl shadow-primary/5 border border-white/40">
+<div class="flex items-center gap-4 mb-10">
+<div class="w-12 h-12 bg-secondary-container rounded-2xl flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Schedule a Service</h2>
+<p class="text-on-surface-variant font-body-md">Fill in the details for a precision quote.</p>
+</div>
+</div>
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none text-on-surface" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Phone Number</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none text-on-surface" placeholder="+91 98765 43210" type="tel"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Property Type</label>
+<select class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none text-on-surface appearance-none">
+<option>Residential</option>
+<option>Commercial</option>
+<option>Industrial</option>
+<option>Infrastructure</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Service Location (City)</label>
+<select class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none text-on-surface appearance-none">
+<option>Bhubaneswar</option>
+<option>Cuttack</option>
+<option>Puri</option>
+<option>Rourkela</option>
+<option>Other</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Preferred Visit Date</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none text-on-surface" type="date"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Problem Description</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none text-on-surface resize-none" placeholder="Briefly describe the engineering issue you're facing..." rows="4"></textarea>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant px-1">Upload Site Images (Optional)</label>
+<div class="image-upload-dashed h-48 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container hover:scale-[1.01] transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-outline mb-3 group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="text-on-surface-variant font-label-md">Drop files here or click to browse</p>
+<p class="text-outline text-xs mt-1">PNG, JPG up to 10MB</p>
+</div>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-headline-md py-5 rounded-2xl hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-secondary/20" type="submit">
+                            Confirm Appointment
+                        </button>
+</form>
+</div>
+</div>
+<!-- Contact & Map Column -->
+<div class="lg:col-span-5 space-y-12">
+<!-- Contact Details -->
+<div class="space-y-8">
+<h3 class="font-headline-md text-headline-md text-primary">Direct Contact</h3>
+<div class="grid grid-cols-1 gap-4">
+<div class="group bg-surface-container rounded-3xl p-6 flex items-center gap-6 border border-transparent hover:border-primary/20 hover:bg-surface-container-high transition-all">
+<div class="w-14 h-14 bg-surface-container-lowest rounded-2xl flex items-center justify-center shadow-sm text-primary">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<p class="font-label-md text-outline uppercase tracking-widest">Call Expert</p>
+<p class="font-headline-md text-on-surface">+91 674 230 4500</p>
+</div>
+</div>
+<div class="group bg-surface-container rounded-3xl p-6 flex items-center gap-6 border border-transparent hover:border-secondary/20 hover:bg-surface-container-high transition-all">
+<div class="w-14 h-14 bg-surface-container-lowest rounded-2xl flex items-center justify-center shadow-sm text-secondary">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div>
+<p class="font-label-md text-outline uppercase tracking-widest">WhatsApp Support</p>
+<p class="font-headline-md text-on-surface">+91 94370 00000</p>
+</div>
+</div>
+<div class="group bg-surface-container rounded-3xl p-6 flex items-center gap-6 border border-transparent hover:border-primary/20 hover:bg-surface-container-high transition-all">
+<div class="w-14 h-14 bg-surface-container-lowest rounded-2xl flex items-center justify-center shadow-sm text-primary">
+<span class="material-symbols-outlined">alternate_email</span>
+</div>
+<div>
+<p class="font-label-md text-outline uppercase tracking-widest">Email Us</p>
+<p class="font-body-lg text-on-surface">solutions@aiasengineering.com</p>
+</div>
+</div>
+<div class="group bg-surface-container rounded-3xl p-6 flex items-center gap-6 border border-transparent hover:border-primary/20 hover:bg-surface-container-high transition-all">
+<div class="w-14 h-14 bg-surface-container-lowest rounded-2xl flex items-center justify-center shadow-sm text-primary">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="font-label-md text-outline uppercase tracking-widest">Headquarters</p>
+<p class="font-body-md text-on-surface">Infocity Road, Patia, Bhubaneswar, Odisha 751024</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Map Area -->
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Service Zones</h3>
+<span class="flex items-center gap-2 text-secondary font-label-md">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+                            Live Updates
+                        </span>
+</div>
+<div class="relative rounded-[32px] overflow-hidden h-80 shadow-inner group">
+<div class="absolute inset-0 bg-surface-container-highest animate-pulse" id="map-loader"></div>
+<img class="w-full h-full object-cover" data-alt="A highly detailed 2D architectural site map of Bhubaneswar and Cuttack metropolitan area. The map is stylized in corporate navy blue and gray tones, with service areas highlighted in glowing orange gradients. Subtle icons indicate engineering projects. The aesthetic is clean, technical, and high-fidelity, resembling an engineering dashboard." data-location="Bhubaneswar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdqPQBomL5tfQzEn-2Y2WSuFeZhYnprW-dm1pUmN-ACZCKnw8wv_T-PjkT9kmXZls8nDlABdvhGfeDvUpHp45tfO4L_zI6dzAHZ5irUVDTFS9RLCO2b5nawBFGnvKt7HrzduBPvEEF1C_wQbbx1OBtRKswg6phh3Pf7M-NUqwKnZ6NfSlUdDlEP_4O4CQJTwWQxmuWHYq_M7IHuRKw-W6rW0f-x3tFeSEttzvo9C9aapLilq0Yw_UeJiZt-rPPF7Wo8OQUfUjspUM"/>
+<!-- Area Highlight Pins -->
+<div class="absolute top-1/4 left-1/3 group-hover:scale-110 transition-transform cursor-pointer">
+<div class="w-4 h-4 bg-secondary rounded-full border-2 border-white shadow-lg shadow-secondary/50"></div>
+<div class="absolute -top-10 -left-10 bg-surface-container-lowest px-3 py-1 rounded-lg text-xs font-bold text-primary shadow-md opacity-0 group-hover:opacity-100 transition-opacity">Bhubaneswar HQ</div>
+</div>
+<div class="absolute top-1/2 right-1/4">
+<div class="w-3 h-3 bg-primary rounded-full border-2 border-white shadow-lg"></div>
+</div>
+<!-- Map Overlay Info -->
+<div class="absolute bottom-4 left-4 right-4 glass-panel p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">distance</span>
+<span class="font-label-md text-primary">Covering 50km radius</span>
+</div>
+<button class="text-secondary font-bold text-sm hover:underline">View All Locations</button>
+</div>
+</div>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-1.5 bg-surface-container text-on-surface-variant rounded-full text-xs font-bold border border-outline-variant">Bhubaneswar</span>
+<span class="px-4 py-1.5 bg-surface-container text-on-surface-variant rounded-full text-xs font-bold border border-outline-variant">Cuttack</span>
+<span class="px-4 py-1.5 bg-surface-container text-on-surface-variant rounded-full text-xs font-bold border border-outline-variant">Puri</span>
+<span class="px-4 py-1.5 bg-surface-container text-on-surface-variant rounded-full text-xs font-bold border border-outline-variant">Khordha</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-32 bg-surface-container-highest flex flex-col px-4 md:px-8 max-w-container-max mx-auto rounded-t-[40px]">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-2">
+<span class="font-headline-md text-headline-md text-on-background mb-6 block">AIAS Engineering</span>
+<p class="text-on-surface-variant max-w-sm mb-8">Pioneering precision engineering solutions across infrastructure, residential, and industrial sectors with a commitment to absolute reliability.</p>
+<div class="flex gap-4">
+<div class="w-10 h-10 bg-surface-container-low rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">public</span>
+</div>
+<div class="w-10 h-10 bg-surface-container-low rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">share</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-primary mb-6 uppercase tracking-wider">Expertise</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Structural Integrity</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Civil Engineering</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Smart Infrastructure</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Consultancy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-primary mb-6 uppercase tracking-wider">Compliance</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Safety Standards</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">Terms of Service</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors underline" href="#">ISO Certification</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 AIAS Engineering Solutions. All Rights Reserved.</p>
+<div class="flex gap-8">
+<span class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">verified</span>
+                    Trusted by 500+ Clients
+                </span>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface/80 backdrop-blur-2xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,40,105,0.05)] z-50 rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">construction</span>
+<span class="text-[10px] font-bold mt-1">Services</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-1 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-bold mt-1">Quote</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="text-[10px] font-bold mt-1">WhatsApp</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for form focus
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+
+        // Simple loader for map
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('map-loader');
+                if(loader) loader.style.opacity = '0';
+                setTimeout(() => loader?.remove(), 500);
+            }, 800);
+        });
+    </script>
+</body></html>
