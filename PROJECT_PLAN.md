@@ -100,7 +100,7 @@ Implemented so far as Prisma models (not yet migrated to a live DB):
 ### Phase 1 — Backend foundation (in progress)
 - [x] Prisma schema modeling the full domain
 - [x] Prisma client wired into `packages/database`
-- [ ] Provision a real Postgres instance (Neon/Supabase/local) and run first migration
+- [ ] Provision Supabase Postgres and run first migration (see `DEPLOYMENT.md`)
 - [ ] Wire Clerk auth: Next.js middleware (protect `(portal)` routes) + Hono JWT verification
       middleware in `apps/api`, `User` upsert on first login, role stored in Clerk `publicMetadata`
 - [ ] Real `StorageDriver` implementation (Cloudflare R2 or S3) for booking image uploads and
