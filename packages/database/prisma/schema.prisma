@@ -61,15 +61,15 @@ enum SupportTicketStatus {
 // ---------- Identity ----------
 
 model User {
-  id        String   @id @default(cuid())
-  clerkId   String   @unique
-  email     String   @unique
-  phone     String?
-  name      String
-  role      UserRole @default(CUSTOMER)
-  avatarUrl String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  supabaseId String   @unique
+  email      String   @unique
+  phone      String?
+  name       String
+  role       UserRole @default(CUSTOMER)
+  avatarUrl  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   technicianProfile TechnicianProfile?
   properties        Property[]

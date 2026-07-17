@@ -1,8 +1,15 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
+import { createClient } from "@/lib/supabase/client";
 
-const PROPERTY_TYPES = ["Residential", "Commercial", "Industrial", "Infrastructure"];
+const PROPERTY_TYPES = ["RESIDENTIAL", "COMMERCIAL", "INDUSTRIAL", "INFRASTRUCTURE"] as const;
+const PROPERTY_TYPE_LABELS: Record<(typeof PROPERTY_TYPES)[number], string> = {
+  RESIDENTIAL: "Residential",
+  COMMERCIAL: "Commercial",
+  INDUSTRIAL: "Industrial",
+  INFRASTRUCTURE: "Infrastructure",
+};
 const CITIES = ["Bhubaneswar", "Cuttack", "Puri", "Rourkela", "Other"];
 
 const fieldClasses =
@@ -11,14 +18,65 @@ const fieldClasses =
 export function BookingForm() {
   const [submitted, setSubmitted] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [phone, setPhone] = useState("");
+  const [propertyType, setPropertyType] = useState<(typeof PROPERTY_TYPES)[number]>(
+    PROPERTY_TYPES[0],
+  );
+  const [city, setCity] = useState(CITIES[0]);
+  const [date, setDate] = useState("");
+  const [problemDescription, setProblemDescription] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFileName(event.target.files?.[0]?.name ?? null);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setLoading(true);
+
+    const supabase = createClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      setError("Your session expired. Please sign in again.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/bookings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          propertyType,
+          city,
+          phone: phone || undefined,
+          scheduledAt: new Date(date).toISOString(),
+          problemDescription,
+        }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setError(body?.error ?? "Something went wrong. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError("Could not reach the server. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,23 +104,13 @@ export function BookingForm() {
             Appointment Requested
           </h3>
           <p className="max-w-sm font-sans text-body-md text-on-surface-variant">
-            Our team will confirm your visit shortly by phone or email.
+            Our team will confirm your visit shortly by phone or email. Check your
+            inbox for a confirmation.
           </p>
         </div>
       ) : (
         <form className="space-y-8" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <label className="px-1 font-sans text-label-md text-on-surface-variant">
-                Full Name
-              </label>
-              <input
-                required
-                type="text"
-                placeholder="John Doe"
-                className={fieldClasses}
-              />
-            </div>
             <div className="space-y-2">
               <label className="px-1 font-sans text-label-md text-on-surface-variant">
                 Phone Number
@@ -72,38 +120,53 @@ export function BookingForm() {
                 type="tel"
                 placeholder="+91 98765 43210"
                 className={fieldClasses}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
+            </div>
+            <div className="space-y-2">
+              <label className="px-1 font-sans text-label-md text-on-surface-variant">
+                Property Type
+              </label>
+              <select
+                className={fieldClasses}
+                value={propertyType}
+                onChange={(e) =>
+                  setPropertyType(e.target.value as (typeof PROPERTY_TYPES)[number])
+                }
+              >
+                {PROPERTY_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {PROPERTY_TYPE_LABELS[type]}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <label className="px-1 font-sans text-label-md text-on-surface-variant">
-                Property Type
+                Service Location (City)
               </label>
-              <select className={fieldClasses} defaultValue={PROPERTY_TYPES[0]}>
-                {PROPERTY_TYPES.map((type) => (
-                  <option key={type}>{type}</option>
+              <select className={fieldClasses} value={city} onChange={(e) => setCity(e.target.value)}>
+                {CITIES.map((cityOption) => (
+                  <option key={cityOption}>{cityOption}</option>
                 ))}
               </select>
             </div>
             <div className="space-y-2">
               <label className="px-1 font-sans text-label-md text-on-surface-variant">
-                Service Location (City)
+                Preferred Visit Date
               </label>
-              <select className={fieldClasses} defaultValue={CITIES[0]}>
-                {CITIES.map((city) => (
-                  <option key={city}>{city}</option>
-                ))}
-              </select>
+              <input
+                required
+                type="date"
+                className={fieldClasses}
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="px-1 font-sans text-label-md text-on-surface-variant">
-              Preferred Visit Date
-            </label>
-            <input required type="date" className={fieldClasses} />
           </div>
 
           <div className="space-y-2">
@@ -115,6 +178,8 @@ export function BookingForm() {
               rows={4}
               placeholder="Briefly describe the engineering issue you're facing..."
               className={`${fieldClasses} resize-none`}
+              value={problemDescription}
+              onChange={(e) => setProblemDescription(e.target.value)}
             />
           </div>
 
@@ -143,11 +208,18 @@ export function BookingForm() {
             </label>
           </div>
 
+          {error && (
+            <p className="font-sans text-body-sm text-error" role="alert">
+              {error}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="w-full rounded-2xl bg-secondary py-5 font-display text-headline-md text-on-secondary shadow-lg shadow-secondary/20 transition-all hover:brightness-110 active:scale-[0.98]"
+            disabled={loading}
+            className="w-full rounded-2xl bg-secondary py-5 font-display text-headline-md text-on-secondary shadow-lg shadow-secondary/20 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
           >
-            Confirm Appointment
+            {loading ? "Submitting…" : "Confirm Appointment"}
           </button>
         </form>
       )}

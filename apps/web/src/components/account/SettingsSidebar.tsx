@@ -1,3 +1,8 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+
 const SETTINGS_LINKS = [
   { href: "/support", icon: "support_agent", label: "Support Center" },
   { href: "/privacy", icon: "security", label: "Privacy & Security" },
@@ -5,6 +10,15 @@ const SETTINGS_LINKS = [
 ];
 
 export function SettingsSidebar() {
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
+
   return (
     <div className="flex flex-col gap-gutter">
       <div className="group relative overflow-hidden rounded-3xl bg-primary p-8 text-white shadow-xl">
@@ -51,6 +65,7 @@ export function SettingsSidebar() {
         <div className="my-2 h-px bg-outline-variant/20" />
         <button
           type="button"
+          onClick={handleSignOut}
           className="flex w-full items-center gap-4 rounded-2xl p-4 text-left text-error transition-all hover:bg-error/5"
         >
           <span className="material-symbols-outlined">logout</span>

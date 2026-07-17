@@ -38,7 +38,7 @@ stitch_advanced_leak_detection_portal/   Design prototypes (Stitch/Figma exports
 
 Stack: pnpm + Turborepo monorepo, Next.js + Tailwind (Material Symbols icons, Montserrat/Inter
 fonts, "glassmorphism" design system — see `structural_integrity/DESIGN.md` for full tokens),
-Hono API, Prisma + PostgreSQL, Clerk (planned) for auth.
+Hono API, Prisma + PostgreSQL (Supabase), Supabase Auth for auth.
 
 ---
 
@@ -72,12 +72,18 @@ enforcement. Wiring these to real data is the immediate backend priority (see Se
 | Admin | `/admin` | **Stub only** — "Restricted" placeholder page |
 
 ### Backend (`apps/api`)
-- Hono server, single `GET /health` route
-- `packages/database`: Prisma schema modeling the full domain (see Section 4) — client generated,
-  no migration run yet (needs a real `DATABASE_URL`)
+- Hono server: `GET /health`, `GET /v1/me` (auth-protected)
+- `packages/database`: Prisma schema modeling the full domain (see Section 4) — migrated to a live
+  Supabase Postgres database
+- Supabase Auth wired end-to-end: Next.js middleware (`apps/web/src/middleware.ts`) protects
+  `(portal)` routes and refreshes sessions; Hono middleware (`apps/api/src/middleware/auth.ts`)
+  verifies the Supabase JWT via `supabase.auth.getUser()` and upserts a `User` row (matched on
+  `User.supabaseId`) on first sight, defaulting to the `CUSTOMER` role
+- `/login` and `/signup` pages (`apps/web/src/app/(auth)`) using `@supabase/ssr` browser client;
+  sign-out wired in `SettingsSidebar`
 - `packages/storage`: in-memory placeholder `StorageDriver` interface (put/get/delete) — needs a
   real S3/R2-backed implementation
-- No auth, no real endpoints beyond `/health` yet
+- No role-gating middleware wired into routes yet beyond the `requireRole` helper (unused so far)
 
 ---
 
@@ -85,7 +91,8 @@ enforcement. Wiring these to real data is the immediate backend priority (see Se
 
 Implemented so far as Prisma models (not yet migrated to a live DB):
 
-- **Identity**: `User` (role: CUSTOMER/TECHNICIAN/ADMIN), `TechnicianProfile`
+- **Identity**: `User` (`supabaseId` links to Supabase Auth's `auth.users.id`; role:
+  CUSTOMER/TECHNICIAN/ADMIN), `TechnicianProfile`
 - **Properties**: `Property` (multi-property per user, primary flag, geo lat/lng)
 - **Catalog**: `ServiceCategory`, `Service`
 - **Bookings**: `Booking`, `BookingAttachment`, `BookingStatusEvent` (status timeline)
@@ -100,9 +107,12 @@ Implemented so far as Prisma models (not yet migrated to a live DB):
 ### Phase 1 — Backend foundation (in progress)
 - [x] Prisma schema modeling the full domain
 - [x] Prisma client wired into `packages/database`
-- [ ] Provision Supabase Postgres and run first migration (see `DEPLOYMENT.md`)
-- [ ] Wire Clerk auth: Next.js middleware (protect `(portal)` routes) + Hono JWT verification
-      middleware in `apps/api`, `User` upsert on first login, role stored in Clerk `publicMetadata`
+- [x] Provision Supabase Postgres and run first migration
+- [x] Wire Supabase Auth: Next.js middleware (protects `(portal)` routes) + Hono JWT verification
+      middleware in `apps/api`, `User` upsert on first login (role defaults to `CUSTOMER`,
+      stored in our own `User.role` column rather than Clerk-style external metadata)
+- [ ] Role-gating on real endpoints (the `requireRole` helper exists but nothing uses it yet —
+      needed once `ADMIN`/`TECHNICIAN`-only routes are built)
 - [ ] Real `StorageDriver` implementation (Cloudflare R2 or S3) for booking image uploads and
       invoice PDFs, replacing the in-memory placeholder
 
@@ -136,7 +146,7 @@ Implemented so far as Prisma models (not yet migrated to a live DB):
 
 ### Phase 6 — Admin site (planned, build later)
 Not started. When picked up, scope will include at minimum:
-- [ ] Staff-only auth (`ADMIN` role via Clerk), replacing the current `/admin` "Restricted" stub
+- [ ] Staff-only auth (`ADMIN` role via Supabase Auth), replacing the current `/admin` "Restricted" stub
 - [ ] Bookings management: view/filter all bookings, assign technicians, override status
 - [ ] Technician management: onboard/approve applications, manage profiles/active flag
 - [ ] Service catalog CRUD (categories, pricing, active/inactive)
