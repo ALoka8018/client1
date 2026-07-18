@@ -48,7 +48,7 @@ export function buttonClasses({
   className,
 }: ButtonStyleProps = {}) {
   return cn(
-    "inline-flex items-center justify-center font-sans font-semibold transition-colors disabled:opacity-50 disabled:pointer-events-none",
+    "inline-flex items-center justify-center font-sans font-semibold transition-[color,background-color,box-shadow,transform] duration-150 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97] active:duration-75 disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0 disabled:active:scale-100",
     pill ? "rounded-full" : "rounded",
     variantClasses[variant],
     sizeClasses[size],

@@ -11,28 +11,28 @@ export function Hero() {
           alt=""
           fill
           priority
-          className="scale-105 object-cover opacity-20"
+          className="object-cover opacity-20 motion-safe:animate-[hero-bg-settle_12s_cubic-bezier(0.16,1,0.3,1)_forwards] motion-reduce:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
       </div>
 
       <div className="container-max relative z-10 grid items-center gap-12 lg:grid-cols-2">
         <div>
-          <span className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1 font-sans text-label-md uppercase tracking-widest text-primary">
+          <span className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1 font-sans text-label-md uppercase tracking-widest text-primary motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards]">
             Precision Engineering
           </span>
-          <h1 className="mb-6 font-display text-headline-lg-mobile text-primary leading-[1.1] md:text-display-lg">
+          <h1 className="mb-6 font-display text-headline-lg-mobile text-primary leading-[1.1] md:text-display-lg motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:90ms]">
             Hidden Water Leakage? <br />
             <span className="text-secondary">
               We Find It Without Breaking Your Walls.
             </span>
           </h1>
-          <p className="mb-10 max-w-xl font-sans text-body-lg text-on-surface-variant">
+          <p className="mb-10 max-w-xl font-sans text-body-lg text-on-surface-variant motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:180ms]">
             Advanced Leak Detection using Acoustic Sensors, Thermal Imaging,
             and Moisture Mapping. Non-invasive, accurate, and cost-effective
             solutions for your infrastructure.
           </p>
-          <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="flex flex-col gap-4 sm:flex-row motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:270ms]">
             <Link
               href="/book"
               className={buttonClasses({ variant: "accent", size: "lg" })}
@@ -52,8 +52,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="hidden lg:block">
-          <div className="glass rounded-3xl border border-white/40 p-4 shadow-xl">
+        <div className="hidden lg:block motion-safe:animate-[card-rise_0.8s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:150ms]">
+          <div className="glass rounded-3xl border border-white/40 p-4 shadow-xl transition-[transform,box-shadow] duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:shadow-2xl motion-safe:hover:-translate-y-1.5">
             <div className="relative h-[500px] w-full overflow-hidden rounded-2xl shadow-inner">
               <Image
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLO7QrQORKFmhc4QCGl7gDg8YelK2XlL0VgLkMKuQpXadabtI_yBA0s4ipqJ1rI0ZTwwnURjiBUnoSlLwa1Z_W1b57SuL2TRfKvgcjhuoNm0o3r1-tCAQ7UQ7E9TxlPq84fHuYUVeaQVNG0XYvOM_RHyqYqXBFjFtCR1ExM0MGOiUKqFJ5dRttdlgZTzW0mNFyrt7yaDFXaF9XLcSXieDeLOCpdoezuIIHwRdQZRi8gXN1ljsJUXZfaz9nlr2N3CANQrrYR8CqO1o"
