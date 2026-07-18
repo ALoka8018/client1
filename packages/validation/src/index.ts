@@ -15,6 +15,21 @@ export const createBookingSchema = z.object({
   phone: z.string().min(1).optional(),
   scheduledAt: z.coerce.date(),
   problemDescription: z.string().min(1),
+  serviceId: z.string().min(1).optional(),
 });
 
 export type CreateBookingInput = z.infer<typeof createBookingSchema>;
+
+export const createPaymentOrderSchema = z.object({
+  invoiceId: z.string().min(1),
+});
+
+export type CreatePaymentOrderInput = z.infer<typeof createPaymentOrderSchema>;
+
+export const verifyPaymentSchema = z.object({
+  razorpayOrderId: z.string().min(1),
+  razorpayPaymentId: z.string().min(1),
+  razorpaySignature: z.string().min(1),
+});
+
+export type VerifyPaymentInput = z.infer<typeof verifyPaymentSchema>;

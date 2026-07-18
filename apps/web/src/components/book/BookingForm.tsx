@@ -1,7 +1,31 @@
 "use client";
 
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { PayNowButton } from "@/components/payments/PayNowButton";
+
+type Service = {
+  id: string;
+  categoryId: string;
+  category: { id: string; key: string; label: string; icon: string | null };
+  title: string;
+  description: string;
+  imageUrl: string | null;
+  rating: string;
+  priceLabel: string;
+  priceAmount: string;
+  priceUnit: string | null;
+  ctaType: string;
+  active: boolean;
+};
+
+type Invoice = {
+  id: string;
+  number: string;
+  amount: string;
+  status: "PENDING" | "PAID" | "OVERDUE" | "VOID";
+  bookingId: string;
+};
 
 const PROPERTY_TYPES = ["RESIDENTIAL", "COMMERCIAL", "INDUSTRIAL", "INFRASTRUCTURE"] as const;
 const PROPERTY_TYPE_LABELS: Record<(typeof PROPERTY_TYPES)[number], string> = {
@@ -27,6 +51,27 @@ export function BookingForm() {
   const [problemDescription, setProblemDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const [services, setServices] = useState<Service[]>([]);
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+  const [pendingInvoice, setPendingInvoice] = useState<Invoice | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/services`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: Service[]) => {
+        if (!cancelled) setServices(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setServices([]);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFileName(event.target.files?.[0]?.name ?? null);
@@ -61,6 +106,7 @@ export function BookingForm() {
           phone: phone || undefined,
           scheduledAt: new Date(date).toISOString(),
           problemDescription,
+          serviceId: selectedServiceId || undefined,
         }),
       });
 
@@ -71,7 +117,12 @@ export function BookingForm() {
         return;
       }
 
-      setSubmitted(true);
+      const data = await res.json();
+      if (data?.invoice && data.invoice.status === "PENDING") {
+        setPendingInvoice(data.invoice as Invoice);
+      } else {
+        setSubmitted(true);
+      }
     } catch {
       setError("Could not reach the server. Please try again.");
     } finally {
@@ -107,6 +158,33 @@ export function BookingForm() {
             Our team will confirm your visit shortly by phone or email. Check your
             inbox for a confirmation.
           </p>
+        </div>
+      ) : pendingInvoice ? (
+        <div className="flex flex-col items-center gap-4 rounded-2xl bg-primary/5 py-16 text-center">
+          <span className="material-symbols-outlined text-5xl text-primary">
+            payments
+          </span>
+          <h3 className="font-display text-headline-md text-primary">
+            Complete Your Payment
+          </h3>
+          <p className="max-w-sm font-sans text-body-md text-on-surface-variant">
+            Your booking is confirmed. Pay the invoice of{" "}
+            <span className="font-bold text-primary">₹{pendingInvoice.amount}</span>{" "}
+            now to secure priority scheduling, or pay later from your bookings page.
+          </p>
+          <PayNowButton
+            invoiceId={pendingInvoice.id}
+            amount={pendingInvoice.amount}
+            size="lg"
+            onPaid={() => setSubmitted(true)}
+          />
+          <button
+            type="button"
+            className="font-sans text-label-md text-on-surface-variant underline transition-colors hover:text-primary"
+            onClick={() => setSubmitted(true)}
+          >
+            Pay later from your bookings page
+          </button>
         </div>
       ) : (
         <form className="space-y-8" onSubmit={handleSubmit}>
@@ -167,6 +245,24 @@ export function BookingForm() {
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="px-1 font-sans text-label-md text-on-surface-variant">
+              Service (Optional)
+            </label>
+            <select
+              className={fieldClasses}
+              value={selectedServiceId}
+              onChange={(e) => setSelectedServiceId(e.target.value)}
+            >
+              <option value="">No specific service (request a quote)</option>
+              {services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.title} — {service.priceLabel}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="space-y-2">

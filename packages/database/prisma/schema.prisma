@@ -203,17 +203,20 @@ model BookingStatusEvent {
 // ---------- Billing ----------
 
 model Invoice {
-  id        String        @id @default(cuid())
-  number    String        @unique
-  bookingId String        @unique
-  booking   Booking       @relation(fields: [bookingId], references: [id])
-  userId    String
-  user      User          @relation(fields: [userId], references: [id])
-  amount    Decimal       @db.Decimal(10, 2)
-  status    InvoiceStatus @default(PENDING)
-  issuedAt  DateTime      @default(now())
-  paidAt    DateTime?
-  pdfUrl    String?
+  id                String        @id @default(cuid())
+  number            String        @unique
+  bookingId         String        @unique
+  booking           Booking       @relation(fields: [bookingId], references: [id])
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  amount            Decimal       @db.Decimal(10, 2)
+  status            InvoiceStatus @default(PENDING)
+  issuedAt          DateTime      @default(now())
+  paidAt            DateTime?
+  pdfUrl            String?
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
 
   @@index([userId])
   @@index([status])

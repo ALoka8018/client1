@@ -30,7 +30,8 @@
     "@supabase/supabase-js": "^2.110.6",
     "dotenv": "^17.4.2",
     "hono": "^4.12.30",
-    "nodemailer": "^9.0.3"
+    "nodemailer": "^9.0.3",
+    "razorpay": "^2.9.6"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",

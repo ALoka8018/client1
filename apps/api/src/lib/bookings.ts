@@ -1,4 +1,4 @@
-import { prisma, type Booking, type User } from "@repo/database";
+import { prisma, InvoiceStatus, type Booking, type Invoice, type User } from "@repo/database";
 import type { CreateBookingInput } from "@repo/validation";
 import { sendMail } from "./mailer.js";
 import { logger } from "@repo/logger";
@@ -6,6 +6,11 @@ import { logger } from "@repo/logger";
 function generateBookingCode() {
   const random = Math.random().toString(36).slice(2, 8).toUpperCase();
   return `BK-${Date.now().toString(36).toUpperCase()}-${random}`;
+}
+
+function generateInvoiceNumber() {
+  const random = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `INV-${Date.now().toString(36).toUpperCase()}-${random}`;
 }
 
 async function findOrCreateProperty(user: User, input: CreateBookingInput) {
@@ -52,7 +57,10 @@ function bookingConfirmationEmail(booking: Booking, user: User) {
   };
 }
 
-export async function createBooking(user: User, input: CreateBookingInput): Promise<Booking> {
+export async function createBooking(
+  user: User,
+  input: CreateBookingInput,
+): Promise<Booking & { invoice: Invoice | null }> {
   const property = await findOrCreateProperty(user, input);
 
   if (input.phone && input.phone !== user.phone) {
@@ -64,6 +72,7 @@ export async function createBooking(user: User, input: CreateBookingInput): Prom
       code: generateBookingCode(),
       userId: user.id,
       propertyId: property.id,
+      serviceId: input.serviceId,
       scheduledAt: input.scheduledAt,
       problemDescription: input.problemDescription,
     },
@@ -73,6 +82,24 @@ export async function createBooking(user: User, input: CreateBookingInput): Prom
     data: { bookingId: booking.id, status: booking.status },
   });
 
+  let invoice: Invoice | null = null;
+
+  if (input.serviceId) {
+    const service = await prisma.service.findUnique({ where: { id: input.serviceId } });
+
+    if (service) {
+      invoice = await prisma.invoice.create({
+        data: {
+          number: generateInvoiceNumber(),
+          bookingId: booking.id,
+          userId: user.id,
+          amount: service.priceAmount,
+          status: InvoiceStatus.PENDING,
+        },
+      });
+    }
+  }
+
   try {
     const { subject, html, text } = bookingConfirmationEmail(booking, user);
     await sendMail({ to: user.email, subject, html, text });
@@ -80,5 +107,5 @@ export async function createBooking(user: User, input: CreateBookingInput): Prom
     logger.error(`Failed to send booking confirmation email for ${booking.code}: ${err}`);
   }
 
-  return booking;
+  return { ...booking, invoice };
 }

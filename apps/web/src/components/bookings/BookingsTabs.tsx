@@ -1,10 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { cn } from "@repo/ui/cn";
+import { createClient } from "@/lib/supabase/client";
+import { PayNowButton } from "@/components/payments/PayNowButton";
 
 type Tab = "active" | "completed" | "invoices";
+
+type InvoiceStatus = "PENDING" | "PAID" | "OVERDUE" | "VOID";
+
+type Invoice = {
+  id: string;
+  number: string;
+  amount: string;
+  status: InvoiceStatus;
+  issuedAt: string;
+  paidAt: string | null;
+  booking: { code: string; scheduledAt: string };
+};
+
+const currencyFormatter = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+});
+
+function formatDate(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return date.toLocaleDateString("en-IN", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "active", label: "Active Bookings" },
@@ -27,14 +56,75 @@ const COMPLETED = [
   },
 ];
 
-const INVOICES = [
-  { id: "#INV-2024-001", date: "Oct 12, 2024", amount: "$450.00", status: "Paid" as const },
-  { id: "#INV-2024-002", date: "Oct 24, 2024", amount: "$890.00", status: "Pending" as const },
-  { id: "#INV-2023-098", date: "Sept 15, 2024", amount: "$2,100.00", status: "Paid" as const },
-];
-
 export function BookingsTabs() {
   const [tab, setTab] = useState<Tab>("active");
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [invoicesLoading, setInvoicesLoading] = useState(false);
+  const [invoicesError, setInvoicesError] = useState<string | null>(null);
+  const [invoicesFetched, setInvoicesFetched] = useState(false);
+
+  useEffect(() => {
+    if (tab !== "invoices" || invoicesFetched) return;
+
+    let cancelled = false;
+    setInvoicesLoading(true);
+    setInvoicesError(null);
+
+    (async () => {
+      try {
+        const supabase = createClient();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (!session) {
+          if (!cancelled) {
+            setInvoicesError("Your session expired. Please sign in again.");
+            setInvoicesLoading(false);
+            setInvoicesFetched(true);
+          }
+          return;
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/invoices`, {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
+
+        if (!res.ok) {
+          if (!cancelled) {
+            setInvoicesError("Could not load invoices. Please try again.");
+          }
+          return;
+        }
+
+        const data = (await res.json()) as Invoice[];
+        if (!cancelled) {
+          setInvoices(Array.isArray(data) ? data : []);
+        }
+      } catch {
+        if (!cancelled) {
+          setInvoicesError("Could not reach the server. Please try again.");
+        }
+      } finally {
+        if (!cancelled) {
+          setInvoicesLoading(false);
+          setInvoicesFetched(true);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [tab, invoicesFetched]);
+
+  const markInvoicePaid = (invoiceId: string) => {
+    setInvoices((prev) =>
+      prev.map((invoice) =>
+        invoice.id === invoiceId ? { ...invoice, status: "PAID" as const } : invoice,
+      ),
+    );
+  };
 
   return (
     <div>
@@ -234,63 +324,99 @@ export function BookingsTabs() {
 
       {tab === "invoices" && (
         <div className="overflow-hidden rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">
-          <table className="w-full border-collapse text-left">
-            <thead className="bg-surface-container-low">
-              <tr>
-                <th className="px-6 py-4 font-sans text-label-md text-primary">
-                  Invoice ID
-                </th>
-                <th className="px-6 py-4 font-sans text-label-md text-primary">
-                  Service Date
-                </th>
-                <th className="px-6 py-4 font-sans text-label-md text-primary">
-                  Amount
-                </th>
-                <th className="px-6 py-4 font-sans text-label-md text-primary">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-right font-sans text-label-md text-primary">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-outline-variant/30">
-              {INVOICES.map((invoice) => (
-                <tr key={invoice.id}>
-                  <td className="px-6 py-4 text-sm font-bold text-on-surface">
-                    {invoice.id}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-on-surface-variant">
-                    {invoice.date}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-bold">{invoice.amount}</td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={cn(
-                        "rounded-full px-3 py-1 text-[10px] font-extrabold tracking-wider uppercase",
-                        invoice.status === "Paid"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-orange-100 text-orange-700",
-                      )}
-                    >
-                      {invoice.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button
-                      type="button"
-                      className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
-                    >
-                      <span className="material-symbols-outlined text-sm">
-                        download
-                      </span>
-                      PDF
-                    </button>
-                  </td>
+          {invoicesLoading ? (
+            <p className="px-6 py-10 text-center font-sans text-body-md text-on-surface-variant">
+              Loading invoices…
+            </p>
+          ) : invoicesError ? (
+            <p className="px-6 py-10 text-center font-sans text-body-md text-error">
+              {invoicesError}
+            </p>
+          ) : invoices.length === 0 ? (
+            <p className="px-6 py-10 text-center font-sans text-body-md text-on-surface-variant">
+              No invoices yet
+            </p>
+          ) : (
+            <table className="w-full border-collapse text-left">
+              <thead className="bg-surface-container-low">
+                <tr>
+                  <th className="px-6 py-4 font-sans text-label-md text-primary">
+                    Invoice ID
+                  </th>
+                  <th className="px-6 py-4 font-sans text-label-md text-primary">
+                    Service Date
+                  </th>
+                  <th className="px-6 py-4 font-sans text-label-md text-primary">
+                    Amount
+                  </th>
+                  <th className="px-6 py-4 font-sans text-label-md text-primary">
+                    Status
+                  </th>
+                  <th className="px-6 py-4 text-right font-sans text-label-md text-primary">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/30">
+                {invoices.map((invoice) => (
+                  <tr key={invoice.id}>
+                    <td className="px-6 py-4 text-sm font-bold text-on-surface">
+                      {invoice.number}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-on-surface-variant">
+                      {formatDate(invoice.booking.scheduledAt)}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-bold">
+                      {currencyFormatter.format(Number(invoice.amount))}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={cn(
+                          "rounded-full px-3 py-1 text-[10px] font-extrabold tracking-wider uppercase",
+                          invoice.status === "PAID"
+                            ? "bg-green-100 text-green-700"
+                            : invoice.status === "OVERDUE"
+                              ? "bg-red-100 text-red-700"
+                              : invoice.status === "VOID"
+                                ? "bg-gray-100 text-gray-500"
+                                : "bg-orange-100 text-orange-700",
+                        )}
+                      >
+                        {invoice.status === "PAID"
+                          ? "Paid"
+                          : invoice.status === "OVERDUE"
+                            ? "Overdue"
+                            : invoice.status === "VOID"
+                              ? "Void"
+                              : "Pending"}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      {invoice.status === "PENDING" || invoice.status === "OVERDUE" ? (
+                        <div className="inline-flex justify-end">
+                          <PayNowButton
+                            invoiceId={invoice.id}
+                            amount={invoice.amount}
+                            size="sm"
+                            onPaid={() => markInvoicePaid(invoice.id)}
+                          />
+                        </div>
+                      ) : invoice.status === "PAID" ? (
+                        <span className="inline-flex items-center gap-1 text-xs font-bold text-green-700">
+                          <span className="material-symbols-outlined text-sm">
+                            check_circle
+                          </span>
+                          Paid
+                        </span>
+                      ) : (
+                        <span className="text-xs text-on-surface-variant">—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
     </div>
