@@ -46,7 +46,7 @@ function bookingConfirmationEmail(booking: Booking, user: User) {
         <li><strong>Issue:</strong> ${booking.problemDescription}</li>
       </ul>
       <p>Our team will confirm your visit shortly by phone or email.</p>
-      <p>— AIAS Engineering</p>
+      <p>— Seepage Leakage All Solutions</p>
     `,
     text: `Hi ${user.name}, your booking ${booking.code} is scheduled for ${scheduledLabel}. Issue: ${booking.problemDescription}`,
   };

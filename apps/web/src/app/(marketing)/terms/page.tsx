@@ -5,7 +5,7 @@ export default function TermsPage() {
     <LegalDocument
       title="Terms of Service"
       updated="January 1, 2026"
-      intro="These terms govern bookings, inspections, and repair work carried out by AIAS Engineering Solutions. By scheduling a service, you agree to the terms below."
+      intro="These terms govern bookings, inspections, and repair work carried out by Seepage Leakage All Solutions. By scheduling a service, you agree to the terms below."
       sections={[
         {
           heading: "Bookings & Scheduling",

@@ -31,7 +31,7 @@ export function InspectionProcess() {
       <div className="container-max">
         <div className="mb-20 text-center">
           <h2 className="font-display text-headline-md text-primary md:text-headline-lg">
-            The AIAS Inspection Process
+            The Seepage Leakage All Solutions Inspection Process
           </h2>
         </div>
 

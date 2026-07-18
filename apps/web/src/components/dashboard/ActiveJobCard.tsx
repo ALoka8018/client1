@@ -28,7 +28,7 @@ export function ActiveJobCard() {
             Current Leakage Repair
           </h3>
           <p className="text-on-surface-variant">
-            Ticket #AIAS-8902 • Scheduled for today
+            Ticket #SLAS-8902 • Scheduled for today
           </p>
         </div>
       </div>

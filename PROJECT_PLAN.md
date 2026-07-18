@@ -1,4 +1,4 @@
-# AIAS Engineering — Project Plan & Feature Roadmap
+# Seepage Leakage All Solutions — Project Plan & Feature Roadmap
 
 _Last updated: 2026-07-17_
 
@@ -10,7 +10,7 @@ file whenever scope changes — it's the single source of truth for "what exists
 
 ## 1. What this project is
 
-AIAS Engineering is a plumbing / leak-detection / waterproofing / structural-inspection
+Seepage Leakage All Solutions is a plumbing / leak-detection / waterproofing / structural-inspection
 service company platform (India — Bhubaneswar, Cuttack, Puri, Rourkela). It has:
 
 - A **marketing site** to attract customers and explain services

@@ -9,7 +9,7 @@ export default function AboutPage() {
       <section className="pt-section-mobile md:pt-section-desktop">
         <div className="container-max text-center">
           <span className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1 font-sans text-label-md uppercase tracking-widest text-primary">
-            About AIAS Engineering
+            About Seepage Leakage All Solutions
           </span>
           <h1 className="mx-auto mb-6 max-w-3xl font-display text-headline-md text-primary md:text-display-lg">
             Engineering Trust Since 2008.
@@ -29,7 +29,7 @@ export default function AboutPage() {
 
       <CtaBanner
         title="Ready to work with engineers, not patch-jobs?"
-        description="Schedule a diagnostic survey and see why 5000+ clients trust AIAS with their structural issues."
+        description="Schedule a diagnostic survey and see why 5000+ clients trust Seepage Leakage All Solutions with their structural issues."
         primaryLabel="Book a Survey"
         primaryHref="/book"
         secondaryLabel="Explore Services"

@@ -50,7 +50,7 @@ export function Header({
             href={logoHref}
             className="font-display text-headline-md font-bold text-primary"
           >
-            AIAS Engineering
+            Seepage Leakage All Solutions
           </Link>
         </div>
 

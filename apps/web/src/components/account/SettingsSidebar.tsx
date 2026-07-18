@@ -25,7 +25,7 @@ export function SettingsSidebar() {
         <div className="relative z-10">
           <h3 className="mb-2 font-display text-headline-md">Join the Fleet</h3>
           <p className="mb-6 text-on-primary-container">
-            Expert in structural repair? Become a certified AIAS technician
+            Expert in structural repair? Become a certified Seepage Leakage All Solutions technician
             today.
           </p>
           <button

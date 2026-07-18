@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = buildMetadata("https://example.com", {
-  title: "AIAS Engineering",
+  title: "Seepage Leakage All Solutions",
   description:
     "Advanced leak detection, structural diagnostics, and precision engineering solutions.",
   path: "/",

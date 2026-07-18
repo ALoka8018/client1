@@ -5,7 +5,7 @@ export default function PrivacyPage() {
     <LegalDocument
       title="Privacy Policy"
       updated="January 1, 2026"
-      intro="AIAS Engineering Solutions collects only the information needed to schedule inspections, deliver engineering reports, and support your account. This page explains what we collect, how we use it, and the choices you have."
+      intro="Seepage Leakage All Solutions collects only the information needed to schedule inspections, deliver engineering reports, and support your account. This page explains what we collect, how we use it, and the choices you have."
       sections={[
         {
           heading: "Information We Collect",

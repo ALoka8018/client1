@@ -7,7 +7,7 @@ const PROPERTIES = [
   },
   {
     icon: "business",
-    title: "AIAS HQ Office",
+    title: "SLAS HQ Office",
     address: "700 Innovation Way, Suite 400, CA",
     primary: false,
   },

@@ -8,7 +8,7 @@ export default function AdminPage() {
         Admin Panel — Restricted
       </h1>
       <p className="max-w-md font-sans text-body-md text-on-surface-variant">
-        This area is limited to AIAS staff accounts with administrative
+        This area is limited to Seepage Leakage All Solutions staff accounts with administrative
         permissions. If you believe you should have access, contact your
         account manager.
       </p>

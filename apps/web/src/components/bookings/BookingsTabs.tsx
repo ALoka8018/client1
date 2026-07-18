@@ -70,7 +70,7 @@ export function BookingsTabs() {
                   HVAC System Audit
                 </h3>
                 <p className="mt-1 text-sm text-on-surface-variant">
-                  ID: #AIAS-88291 • West Wing Plaza
+                  ID: #SLAS-88291 • West Wing Plaza
                 </p>
               </div>
               <div className="text-right">
@@ -153,7 +153,7 @@ export function BookingsTabs() {
                   Fire Safety Inspection
                 </h3>
                 <p className="mt-1 text-sm text-on-surface-variant">
-                  ID: #AIAS-88304 • Logistics Hub A
+                  ID: #SLAS-88304 • Logistics Hub A
                 </p>
               </div>
               <div className="text-right">

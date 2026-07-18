@@ -46,7 +46,7 @@ export function Footer() {
         <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4">
           <div className="col-span-1 md:col-span-2">
             <h2 className="mb-6 font-display text-headline-md text-primary">
-              AIAS Engineering
+              Seepage Leakage All Solutions
             </h2>
             <p className="max-w-sm font-sans text-body-md text-on-surface-variant">
               Leading structural diagnostics and engineering solutions across
@@ -59,7 +59,7 @@ export function Footer() {
         </div>
         <div className="border-t border-outline-variant pt-8 text-center md:text-left">
           <p className="font-sans text-body-md text-on-surface-variant">
-            © 2024 AIAS Engineering Solutions. All Rights Reserved.
+            © 2024 Seepage Leakage All Solutions. All Rights Reserved.
           </p>
         </div>
       </div>
