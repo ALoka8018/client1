@@ -36,3 +36,6 @@ next-env.d.ts
 .claude/
 .agents/
 .impeccable/
+
+# Reference assets (design exports, etc.) not meant for version control
+*.zip
