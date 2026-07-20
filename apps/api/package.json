@@ -26,6 +26,7 @@
     "@hono/node-server": "^2.0.8",
     "@repo/database": "workspace:*",
     "@repo/logger": "workspace:*",
+    "@repo/storage": "workspace:*",
     "@repo/validation": "workspace:*",
     "@supabase/supabase-js": "^2.110.6",
     "dotenv": "^17.4.2",
