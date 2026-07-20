@@ -1,19 +1,64 @@
-import Image from "next/image";
 import { cn } from "@repo/ui/cn";
+import {
+  type BookingStatus,
+  BOOKING_STATUS_META,
+  BOOKING_PROGRESS_STEP,
+} from "@/lib/bookingStatus";
+
+export type ActiveJobBooking = {
+  id: string;
+  code: string;
+  status: BookingStatus;
+  scheduledAt: string;
+  service: { title: string } | null;
+};
 
 const STEPS = [
-  { key: "requested", label: "Requested", icon: "check", done: true },
-  { key: "assigned", label: "Assigned", icon: "engineering", done: true },
-  { key: "enroute", label: "En Route", icon: "local_shipping", done: true, current: true },
-  { key: "completion", label: "Completion", icon: "home_repair_service", done: false },
+  { key: "requested", label: "Requested", icon: "check" },
+  { key: "assigned", label: "Assigned", icon: "engineering" },
+  { key: "enroute", label: "En Route", icon: "local_shipping" },
+  { key: "completion", label: "Completion", icon: "home_repair_service" },
 ];
 
-export function ActiveJobCard() {
+function formatScheduled(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  const isToday = date.toDateString() === new Date().toDateString();
+  const time = date.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" });
+  return isToday
+    ? `Scheduled for today, ${time}`
+    : `Scheduled for ${date.toLocaleDateString("en-IN", { month: "short", day: "numeric" })}, ${time}`;
+}
+
+export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
+  if (!booking) {
+    return (
+      <section className="glass flex flex-col items-center justify-center gap-3 rounded-3xl p-8 text-center">
+        <span className="material-symbols-outlined text-4xl text-on-surface-variant">
+          task_alt
+        </span>
+        <h3 className="font-display text-headline-md text-primary">No active jobs</h3>
+        <p className="max-w-sm text-on-surface-variant">
+          You don&apos;t have any bookings in progress right now. Schedule a service to get
+          started.
+        </p>
+      </section>
+    );
+  }
+
+  const meta = BOOKING_STATUS_META[booking.status];
+  const currentStep = BOOKING_PROGRESS_STEP[booking.status];
+
   return (
     <section className="glass relative overflow-hidden rounded-3xl p-8">
       <div className="absolute top-0 right-0 p-4">
-        <span className="rounded-full bg-secondary-container px-3 py-1 font-sans text-label-md text-on-secondary-container">
-          IN PROGRESS
+        <span
+          className={cn(
+            "rounded-full px-3 py-1 font-sans text-label-md",
+            meta.badgeClass,
+          )}
+        >
+          {meta.label.toUpperCase()}
         </span>
       </div>
 
@@ -25,77 +70,56 @@ export function ActiveJobCard() {
         </div>
         <div>
           <h3 className="font-display text-headline-md text-primary">
-            Current Leakage Repair
+            {booking.service?.title ?? "Service Request"}
           </h3>
           <p className="text-on-surface-variant">
-            Ticket #SLAS-8902 • Scheduled for today
+            {booking.code} • {formatScheduled(booking.scheduledAt)}
           </p>
         </div>
       </div>
 
-      <div className="mt-8 mb-10 flex items-start justify-between">
-        {STEPS.map((step, index) => (
-          <div key={step.key} className="flex flex-1 items-center">
-            <div className="flex flex-col items-center gap-2">
-              <div
-                className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full",
-                  step.current
-                    ? "border-4 border-primary/20 bg-primary text-white shadow-lg shadow-primary/20"
-                    : step.done
-                      ? "bg-primary text-white shadow-lg shadow-primary/20"
-                      : "bg-surface-container-high text-outline",
-                )}
-              >
-                <span className="material-symbols-outlined text-[20px]">
-                  {step.icon}
+      <div className="mt-8 mb-2 flex items-start justify-between">
+        {STEPS.map((step, index) => {
+          const done = index <= currentStep;
+          const current = index === currentStep;
+
+          return (
+            <div key={step.key} className="flex flex-1 items-center">
+              <div className="flex flex-col items-center gap-2">
+                <div
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-full",
+                    current
+                      ? "border-4 border-primary/20 bg-primary text-white shadow-lg shadow-primary/20"
+                      : done
+                        ? "bg-primary text-white shadow-lg shadow-primary/20"
+                        : "bg-surface-container-high text-outline",
+                  )}
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    {step.icon}
+                  </span>
+                </div>
+                <span
+                  className={cn(
+                    "text-center font-sans text-label-md",
+                    done ? "text-primary" : "text-on-surface-variant",
+                  )}
+                >
+                  {step.label}
                 </span>
               </div>
-              <span
-                className={cn(
-                  "text-center font-sans text-label-md",
-                  step.done ? "text-primary" : "text-on-surface-variant",
-                )}
-              >
-                {step.label}
-              </span>
+              {index < STEPS.length - 1 && (
+                <div
+                  className={cn(
+                    "-mt-6 h-0.5 flex-1",
+                    index < currentStep ? "bg-primary" : "bg-surface-container-high",
+                  )}
+                />
+              )}
             </div>
-            {index < STEPS.length - 1 && (
-              <div
-                className={cn(
-                  "-mt-6 h-0.5 flex-1",
-                  STEPS[index + 1]?.done || step.done
-                    ? "bg-primary"
-                    : "bg-surface-container-high",
-                )}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low p-4">
-        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full">
-          <Image
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlRY-imQ5mgtm0W1SQqAc317BZRPxbnt9VhiPk_6TFnUREU1g7bwok3Gns8Ljd6eQK8yuOEgKd-dXpGd2R1UJyXOebgRn0YXBQprPyNpse0zPcuh3TgUS1r7OmotE8mvUpNIWhYYJsZXL-YZZv2CvVCLFCkTX9qPwV_AuQdASbwPfJHvtJ3LlDWo94JEOUhdVK1TEb0SRcZ46zgDwoYbIdYR-xRLd_4PYv6AXs7TbbBdzO5YmvZaCpcliQ6lFQlT8_MnYqxoOzJIY"
-            alt="Engineer Marcus Chen"
-            width={48}
-            height={48}
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div>
-          <p className="font-bold text-primary">Engineer: Marcus Chen</p>
-          <p className="font-sans text-label-md text-on-surface-variant">
-            Estimated arrival in 15 minutes
-          </p>
-        </div>
-        <a
-          href="tel:+916742304500"
-          className="ml-auto rounded-full bg-primary p-2 text-on-primary transition-transform hover:scale-105"
-        >
-          <span className="material-symbols-outlined text-[20px]">call</span>
-        </a>
+          );
+        })}
       </div>
     </section>
   );

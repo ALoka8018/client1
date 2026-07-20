@@ -1,4 +1,4 @@
-import { ActiveJobCard } from "@/components/dashboard/ActiveJobCard";
+import { ActiveJobCardData } from "@/components/dashboard/ActiveJobCardData";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { PropertyInsight } from "@/components/dashboard/PropertyInsight";
 import { Recommendations } from "@/components/dashboard/Recommendations";
@@ -31,7 +31,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-12">
         <div className="flex flex-col gap-gutter lg:col-span-8">
-          <ActiveJobCard />
+          <ActiveJobCardData />
           <QuickActions />
         </div>
         <aside className="flex flex-col gap-gutter lg:col-span-4">

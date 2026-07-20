@@ -46,10 +46,13 @@ These have no direct user-facing value on their own but are required by multiple
 
 Lower effort, no new infra dependencies beyond Phase 0, high conversion/retention impact.
 
-### 1.1 Booking modification (reschedule/cancel)
-- `PATCH /v1/bookings/:id` — body: `{ action: 'reschedule' | 'cancel', newDate?, reason? }`.
-- Validate booking is in a cancellable/reschedulable status (e.g. not already `COMPLETED`); write a `BookingStatusEvent` row for the change; trigger 0.4 notification.
-- UI: add reschedule/cancel actions to `ActiveJobCard` and `BookingsTabs`.
+### 1.1 Booking modification (reschedule/cancel) — ✅ Implemented
+- Turned out `ActiveJobCard`/`BookingsTabs` were fully hardcoded mockups with no bookings-list endpoint at all — scope expanded to include that plumbing, not just the PATCH.
+- `GET /v1/bookings` (list, own bookings, includes service/property/invoice) and `PATCH /v1/bookings/:id` (`{ action: 'reschedule' | 'cancel', newDate?, reason? }`) in `apps/api`.
+- Status gating in `modifyBooking()` (`bookings.ts`): cancellable = `REQUESTED`/`CONFIRMED`/`ASSIGNED`/`EN_ROUTE`; reschedulable = `REQUESTED`/`CONFIRMED`/`ASSIGNED` (not `EN_ROUTE` — technician already dispatched, cancel-and-rebook instead). Cancelling voids a `PENDING` invoice (no refund flow yet, so a `PAID` invoice is left for Phase 4's admin tooling). Both write a `BookingStatusEvent` and notify via 0.4.
+- UI: `BookingsTabs`' active/completed tabs now fetch real data instead of hardcoded cards; the previously-dead "Reschedule" button is wired to an inline `datetime-local` form, a new "Cancel" action added the same way (inline reason field) — no modal component exists in `@repo/ui` so this stays inline rather than introducing new modal infra. Client shows whatever error the server returns rather than duplicating the status-gating rules (though buttons are hidden client-side too, for UX, when an action clearly wouldn't apply).
+- `ActiveJobCard` now takes an optional real `Booking` prop (empty state when there's none) instead of a hardcoded "Marcus Chen" mockup — the fake technician-contact block was dropped since no real technician-contact data exists yet (Phase 3). A small `bookingStatus.ts` util was extracted since the status→label/step mapping is now shared between `ActiveJobCard` and `BookingsTabs`. Dashboard page uses a new `ActiveJobCardData` client wrapper that fetches bookings and picks the most relevant one.
+- Verified: `apps/api/scripts/test-booking-modify.mjs` (reschedule/cancel/invoice-void/re-cancel-rejection, direct library calls) and a real HTTP round trip against the running server using an actual Supabase-issued session token for a seeded test account (list, reject-reschedule-while-EN_ROUTE, reschedule-while-CONFIRMED all confirmed). Could not visually drive the browser UI itself — no browser-automation tool was available this session — so the actual rendered pages are unverified by me; see the note below.
 
 ### 1.2 Live/verified review submission
 - Extend `Testimonial` (or add a `Review` model if you want reviews separate from curated testimonials) with `bookingId`, `rating`, `body`, `customerId`, `verified` (true only if tied to a `COMPLETED` booking).

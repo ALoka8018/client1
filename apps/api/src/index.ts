@@ -4,10 +4,15 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "@repo/logger";
 import { prisma, InvoiceStatus, UserRole } from "@repo/database";
-import { createBookingSchema, createPaymentOrderSchema, verifyPaymentSchema } from "@repo/validation";
+import {
+  createBookingSchema,
+  createPaymentOrderSchema,
+  verifyPaymentSchema,
+  modifyBookingSchema,
+} from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, type AuthEnv } from "./middleware/auth.js";
-import { createBooking } from "./lib/bookings.js";
+import { createBooking, listBookings, modifyBooking } from "./lib/bookings.js";
 import {
   createPaymentOrder,
   verifyPayment,
@@ -41,6 +46,26 @@ app.post("/v1/bookings", requireAuth, async (c) => {
 
   const booking = await createBooking(c.get("user"), parsed.data);
   return c.json(booking, 201);
+});
+
+app.get("/v1/bookings", requireAuth, async (c) => {
+  const bookings = await listBookings(c.get("user"));
+  return c.json(bookings);
+});
+
+app.patch("/v1/bookings/:id", requireAuth, async (c) => {
+  const parsed = modifyBookingSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid booking modification payload", issues: parsed.error.issues }, 400);
+  }
+
+  try {
+    const booking = await modifyBooking(c.get("user"), c.req.param("id")!, parsed.data);
+    return c.json(booking);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to modify booking" }, 400);
+  }
 });
 
 app.get("/v1/services", async (c) => {

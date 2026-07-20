@@ -33,3 +33,16 @@ export const verifyPaymentSchema = z.object({
 });
 
 export type VerifyPaymentInput = z.infer<typeof verifyPaymentSchema>;
+
+export const modifyBookingSchema = z
+  .object({
+    action: z.enum(["reschedule", "cancel"]),
+    newDate: z.coerce.date().optional(),
+    reason: z.string().min(1).optional(),
+  })
+  .refine((data) => data.action !== "reschedule" || data.newDate, {
+    message: "newDate is required to reschedule a booking",
+    path: ["newDate"],
+  });
+
+export type ModifyBookingInput = z.infer<typeof modifyBookingSchema>;
