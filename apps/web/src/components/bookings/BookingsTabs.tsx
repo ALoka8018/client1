@@ -6,6 +6,7 @@ import { Button } from "@repo/ui/Button";
 import { Input, Textarea } from "@repo/ui/Input";
 import { createClient } from "@/lib/supabase/client";
 import { PayNowButton } from "@/components/payments/PayNowButton";
+import { ReviewAction } from "@/components/bookings/ReviewAction";
 import {
   type BookingStatus,
   RESCHEDULABLE_STATUSES,
@@ -36,6 +37,7 @@ type Booking = {
   service: { title: string } | null;
   property: { addressLine: string; city: string };
   invoice: { id: string; number: string; status: InvoiceStatus; amount: string } | null;
+  review: { id: string; rating: number } | null;
 };
 
 const currencyFormatter = new Intl.NumberFormat("en-IN", {
@@ -188,6 +190,10 @@ export function BookingsTabs() {
       cancelled = true;
     };
   }, [tab, invoicesFetched]);
+
+  const markReviewSubmitted = (bookingId: string, review: { id: string; rating: number }) => {
+    setBookings((prev) => prev.map((b) => (b.id === bookingId ? { ...b, review } : b)));
+  };
 
   const markInvoicePaid = (invoiceId: string) => {
     setInvoices((prev) =>
@@ -467,16 +473,23 @@ export function BookingsTabs() {
                     </p>
                   </div>
                 </div>
-                {booking.invoice && (
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-primary">
-                      {currencyFormatter.format(Number(booking.invoice.amount))}
-                    </p>
-                    <p className="text-xs text-on-surface-variant">
-                      {booking.invoice.status === "PAID" ? "Paid" : booking.invoice.status}
-                    </p>
-                  </div>
-                )}
+                <div className="flex flex-col items-end gap-3 md:flex-row md:items-center md:gap-6">
+                  {booking.invoice && (
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-primary">
+                        {currencyFormatter.format(Number(booking.invoice.amount))}
+                      </p>
+                      <p className="text-xs text-on-surface-variant">
+                        {booking.invoice.status === "PAID" ? "Paid" : booking.invoice.status}
+                      </p>
+                    </div>
+                  )}
+                  <ReviewAction
+                    bookingId={booking.id}
+                    existingReview={booking.review}
+                    onSubmitted={(review) => markReviewSubmitted(booking.id, review)}
+                  />
+                </div>
               </div>
             ))
           )}

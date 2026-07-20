@@ -9,6 +9,7 @@ import {
   createPaymentOrderSchema,
   verifyPaymentSchema,
   modifyBookingSchema,
+  createReviewSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, type AuthEnv } from "./middleware/auth.js";
@@ -20,6 +21,7 @@ import {
   processRazorpayWebhook,
 } from "./lib/payments.js";
 import { generateAndStoreInvoicePdf, closePdfBrowser } from "./lib/invoice-pdf.js";
+import { createReview, listReviews, serviceReviewAggregates } from "./lib/reviews.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -74,7 +76,41 @@ app.get("/v1/services", async (c) => {
     include: { category: true },
     orderBy: [{ title: "asc" }],
   });
-  return c.json(services);
+
+  const aggregates = await serviceReviewAggregates();
+
+  const withReviewStats = services.map((service) => {
+    const stats = aggregates.get(service.id);
+    return {
+      ...service,
+      reviewCount: stats?.count ?? 0,
+      // Fall back to the curated seed rating until a service has real reviews.
+      averageRating: stats ? stats.average : Number(service.rating),
+    };
+  });
+
+  return c.json(withReviewStats);
+});
+
+app.post("/v1/reviews", requireAuth, async (c) => {
+  const parsed = createReviewSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid review payload", issues: parsed.error.issues }, 400);
+  }
+
+  try {
+    const review = await createReview(c.get("user"), parsed.data);
+    return c.json(review, 201);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to submit review" }, 400);
+  }
+});
+
+app.get("/v1/reviews", async (c) => {
+  const serviceId = c.req.query("serviceId");
+  const result = await listReviews(serviceId);
+  return c.json(result);
 });
 
 app.get("/v1/invoices", requireAuth, async (c) => {

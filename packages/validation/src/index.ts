@@ -46,3 +46,11 @@ export const modifyBookingSchema = z
   });
 
 export type ModifyBookingInput = z.infer<typeof modifyBookingSchema>;
+
+export const createReviewSchema = z.object({
+  bookingId: z.string().min(1),
+  rating: z.number().int().min(1).max(5),
+  body: z.string().min(1),
+});
+
+export type CreateReviewInput = z.infer<typeof createReviewSchema>;
