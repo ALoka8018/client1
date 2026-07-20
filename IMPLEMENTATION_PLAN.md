@@ -23,10 +23,12 @@ These have no direct user-facing value on their own but are required by multiple
 - Verified end-to-end against the real GCS bucket (`apps/api/scripts/test-invoice-pdf.mjs`): generate → upload → signed-download → valid `%PDF-` bytes → delete.
 - Needed by: document vault, bookings invoice download (already referenced in UI but not backed).
 
-### 0.3 Payment webhooks
-- Add `POST /v1/payments/webhook` in `apps/api` verifying Razorpay's webhook signature (separate secret from checkout HMAC).
-- On `payment.captured`/`payment.failed` events, update `Invoice.status` server-side — makes payment state authoritative even if the client never calls `/v1/payments/verify` (tab closed, network drop).
-- Idempotent by Razorpay event ID to avoid double-processing.
+### 0.3 Payment webhooks — ✅ Implemented
+- `POST /v1/payments/webhook` (no bearer auth — authenticated by verifying Razorpay's signature instead, via a separate `RAZORPAY_WEBHOOK_SECRET` from the checkout HMAC secret). Reads the raw body text before any JSON parsing so the HMAC is computed over Razorpay's exact bytes.
+- Idempotent via a new `WebhookEvent` model keyed on `` `${event}:${payment.id}` `` (unique constraint) — a duplicate delivery just returns `"already processed"` without reprocessing.
+- `payment.captured` marks the invoice `PAID` + generates its PDF through a shared `markInvoicePaid()` (extracted out of `verifyPayment` in `payments.ts`) — idempotent regardless of whether the client's `/v1/payments/verify` call or this webhook lands first. `payment.failed` is logged only; invoice stays `PENDING` so the customer can retry checkout. Other event types are acknowledged and ignored.
+- Verified against a real running server (`apps/api/scripts/test-payment-webhook.mjs`): missing/invalid signatures rejected with 400, `payment.captured` flips status + generates the PDF, a duplicate delivery is caught by the idempotency guard, `payment.failed` is a no-op on invoice state.
+- **Still needed from you:** add the webhook in the Razorpay Dashboard (Settings → Webhooks) pointing at `<public-api-url>/v1/payments/webhook`, select `payment.captured` + `payment.failed`, and set the webhook secret there to match `RAZORPAY_WEBHOOK_SECRET` in `.env` (currently a locally-generated placeholder). Needs a public URL (deployed API, or an ngrok tunnel for testing) since Razorpay can't reach `localhost`.
 
 ### 0.4 Notification infrastructure
 - A single internal `notify(userId, type, payload)` service in `apps/api` that fans out to whatever channels are configured (email now via existing `mailer.ts`; SMS/WhatsApp later — stub the interface, don't build SMS yet unless you want it now).

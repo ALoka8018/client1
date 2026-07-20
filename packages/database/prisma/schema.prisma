@@ -222,6 +222,15 @@ model Invoice {
   @@index([status])
 }
 
+model WebhookEvent {
+  id        String   @id @default(cuid())
+  provider  String
+  eventId   String
+  createdAt DateTime @default(now())
+
+  @@unique([provider, eventId])
+}
+
 model PaymentMethod {
   id            String   @id @default(cuid())
   userId        String

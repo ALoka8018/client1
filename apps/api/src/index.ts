@@ -8,7 +8,12 @@ import { createBookingSchema, createPaymentOrderSchema, verifyPaymentSchema } fr
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, type AuthEnv } from "./middleware/auth.js";
 import { createBooking } from "./lib/bookings.js";
-import { createPaymentOrder, verifyPayment } from "./lib/payments.js";
+import {
+  createPaymentOrder,
+  verifyPayment,
+  verifyWebhookSignature,
+  processRazorpayWebhook,
+} from "./lib/payments.js";
 import { generateAndStoreInvoicePdf, closePdfBrowser } from "./lib/invoice-pdf.js";
 
 const app = new Hono<AuthEnv>();
@@ -119,6 +124,30 @@ app.post("/v1/payments/verify", requireAuth, async (c) => {
     return c.json(invoice);
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : "Unable to verify payment" }, 400);
+  }
+});
+
+app.post("/v1/payments/webhook", async (c) => {
+  const rawBody = await c.req.text();
+  const signature = c.req.header("x-razorpay-signature");
+
+  if (!verifyWebhookSignature(rawBody, signature)) {
+    return c.json({ error: "Invalid webhook signature" }, 400);
+  }
+
+  let payload: unknown;
+  try {
+    payload = JSON.parse(rawBody);
+  } catch {
+    return c.json({ error: "Invalid JSON payload" }, 400);
+  }
+
+  try {
+    const result = await processRazorpayWebhook(payload);
+    return c.json(result);
+  } catch (err) {
+    logger.error(`Failed to process Razorpay webhook: ${err}`);
+    return c.json({ error: "Webhook processing failed" }, 500);
   }
 });
 

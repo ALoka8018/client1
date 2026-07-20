@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { prisma, InvoiceStatus, type Invoice, type User } from "@repo/database";
+import { prisma, Prisma, InvoiceStatus, type Invoice, type User } from "@repo/database";
 import { razorpay } from "./razorpay.js";
 import { generateAndStoreInvoicePdf } from "./invoice-pdf.js";
 import { logger } from "@repo/logger";
@@ -40,6 +40,40 @@ export async function createPaymentOrder(user: User, invoiceId: string) {
   };
 }
 
+/**
+ * Marks an invoice PAID and generates its PDF. Idempotent — called from both
+ * the client's /v1/payments/verify confirmation and the payment.captured
+ * webhook, whichever arrives first; the other becomes a no-op.
+ */
+async function markInvoicePaid(
+  invoiceId: string,
+  payment: { razorpayPaymentId: string; razorpaySignature?: string },
+): Promise<Invoice> {
+  const invoice = await prisma.invoice.findUniqueOrThrow({ where: { id: invoiceId } });
+
+  if (invoice.status === InvoiceStatus.PAID) {
+    return invoice;
+  }
+
+  const paidInvoice = await prisma.invoice.update({
+    where: { id: invoice.id },
+    data: {
+      status: InvoiceStatus.PAID,
+      paidAt: new Date(),
+      razorpayPaymentId: payment.razorpayPaymentId,
+      razorpaySignature: payment.razorpaySignature,
+    },
+  });
+
+  try {
+    await generateAndStoreInvoicePdf(paidInvoice.id);
+  } catch (err) {
+    logger.error(`Failed to generate invoice PDF for ${paidInvoice.number}: ${err}`);
+  }
+
+  return paidInvoice;
+}
+
 export async function verifyPayment(
   user: User,
   payload: { razorpayOrderId: string; razorpayPaymentId: string; razorpaySignature: string },
@@ -68,21 +102,92 @@ export async function verifyPayment(
     throw new Error("Payment signature verification failed");
   }
 
-  const paidInvoice = await prisma.invoice.update({
-    where: { id: invoice.id },
-    data: {
-      status: InvoiceStatus.PAID,
-      paidAt: new Date(),
-      razorpayPaymentId: payload.razorpayPaymentId,
-      razorpaySignature: payload.razorpaySignature,
-    },
+  return markInvoicePaid(invoice.id, {
+    razorpayPaymentId: payload.razorpayPaymentId,
+    razorpaySignature: payload.razorpaySignature,
   });
+}
 
-  try {
-    await generateAndStoreInvoicePdf(paidInvoice.id);
-  } catch (err) {
-    logger.error(`Failed to generate invoice PDF for ${paidInvoice.number}: ${err}`);
+export function verifyWebhookSignature(rawBody: string, signature: string | undefined): boolean {
+  if (!signature) return false;
+
+  const expectedSignature = crypto
+    .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET ?? "")
+    .update(rawBody)
+    .digest("hex");
+
+  const expectedBuffer = Buffer.from(expectedSignature);
+  const actualBuffer = Buffer.from(signature);
+
+  return (
+    expectedBuffer.length === actualBuffer.length &&
+    crypto.timingSafeEqual(expectedBuffer, actualBuffer)
+  );
+}
+
+interface RazorpayPaymentEntity {
+  id: string;
+  order_id: string;
+  status: string;
+}
+
+interface RazorpayWebhookPayload {
+  event: string;
+  payload?: {
+    payment?: {
+      entity: RazorpayPaymentEntity;
+    };
+  };
+}
+
+function isWebhookPayload(value: unknown): value is RazorpayWebhookPayload {
+  return typeof value === "object" && value !== null && "event" in value;
+}
+
+export async function processRazorpayWebhook(rawPayload: unknown): Promise<{ status: string }> {
+  if (!isWebhookPayload(rawPayload)) {
+    return { status: "ignored" };
   }
 
-  return paidInvoice;
+  const paymentEntity = rawPayload.payload?.payment?.entity;
+
+  if (!paymentEntity) {
+    return { status: "ignored" };
+  }
+
+  const eventId = `${rawPayload.event}:${paymentEntity.id}`;
+
+  try {
+    await prisma.webhookEvent.create({ data: { provider: "razorpay", eventId } });
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+      return { status: "already processed" };
+    }
+    throw err;
+  }
+
+  if (rawPayload.event === "payment.captured") {
+    const invoice = await prisma.invoice.findFirst({
+      where: { razorpayOrderId: paymentEntity.order_id },
+    });
+
+    if (!invoice) {
+      logger.error(
+        `payment.captured webhook for unknown order ${paymentEntity.order_id} (payment ${paymentEntity.id})`,
+      );
+      return { status: "invoice not found" };
+    }
+
+    await markInvoicePaid(invoice.id, { razorpayPaymentId: paymentEntity.id });
+    return { status: "processed" };
+  }
+
+  if (rawPayload.event === "payment.failed") {
+    logger.error(
+      `payment.failed webhook for order ${paymentEntity.order_id} (payment ${paymentEntity.id})`,
+    );
+    return { status: "processed" };
+  }
+
+  return { status: "ignored" };
 }
