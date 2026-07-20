@@ -30,10 +30,13 @@ These have no direct user-facing value on their own but are required by multiple
 - Verified against a real running server (`apps/api/scripts/test-payment-webhook.mjs`): missing/invalid signatures rejected with 400, `payment.captured` flips status + generates the PDF, a duplicate delivery is caught by the idempotency guard, `payment.failed` is a no-op on invoice state.
 - **Still needed from you:** add the webhook in the Razorpay Dashboard (Settings → Webhooks) pointing at `<public-api-url>/v1/payments/webhook`, select `payment.captured` + `payment.failed`, and set the webhook secret there to match `RAZORPAY_WEBHOOK_SECRET` in `.env` (currently a locally-generated placeholder). Needs a public URL (deployed API, or an ngrok tunnel for testing) since Razorpay can't reach `localhost`.
 
-### 0.4 Notification infrastructure
-- A single internal `notify(userId, type, payload)` service in `apps/api` that fans out to whatever channels are configured (email now via existing `mailer.ts`; SMS/WhatsApp later — stub the interface, don't build SMS yet unless you want it now).
-- Add a `Notification` Prisma model (id, userId, type, title, body, read, createdAt) so the in-app notification center (Phase 2) has something to read from.
-- Call sites to wire immediately: booking status change, invoice paid, support ticket reply.
+### 0.4 Notification infrastructure — ✅ Implemented
+- `notify(userId, type, { title, body, email? })` in `apps/api/src/lib/notifications.ts` — always writes a `Notification` row; if an `email` payload is passed, sends it via the existing `mailer.ts` (failure is caught/logged, never blocks the caller). SMS/WhatsApp not built — `notify()` is the extension point when that's wanted.
+- `Notification` Prisma model (`id`, `userId`, `type` — plain `String`, not an enum, since new types will keep appearing every phase — `title`, `body`, `read`, `createdAt`), indexed on `userId` for Phase 2.2's notification center to query later.
+- Wired call sites: `createBooking` (`bookings.ts`) now routes its confirmation through `notify()` instead of calling `sendMail` directly, so it also creates the in-app row; `markInvoicePaid` (`payments.ts`) notifies on `INVOICE_PAID`.
+- **Not wired:** support-ticket-reply — that feature (Phase 2.5) doesn't exist yet. Wire `notify(userId, "SUPPORT_TICKET_REPLY", ...)` when building it.
+- API exposure (`GET`/`PATCH /v1/notifications`) is intentionally **not** built here — that's Phase 2.2 (the bell/dropdown UI); this phase only lays the pipe.
+- Verified via `apps/api/scripts/test-notifications.mjs`: real `createBooking()` call produces a `BOOKING_STATUS_CHANGED` row, a simulated `payment.captured` webhook produces an `INVOICE_PAID` row, invoice ends up `PAID`.
 
 **Phase 0 effort:** M–L (storage + PDF + webhook + notification model). Do 0.1 and 0.4 first — they unblock the most downstream work.
 

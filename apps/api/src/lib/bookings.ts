@@ -1,6 +1,6 @@
 import { prisma, InvoiceStatus, type Booking, type Invoice, type User } from "@repo/database";
 import type { CreateBookingInput } from "@repo/validation";
-import { sendMail } from "./mailer.js";
+import { notify, NotificationType } from "./notifications.js";
 import { logger } from "@repo/logger";
 
 function generateBookingCode() {
@@ -34,26 +34,30 @@ async function findOrCreateProperty(user: User, input: CreateBookingInput) {
   });
 }
 
-function bookingConfirmationEmail(booking: Booking, user: User) {
+function bookingConfirmationNotification(booking: Booking, user: User) {
   const scheduledLabel = booking.scheduledAt.toLocaleString("en-IN", {
     dateStyle: "full",
     timeStyle: "short",
   });
 
   return {
-    subject: `Booking Confirmed — ${booking.code}`,
-    html: `
-      <p>Hi ${user.name},</p>
-      <p>Your service request has been received. Here are the details:</p>
-      <ul>
-        <li><strong>Booking code:</strong> ${booking.code}</li>
-        <li><strong>Scheduled for:</strong> ${scheduledLabel}</li>
-        <li><strong>Issue:</strong> ${booking.problemDescription}</li>
-      </ul>
-      <p>Our team will confirm your visit shortly by phone or email.</p>
-      <p>— Seepage Leakage All Solutions</p>
-    `,
-    text: `Hi ${user.name}, your booking ${booking.code} is scheduled for ${scheduledLabel}. Issue: ${booking.problemDescription}`,
+    title: `Booking confirmed — ${booking.code}`,
+    body: `Scheduled for ${scheduledLabel}.`,
+    email: {
+      subject: `Booking Confirmed — ${booking.code}`,
+      html: `
+        <p>Hi ${user.name},</p>
+        <p>Your service request has been received. Here are the details:</p>
+        <ul>
+          <li><strong>Booking code:</strong> ${booking.code}</li>
+          <li><strong>Scheduled for:</strong> ${scheduledLabel}</li>
+          <li><strong>Issue:</strong> ${booking.problemDescription}</li>
+        </ul>
+        <p>Our team will confirm your visit shortly by phone or email.</p>
+        <p>— Seepage Leakage All Solutions</p>
+      `,
+      text: `Hi ${user.name}, your booking ${booking.code} is scheduled for ${scheduledLabel}. Issue: ${booking.problemDescription}`,
+    },
   };
 }
 
@@ -101,10 +105,13 @@ export async function createBooking(
   }
 
   try {
-    const { subject, html, text } = bookingConfirmationEmail(booking, user);
-    await sendMail({ to: user.email, subject, html, text });
+    await notify(
+      user.id,
+      NotificationType.BOOKING_STATUS_CHANGED,
+      bookingConfirmationNotification(booking, user),
+    );
   } catch (err) {
-    logger.error(`Failed to send booking confirmation email for ${booking.code}: ${err}`);
+    logger.error(`Failed to send booking confirmation notification for ${booking.code}: ${err}`);
   }
 
   return { ...booking, invoice };

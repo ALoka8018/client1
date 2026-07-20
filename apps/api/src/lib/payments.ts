@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import { prisma, Prisma, InvoiceStatus, type Invoice, type User } from "@repo/database";
 import { razorpay } from "./razorpay.js";
 import { generateAndStoreInvoicePdf } from "./invoice-pdf.js";
+import { notify, NotificationType } from "./notifications.js";
 import { logger } from "@repo/logger";
 
 export async function createPaymentOrder(user: User, invoiceId: string) {
@@ -69,6 +70,24 @@ async function markInvoicePaid(
     await generateAndStoreInvoicePdf(paidInvoice.id);
   } catch (err) {
     logger.error(`Failed to generate invoice PDF for ${paidInvoice.number}: ${err}`);
+  }
+
+  try {
+    await notify(paidInvoice.userId, NotificationType.INVOICE_PAID, {
+      title: `Payment received — ${paidInvoice.number}`,
+      body: `We've received your payment for invoice ${paidInvoice.number}. Your receipt is ready in the portal.`,
+      email: {
+        subject: `Payment Confirmed — ${paidInvoice.number}`,
+        html: `
+          <p>Thanks for your payment.</p>
+          <p>Invoice <strong>${paidInvoice.number}</strong> is now marked as paid. You can download your invoice PDF from your account portal.</p>
+          <p>— Seepage Leakage All Solutions</p>
+        `,
+        text: `Invoice ${paidInvoice.number} is now paid. Download your invoice from the portal.`,
+      },
+    });
+  } catch (err) {
+    logger.error(`Failed to send invoice paid notification for ${paidInvoice.number}: ${err}`);
   }
 
   return paidInvoice;
