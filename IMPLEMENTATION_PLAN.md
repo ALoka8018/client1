@@ -71,9 +71,11 @@ Lower effort, no new infra dependencies beyond Phase 0, high conversion/retentio
 - Placed on the homepage (right after `Hero`, before `TrustIndicators` — an early qualifying step) and on `/book` (between `BookingHero` and the form grid, as an explicit pre-form gate).
 - Verified: `pnpm exec tsc --noEmit` and `eslint` clean; a full production build (`next build`) succeeds across all 23 routes including `/book` and `/services/explore`; confirmed the widget's copy actually renders via `curl` against the live dev server (homepage is public/unauthenticated, so this exercised real SSR, not just a type-check).
 
-### 1.4 Instant estimate calculator
-- Client-side only to start: a form (property size, severity, service type) mapped to a static pricing table already implicit in `/services/explore`'s listed prices. No backend required for v1 — just clear that estimates are "starting from" ranges, not quotes.
-- If you want it dynamic/logged later, add `POST /v1/estimates` to persist submissions as leads.
+### 1.4 Instant estimate calculator — ✅ Implemented
+- Client-side only, no backend — `EstimateCalculator.tsx` fetches the real `GET /v1/services` list (same pattern as `Marketplace`/`BookingForm`) and multiplies `service.priceAmount` by static size (0.8/1.0/1.5×) and severity (0.9/1.0/1.35×) multipliers, showing an instant ±15% range as the selections change (no submit step). Clearly labeled "starting-from estimate, not a final quote."
+- Placed on `/services/explore` between `ExploreHero` and `Marketplace` — a lead-in gate before browsing the full pricing table.
+- `POST /v1/estimates` (persisting submissions as leads) intentionally not built — explicitly a "later, if wanted" per the plan, not v1.
+- Verified: `tsc`/`eslint` clean, full `next build` succeeds, live SSR render confirmed via `curl` against the running dev server, and the multiplier math sanity-checked against a real seeded service (₹18,000 base → large+severe range ₹30,983–₹41,918, correctly above the base price).
 
 ### 1.5 WhatsApp / live chat widget
 - Simplest version: a floating button linking to `https://wa.me/<number>?text=<prefilled message>` — no backend, no new dependency. Ship this first.
