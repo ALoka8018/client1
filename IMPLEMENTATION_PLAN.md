@@ -64,9 +64,12 @@ Lower effort, no new infra dependencies beyond Phase 0, high conversion/retentio
 - `BookingsTabs`' completed tab gets a new `ReviewAction` component: star picker + body textarea inline, or a read-only "Your review ★★★★★" display once submitted.
 - Verified: `apps/api/scripts/test-reviews.mjs` (gating, verified flag, duplicate rejection, aggregate math, direct library calls) plus a real HTTP round trip against the running server with an actual Supabase session token (create → 201, duplicate → 400, public list reflects it). Browser UI itself not visually verified by me — no browser-automation tool available this session.
 
-### 1.3 Service area check
-- No new backend needed if the four service cities are a static list — a simple client-side/API lookup (`GET /v1/service-areas?city=`) returning coverage + estimated response time.
-- Surface it as a small widget on `/` and before the `/book` form to filter out out-of-area leads early.
+### 1.3 Service area check — ✅ Implemented
+- Client-side only, no API endpoint — `apps/web/src/lib/serviceAreas.ts` is a plain constant list (4 cities + response-time label); a `GET /v1/service-areas` wrapping the same static array would've added nothing over what `BookingForm`'s city list already did as a constant.
+- Found and fixed a real data bug while wiring this: `ServiceZoneMap.tsx` (on `/book`) listed `["Bhubaneswar", "Cuttack", "Puri", "Khordha"]` — inconsistent with `BookingForm.tsx`'s `[..., "Rourkela", "Other"]`, and Khordha is the *district containing* Bhubaneswar, not a separate service city. Both now consume the same `SERVICE_AREA_CITIES` source.
+- New `ServiceAreaCheck` component: a select (not free-text — only 4 real cities, no fuzzy-matching needed) with an instant result via `@repo/ui`'s `Badge` — covered shows the response-time label + a "Book Now" CTA; not-yet-covered still invites booking anyway ("we're expanding") rather than hard-blocking the lead, per the plan's "reduce bounce" framing.
+- Placed on the homepage (right after `Hero`, before `TrustIndicators` — an early qualifying step) and on `/book` (between `BookingHero` and the form grid, as an explicit pre-form gate).
+- Verified: `pnpm exec tsc --noEmit` and `eslint` clean; a full production build (`next build`) succeeds across all 23 routes including `/book` and `/services/explore`; confirmed the widget's copy actually renders via `curl` against the live dev server (homepage is public/unauthenticated, so this exercised real SSR, not just a type-check).
 
 ### 1.4 Instant estimate calculator
 - Client-side only to start: a form (property size, severity, service type) mapped to a static pricing table already implicit in `/services/explore`'s listed prices. No backend required for v1 — just clear that estimates are "starting from" ranges, not quotes.

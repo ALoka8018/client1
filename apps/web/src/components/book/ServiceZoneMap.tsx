@@ -1,6 +1,5 @@
 import Image from "next/image";
-
-const CITIES = ["Bhubaneswar", "Cuttack", "Puri", "Khordha"];
+import { SERVICE_AREA_CITIES } from "@/lib/serviceAreas";
 
 export function ServiceZoneMap() {
   return (
@@ -52,7 +51,7 @@ export function ServiceZoneMap() {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        {CITIES.map((city) => (
+        {SERVICE_AREA_CITIES.map((city) => (
           <span
             key={city}
             className="rounded-full border border-outline-variant bg-surface-container px-4 py-1.5 text-xs font-bold text-on-surface-variant"

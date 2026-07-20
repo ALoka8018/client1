@@ -3,6 +3,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PayNowButton } from "@/components/payments/PayNowButton";
+import { SERVICE_AREA_CITIES } from "@/lib/serviceAreas";
 
 type Service = {
   id: string;
@@ -34,7 +35,7 @@ const PROPERTY_TYPE_LABELS: Record<(typeof PROPERTY_TYPES)[number], string> = {
   INDUSTRIAL: "Industrial",
   INFRASTRUCTURE: "Infrastructure",
 };
-const CITIES = ["Bhubaneswar", "Cuttack", "Puri", "Rourkela", "Other"];
+const CITIES = [...SERVICE_AREA_CITIES, "Other"];
 
 const fieldClasses =
   "w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none transition-all focus:ring-2 focus:ring-primary/20 appearance-none";
