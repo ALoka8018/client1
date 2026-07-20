@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@repo/ui/cn";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 const DEFAULT_NAV_ITEMS = [
   { href: "/", label: "Home", icon: "home" },
   { href: "/services", label: "Services", icon: "construction" },
   { href: "/book", label: "Quote", icon: "calendar_today" },
-  { href: "/contact", label: "WhatsApp", icon: "chat" },
+  { href: getWhatsAppUrl(), label: "WhatsApp", icon: "chat" },
 ];
 
 export interface MobileBottomNavProps {

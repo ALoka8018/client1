@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 
 const PORTAL_NAV_LINKS = [
   { href: "/dashboard", label: "Home" },
@@ -30,6 +31,7 @@ export default function PortalLayout({
       <main className="flex-1 pt-16 pb-24 md:pb-0">{children}</main>
       <Footer />
       <MobileBottomNav items={PORTAL_BOTTOM_NAV_ITEMS} />
+      <WhatsAppWidget />
     </>
   );
 }

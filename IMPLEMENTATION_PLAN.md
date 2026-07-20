@@ -77,9 +77,12 @@ Lower effort, no new infra dependencies beyond Phase 0, high conversion/retentio
 - `POST /v1/estimates` (persisting submissions as leads) intentionally not built — explicitly a "later, if wanted" per the plan, not v1.
 - Verified: `tsc`/`eslint` clean, full `next build` succeeds, live SSR render confirmed via `curl` against the running dev server, and the multiplier math sanity-checked against a real seeded service (₹18,000 base → large+severe range ₹30,983–₹41,918, correctly above the base price).
 
-### 1.5 WhatsApp / live chat widget
-- Simplest version: a floating button linking to `https://wa.me/<number>?text=<prefilled message>` — no backend, no new dependency. Ship this first.
-- If a true in-app chat is wanted later, that's a much bigger scope (needs a chat provider or custom WebSocket infra) — treat as a separate, later decision, not bundled here.
+### 1.5 WhatsApp / live chat widget — ✅ Implemented
+- Floating `WhatsAppWidget` linking to `https://wa.me/<number>?text=<prefilled message>`, mounted in both `(marketing)/layout.tsx` and `(portal)/layout.tsx` (positioned above `MobileBottomNav` on mobile). No backend, no new dependency.
+- Number/message logic extracted into `lib/whatsapp.ts` (`getWhatsAppUrl()`) — found and fixed **two other spots that needed the same fix**: `MobileBottomNav`'s "WhatsApp" nav item was a dead/mislabeled link pointing at `/contact` (which has no WhatsApp functionality at all), and `ContactDetails.tsx` had the number hardcoded a second time. All three now read from one source.
+- Uses the site's existing `secondary` accent token rather than WhatsApp's brand green — the codebase doesn't use raw brand hex colors anywhere, and `ContactDetails.tsx` already treated WhatsApp as a `secondary`-accented item.
+- In-app live chat (real-time, needs a chat provider or WebSocket infra) intentionally not built — explicitly a bigger, separate decision per the plan, not v1.
+- Verified: `tsc`/`eslint` clean, full `next build` succeeds across all 23 routes, and the rendered deep link confirmed correct via `curl` against the live dev server (`wa.me/919437000000?text=...`, properly URL-encoded).
 
 **Phase 1 effort:** S–M per item; can be built in parallel by different people since they touch mostly-disjoint files.
 

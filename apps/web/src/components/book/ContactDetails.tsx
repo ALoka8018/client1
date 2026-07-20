@@ -1,3 +1,5 @@
+import { getWhatsAppUrl } from "@/lib/whatsapp";
+
 const CONTACTS = [
   {
     icon: "call",
@@ -11,7 +13,7 @@ const CONTACTS = [
     icon: "chat",
     label: "WhatsApp Support",
     value: "+91 94370 00000",
-    href: "https://wa.me/919437000000",
+    href: getWhatsAppUrl(),
     accent: "secondary" as const,
     valueClassName: "font-display text-headline-md text-on-surface",
   },
