@@ -3,11 +3,13 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "@repo/logger";
-import { prisma } from "@repo/database";
+import { prisma, InvoiceStatus, UserRole } from "@repo/database";
 import { createBookingSchema, createPaymentOrderSchema, verifyPaymentSchema } from "@repo/validation";
+import { createStorageDriver } from "@repo/storage";
 import { requireAuth, type AuthEnv } from "./middleware/auth.js";
 import { createBooking } from "./lib/bookings.js";
 import { createPaymentOrder, verifyPayment } from "./lib/payments.js";
+import { generateAndStoreInvoicePdf, closePdfBrowser } from "./lib/invoice-pdf.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -54,6 +56,42 @@ app.get("/v1/invoices", requireAuth, async (c) => {
   return c.json(invoices);
 });
 
+app.get("/v1/invoices/:number/pdf", requireAuth, async (c) => {
+  const user = c.get("user");
+  const number = c.req.param("number");
+
+  const invoice = await prisma.invoice.findUnique({ where: { number } });
+
+  if (!invoice || (invoice.userId !== user.id && user.role !== UserRole.ADMIN)) {
+    return c.json({ error: "Invoice not found" }, 404);
+  }
+
+  if (invoice.status !== InvoiceStatus.PAID) {
+    return c.json({ error: "Invoice PDF is not available until payment is confirmed" }, 404);
+  }
+
+  let pdfKey = invoice.pdfKey;
+
+  if (!pdfKey) {
+    try {
+      pdfKey = await generateAndStoreInvoicePdf(invoice.id);
+    } catch (err) {
+      return c.json(
+        { error: err instanceof Error ? err.message : "Unable to generate invoice PDF" },
+        500,
+      );
+    }
+  }
+
+  const expiresInSeconds = 5 * 60;
+  const url = await createStorageDriver().getUrl(pdfKey, {
+    expiresInSeconds,
+    downloadFilename: `${invoice.number}.pdf`,
+  });
+
+  return c.json({ url, expiresAt: new Date(Date.now() + expiresInSeconds * 1000).toISOString() });
+});
+
 app.post("/v1/payments/orders", requireAuth, async (c) => {
   const parsed = createPaymentOrderSchema.safeParse(await c.req.json());
 
@@ -89,3 +127,10 @@ const port = Number(process.env.PORT ?? 4000);
 serve({ fetch: app.fetch, port }, (info) => {
   logger.info(`api listening on http://localhost:${info.port}`);
 });
+
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+  process.on(signal, async () => {
+    await closePdfBrowser();
+    process.exit(0);
+  });
+}

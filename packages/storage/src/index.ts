@@ -6,6 +6,8 @@ export interface GetUrlOptions {
   /** Defaults to true — every object is private, so a signed URL is the normal way to read it back. */
   signed?: boolean;
   expiresInSeconds?: number;
+  /** When set, the signed URL forces a browser download with this filename instead of inline display. */
+  downloadFilename?: string;
 }
 
 export interface UploadResult {

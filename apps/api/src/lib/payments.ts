@@ -1,6 +1,8 @@
 import crypto from "node:crypto";
 import { prisma, InvoiceStatus, type Invoice, type User } from "@repo/database";
 import { razorpay } from "./razorpay.js";
+import { generateAndStoreInvoicePdf } from "./invoice-pdf.js";
+import { logger } from "@repo/logger";
 
 export async function createPaymentOrder(user: User, invoiceId: string) {
   const invoice = await prisma.invoice.findFirst({
@@ -66,7 +68,7 @@ export async function verifyPayment(
     throw new Error("Payment signature verification failed");
   }
 
-  return prisma.invoice.update({
+  const paidInvoice = await prisma.invoice.update({
     where: { id: invoice.id },
     data: {
       status: InvoiceStatus.PAID,
@@ -75,4 +77,12 @@ export async function verifyPayment(
       razorpaySignature: payload.razorpaySignature,
     },
   });
+
+  try {
+    await generateAndStoreInvoicePdf(paidInvoice.id);
+  } catch (err) {
+    logger.error(`Failed to generate invoice PDF for ${paidInvoice.number}: ${err}`);
+  }
+
+  return paidInvoice;
 }

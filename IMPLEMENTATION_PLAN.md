@@ -10,14 +10,17 @@ Stack reminders used throughout: Next.js App Router (`apps/web`), Hono API (`app
 
 These have no direct user-facing value on their own but are required by multiple later features. Build first.
 
-### 0.1 Real file storage backend
-- Replace the in-memory `StorageDriver` in `packages/storage` with a real implementation — Supabase Storage is the path of least resistance since Supabase Auth/DB are already in use (avoids adding a new vendor).
-- Interface stays the same (`upload`, `getUrl`, `delete`) so callers don't change; only the driver implementation swaps.
-- Needed by: before/after photo gallery, document vault, technician job photos, blog images.
+### 0.1 Real file storage backend — ✅ Implemented
+- Replaced the in-memory-only `StorageDriver` in `packages/storage` with a real Google Cloud Storage implementation (`GcsStorage`), selected at runtime via `createStorageDriver()` (falls back to in-memory when GCS env vars aren't set — local dev/tests).
+- Interface: `upload(key, data, opts)`, `getUrl(key, opts)` (private objects, signed URLs, 15 min default TTL), `delete(key)`.
+- Verified with a live round-trip against the real bucket (`apps/api/scripts/test-storage.mjs`).
+- Needed by: before/after photo gallery, document vault, technician job photos, blog images, **0.2 invoice PDFs**.
 
-### 0.2 Invoice/report PDF generation
-- Add a PDF generation step (e.g. `@react-pdf/renderer` or `puppeteer`-free HTML→PDF via a lightweight lib) triggered when an `Invoice` is marked `PAID`.
-- Store the generated PDF via 0.1's storage driver, save the URL on the `Invoice` row.
+### 0.2 Invoice/report PDF generation — ✅ Implemented
+- Server-side only: `apps/api/src/lib/invoice-pdf.ts` renders an HTML invoice (inline CSS, no external assets) and prints it to PDF via headless Puppeteer, triggered from `verifyPayment()` right after an `Invoice` flips to `PAID`. A PDF generation failure is caught/logged and never fails the payment confirmation itself.
+- Stored via 0.1's `createStorageDriver()` under `invoices/{number}.pdf`; the invoice row keeps the storage **key** (`Invoice.pdfKey`, renamed from `pdfUrl` via migration), never a URL, since GCS objects are private and any stored URL would expire.
+- Fetch-by-number: `GET /v1/invoices/:number/pdf` (auth'd, owner or ADMIN) looks up the invoice, lazily generates the PDF if missing (self-healing if generation failed earlier), and returns a fresh 5-minute signed URL (`{ url, expiresAt }`) with `Content-Disposition: attachment`. The client fetches this JSON with its bearer token, then navigates to `url` — a plain `<a href>` can't be used since auth is header-based, not cookie-based.
+- Verified end-to-end against the real GCS bucket (`apps/api/scripts/test-invoice-pdf.mjs`): generate → upload → signed-download → valid `%PDF-` bytes → delete.
 - Needed by: document vault, bookings invoice download (already referenced in UI but not backed).
 
 ### 0.3 Payment webhooks

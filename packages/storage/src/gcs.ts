@@ -52,6 +52,11 @@ export class GcsStorage implements StorageDriver {
     const [url] = await file.getSignedUrl({
       action: "read",
       expires: Date.now() + expiresInSeconds * 1000,
+      ...(options?.downloadFilename
+        ? {
+            responseDisposition: `attachment; filename="${options.downloadFilename}"`,
+          }
+        : {}),
     });
     return url;
   }
