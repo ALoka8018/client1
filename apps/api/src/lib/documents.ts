@@ -1,4 +1,5 @@
 import { prisma, InvoiceStatus, type User } from "@repo/database";
+import { createStorageDriver } from "@repo/storage";
 
 export interface DocumentInvoice {
   id: string;
@@ -43,13 +44,15 @@ export async function listDocuments(
       issuedAt: invoice.issuedAt,
       paidAt: invoice.paidAt,
     })),
-    attachments: attachments.map((attachment) => ({
-      id: attachment.id,
-      bookingCode: attachment.booking.code,
-      fileName: attachment.fileName,
-      mimeType: attachment.mimeType,
-      url: attachment.fileUrl,
-      createdAt: attachment.createdAt,
-    })),
+    attachments: await Promise.all(
+      attachments.map(async (attachment) => ({
+        id: attachment.id,
+        bookingCode: attachment.booking.code,
+        fileName: attachment.fileName,
+        mimeType: attachment.mimeType,
+        url: await createStorageDriver().getUrl(attachment.fileKey, { expiresInSeconds: 5 * 60 }),
+        createdAt: attachment.createdAt,
+      })),
+    ),
   };
 }

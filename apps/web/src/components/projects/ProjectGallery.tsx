@@ -1,6 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { BeforeAfterSlider } from "./BeforeAfterSlider";
 
-const PROJECTS = [
+type GalleryPair = {
+  bookingId: string;
+  bookingCode: string;
+  serviceTitle: string | null;
+  beforeUrl: string;
+  afterUrl: string;
+};
+
+const FALLBACK_PROJECTS = [
   {
     title: "Bathroom Leakage",
     description:
@@ -36,25 +47,63 @@ const PROJECTS = [
 ];
 
 export function ProjectGallery() {
+  const [gallery, setGallery] = useState<GalleryPair[] | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/projects/gallery`)
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("bad response"))))
+      .then((data: GalleryPair[]) => {
+        if (!cancelled) setGallery(Array.isArray(data) && data.length > 0 ? data : null);
+      })
+      .catch(() => {
+        if (!cancelled) setGallery(null);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const useFallback = gallery === null;
+
   return (
     <section className="container-max mb-section-mobile md:mb-section-desktop">
       <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-3">
-        {PROJECTS.map((project) => (
-          <div key={project.title} className="flex flex-col gap-4">
-            <h3 className="font-display text-headline-md text-primary">
-              {project.title}
-            </h3>
-            <BeforeAfterSlider
-              beforeSrc={project.beforeSrc}
-              afterSrc={project.afterSrc}
-              beforeAlt={project.beforeAlt}
-              afterAlt={project.afterAlt}
-            />
-            <p className="font-sans text-body-md text-on-surface-variant">
-              {project.description}
-            </p>
-          </div>
-        ))}
+        {useFallback
+          ? FALLBACK_PROJECTS.map((project) => (
+              <div key={project.title} className="flex flex-col gap-4">
+                <h3 className="font-display text-headline-md text-primary">
+                  {project.title}
+                </h3>
+                <BeforeAfterSlider
+                  beforeSrc={project.beforeSrc}
+                  afterSrc={project.afterSrc}
+                  beforeAlt={project.beforeAlt}
+                  afterAlt={project.afterAlt}
+                />
+                <p className="font-sans text-body-md text-on-surface-variant">
+                  {project.description}
+                </p>
+              </div>
+            ))
+          : gallery.map((pair) => (
+              <div key={pair.bookingId} className="flex flex-col gap-4">
+                <h3 className="font-display text-headline-md text-primary">
+                  {pair.serviceTitle ?? "Completed Project"}
+                </h3>
+                <BeforeAfterSlider
+                  beforeSrc={pair.beforeUrl}
+                  afterSrc={pair.afterUrl}
+                  beforeAlt={`${pair.serviceTitle ?? "Job"} before`}
+                  afterAlt={`${pair.serviceTitle ?? "Job"} after`}
+                />
+                <p className="font-sans text-body-md text-on-surface-variant">
+                  Completed job {pair.bookingCode}.
+                </p>
+              </div>
+            ))}
       </div>
     </section>
   );

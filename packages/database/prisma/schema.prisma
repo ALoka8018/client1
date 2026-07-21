@@ -181,16 +181,25 @@ model Booking {
   @@index([status])
 }
 
+enum AttachmentPhotoType {
+  BEFORE
+  AFTER
+}
+
 model BookingAttachment {
-  id        String   @id @default(cuid())
-  bookingId String
-  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  fileUrl   String
-  fileName  String
-  mimeType  String
-  createdAt DateTime @default(now())
+  id          String               @id @default(cuid())
+  bookingId   String
+  booking     Booking              @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  fileKey     String
+  fileName    String
+  mimeType    String
+  photoType   AttachmentPhotoType?
+  featured    Boolean              @default(false)
+  consentedAt DateTime?
+  createdAt   DateTime             @default(now())
 
   @@index([bookingId])
+  @@index([featured])
 }
 
 model BookingStatusEvent {
