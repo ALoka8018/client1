@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/client";
 import { ActiveJobCard, type ActiveJobBooking } from "./ActiveJobCard";
 import { BOOKING_PROGRESS_STEP } from "@/lib/bookingStatus";
 
+const POLL_INTERVAL_MS = 20_000;
+
 /** Furthest-along, soonest-scheduled non-terminal booking — the one worth surfacing on the dashboard. */
 function pickMostRelevant(bookings: ActiveJobBooking[]): ActiveJobBooking | undefined {
   const active = bookings.filter((b) => b.status !== "COMPLETED" && b.status !== "CANCELLED");
@@ -23,7 +25,7 @@ export function ActiveJobCardData() {
   useEffect(() => {
     let cancelled = false;
 
-    (async () => {
+    async function fetchBookings() {
       try {
         const supabase = createClient();
         const {
@@ -51,10 +53,14 @@ export function ActiveJobCardData() {
       } finally {
         if (!cancelled) setLoading(false);
       }
-    })();
+    }
+
+    fetchBookings();
+    const interval = setInterval(fetchBookings, POLL_INTERVAL_MS);
 
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
   }, []);
 

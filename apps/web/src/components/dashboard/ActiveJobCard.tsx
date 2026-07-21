@@ -11,6 +11,7 @@ export type ActiveJobBooking = {
   status: BookingStatus;
   scheduledAt: string;
   service: { title: string } | null;
+  statusEvents: { status: BookingStatus; note: string | null; createdAt: string }[];
 };
 
 const STEPS = [
@@ -19,6 +20,23 @@ const STEPS = [
   { key: "enroute", label: "En Route", icon: "local_shipping" },
   { key: "completion", label: "Completion", icon: "home_repair_service" },
 ];
+
+function formatStepTime(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  const isToday = date.toDateString() === new Date().toDateString();
+  const time = date.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" });
+  return isToday ? time : date.toLocaleDateString("en-IN", { month: "short", day: "numeric" });
+}
+
+/** Earliest event that reached this step index — i.e. "when we entered this stage". */
+function timeForStep(
+  events: ActiveJobBooking["statusEvents"],
+  stepIndex: number,
+): string | null {
+  const match = events.find((e) => BOOKING_PROGRESS_STEP[e.status] === stepIndex);
+  return match ? formatStepTime(match.createdAt) : null;
+}
 
 function formatScheduled(iso: string) {
   const date = new Date(iso);
@@ -82,6 +100,7 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
         {STEPS.map((step, index) => {
           const done = index <= currentStep;
           const current = index === currentStep;
+          const timestamp = done ? timeForStep(booking.statusEvents, index) : null;
 
           return (
             <div key={step.key} className="flex flex-1 items-center">
@@ -108,6 +127,11 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
                 >
                   {step.label}
                 </span>
+                {timestamp && (
+                  <span className="text-center text-xs text-on-surface-variant">
+                    {timestamp}
+                  </span>
+                )}
               </div>
               {index < STEPS.length - 1 && (
                 <div

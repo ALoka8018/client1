@@ -75,6 +75,8 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "invoices", label: "Invoices" },
 ];
 
+const BOOKINGS_POLL_INTERVAL_MS = 20_000;
+
 type PendingAction = { bookingId: string; type: "reschedule" | "cancel" };
 
 export function BookingsTabs() {
@@ -98,7 +100,7 @@ export function BookingsTabs() {
   useEffect(() => {
     let cancelled = false;
 
-    (async () => {
+    async function fetchBookings() {
       try {
         const supabase = createClient();
         const {
@@ -129,10 +131,14 @@ export function BookingsTabs() {
       } finally {
         if (!cancelled) setBookingsLoading(false);
       }
-    })();
+    }
+
+    fetchBookings();
+    const interval = setInterval(fetchBookings, BOOKINGS_POLL_INTERVAL_MS);
 
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
   }, []);
 

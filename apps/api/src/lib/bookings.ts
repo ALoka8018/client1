@@ -143,6 +143,7 @@ export type BookingListItem = Booking & {
   property: { addressLine: string; city: string };
   invoice: { id: string; number: string; status: InvoiceStatus; amount: Prisma.Decimal } | null;
   review: { id: string; rating: number } | null;
+  statusEvents: { status: BookingStatus; note: string | null; createdAt: Date }[];
 };
 
 export async function listBookings(user: User): Promise<BookingListItem[]> {
@@ -153,6 +154,10 @@ export async function listBookings(user: User): Promise<BookingListItem[]> {
       property: { select: { addressLine: true, city: true } },
       invoice: { select: { id: true, number: true, status: true, amount: true } },
       review: { select: { id: true, rating: true } },
+      statusEvents: {
+        select: { status: true, note: true, createdAt: true },
+        orderBy: { createdAt: "asc" },
+      },
     },
     orderBy: { createdAt: "desc" },
   });

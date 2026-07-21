@@ -92,10 +92,12 @@ Lower effort, no new infra dependencies beyond Phase 0, high conversion/retentio
 
 Builds on Phase 0 infra (storage, PDFs, notifications).
 
-### 2.1 Real-time job tracking
-- Wire `ActiveJobCard` to actual `BookingStatusEvent` records instead of static timeline data: `GET /v1/bookings/:id/status` (or extend existing booking-fetch endpoint to include events).
-- Start with polling (e.g. every 15–30s) rather than WebSockets — much less infra, acceptable UX for a service with hour-scale status changes, not sub-second ones.
-- Technician GPS/ETA is a bigger lift (needs technician mobile location reporting from Phase 3) — sequence after 3.2 if you want live location, not just status text.
+### 2.1 Real-time job tracking — ✅ Implemented
+- `listBookings()` (`GET /v1/bookings`) extended to include `statusEvents` (status/note/createdAt, ascending) — went with extending the existing booking-fetch endpoint rather than a new `GET /v1/bookings/:id/status`, avoiding an extra round trip.
+- `ActiveJobCard` now shows a real timestamp per stage (earliest event that reached that step) instead of a done/current-only progress bar with no times.
+- Polling (20s) added to both `ActiveJobCardData` and `BookingsTabs`' bookings fetch — this is the actual "real-time" part; until now both only fetched once on mount. No WebSockets, matching the plan's stated preference.
+- Technician GPS/ETA intentionally not built — needs Phase 3.2 technician location reporting, which doesn't exist.
+- Verified: direct library test (create → reschedule → confirms 2 ascending `REQUESTED`-status events with the reschedule note captured) plus a real HTTP round trip against the running server showing actual event timelines for seeded bookings (including a double-`CONFIRMED` timeline from an earlier reschedule test). `tsc`/`eslint` clean (one pre-existing lint error in `BookingsTabs`'s invoices effect, confirmed via `git show HEAD` to predate this change), full `next build` succeeds across all 24 routes.
 
 ### 2.2 Notifications center (UI) — ✅ Implemented
 - Backend: `GET /v1/notifications` (`{ notifications, unreadCount }`, most recent 50), `PATCH /v1/notifications/:id/read`, `PATCH /v1/notifications/read-all` (a "mark all as read" bulk action — not in the plan verbatim, but near-free to add alongside the single-mark endpoint and standard for any bell dropdown).
