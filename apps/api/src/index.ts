@@ -12,6 +12,8 @@ import {
   createReviewSchema,
   createSupportTicketSchema,
   createTechnicianApplicationSchema,
+  updateTechnicianJobStatusSchema,
+  assignTechnicianSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, requireRole, type AuthEnv } from "./middleware/auth.js";
@@ -39,6 +41,13 @@ import {
   getProjectGallery,
 } from "./lib/attachments.js";
 import { createTechnicianApplication } from "./lib/technician-applications.js";
+import {
+  listTechnicianJobs,
+  updateTechnicianJobStatus,
+  isBookingAssignedToTechnician,
+  listTechnicianUsers,
+  assignTechnicianToBooking,
+} from "./lib/technician.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -187,8 +196,18 @@ app.get("/v1/support-tickets", requireAuth, async (c) => {
 app.post(
   "/v1/bookings/:id/attachments",
   requireAuth,
-  requireRole(UserRole.ADMIN),
+  requireRole(UserRole.ADMIN, UserRole.TECHNICIAN),
   async (c) => {
+    const user = c.get("user");
+    const bookingId = c.req.param("id")!;
+
+    if (user.role === UserRole.TECHNICIAN) {
+      const assigned = await isBookingAssignedToTechnician(user, bookingId);
+      if (!assigned) {
+        return c.json({ error: "This job is not assigned to you" }, 403);
+      }
+    }
+
     const body = await c.req.parseBody();
     const file = body.file;
 
@@ -201,16 +220,19 @@ app.post(
       return c.json({ error: "photoType must be BEFORE or AFTER" }, 400);
     }
 
+    // Technicians can document a job, but only staff can approve a photo for public featuring.
+    const isAdmin = user.role === UserRole.ADMIN;
+
     try {
       const buffer = Buffer.from(await file.arrayBuffer());
       const attachment = await uploadBookingAttachment({
-        bookingId: c.req.param("id")!,
+        bookingId,
         fileName: file.name,
         mimeType: file.type || "application/octet-stream",
         data: buffer,
         photoType: photoType as "BEFORE" | "AFTER" | undefined,
-        featured: body.featured === "true",
-        consent: body.consent === "true",
+        featured: isAdmin && body.featured === "true",
+        consent: isAdmin && body.consent === "true",
       });
       return c.json(attachment, 201);
     } catch (err) {
@@ -241,6 +263,59 @@ app.get("/v1/projects/gallery", async (c) => {
   const gallery = await getProjectGallery();
   return c.json(gallery);
 });
+
+app.get("/v1/technician/jobs", requireAuth, requireRole(UserRole.TECHNICIAN), async (c) => {
+  const jobs = await listTechnicianJobs(c.get("user"));
+  return c.json(jobs);
+});
+
+app.patch(
+  "/v1/technician/jobs/:id/status",
+  requireAuth,
+  requireRole(UserRole.TECHNICIAN),
+  async (c) => {
+    const parsed = updateTechnicianJobStatusSchema.safeParse(await c.req.json());
+
+    if (!parsed.success) {
+      return c.json({ error: "Invalid job status payload", issues: parsed.error.issues }, 400);
+    }
+
+    try {
+      const job = await updateTechnicianJobStatus(c.get("user"), c.req.param("id")!, parsed.data);
+      return c.json(job);
+    } catch (err) {
+      return c.json({ error: err instanceof Error ? err.message : "Unable to update job" }, 400);
+    }
+  },
+);
+
+app.get("/v1/admin/technicians", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const technicians = await listTechnicianUsers();
+  return c.json(technicians);
+});
+
+app.patch(
+  "/v1/admin/bookings/:id/assign",
+  requireAuth,
+  requireRole(UserRole.ADMIN),
+  async (c) => {
+    const parsed = assignTechnicianSchema.safeParse(await c.req.json());
+
+    if (!parsed.success) {
+      return c.json({ error: "Invalid assignment payload", issues: parsed.error.issues }, 400);
+    }
+
+    try {
+      const booking = await assignTechnicianToBooking(
+        c.req.param("id")!,
+        parsed.data.technicianUserId,
+      );
+      return c.json(booking);
+    } catch (err) {
+      return c.json({ error: err instanceof Error ? err.message : "Unable to assign technician" }, 400);
+    }
+  },
+);
 
 app.post("/v1/technician-applications", async (c) => {
   const parsed = createTechnicianApplicationSchema.safeParse(await c.req.json());

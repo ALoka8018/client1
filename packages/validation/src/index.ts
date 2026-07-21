@@ -75,3 +75,16 @@ export const createTechnicianApplicationSchema = z.object({
 export type CreateTechnicianApplicationInput = z.infer<
   typeof createTechnicianApplicationSchema
 >;
+
+export const updateTechnicianJobStatusSchema = z.object({
+  action: z.enum(["en_route", "arrived", "completed"]),
+  note: z.string().min(1).optional(),
+});
+
+export type UpdateTechnicianJobStatusInput = z.infer<typeof updateTechnicianJobStatusSchema>;
+
+export const assignTechnicianSchema = z.object({
+  technicianUserId: z.string().min(1),
+});
+
+export type AssignTechnicianInput = z.infer<typeof assignTechnicianSchema>;

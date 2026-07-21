@@ -6,6 +6,7 @@ export const NotificationType = {
   BOOKING_STATUS_CHANGED: "BOOKING_STATUS_CHANGED",
   INVOICE_PAID: "INVOICE_PAID",
   SUPPORT_TICKET_REPLY: "SUPPORT_TICKET_REPLY",
+  REVIEW_REQUESTED: "REVIEW_REQUESTED",
 } as const;
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType];
