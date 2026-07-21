@@ -47,6 +47,7 @@ import {
   isBookingAssignedToTechnician,
   listTechnicianUsers,
   assignTechnicianToBooking,
+  getTechnicianRating,
 } from "./lib/technician.js";
 
 const app = new Hono<AuthEnv>();
@@ -313,6 +314,20 @@ app.patch(
       return c.json(booking);
     } catch (err) {
       return c.json({ error: err instanceof Error ? err.message : "Unable to assign technician" }, 400);
+    }
+  },
+);
+
+app.get(
+  "/v1/technicians/:id/rating",
+  requireAuth,
+  requireRole(UserRole.ADMIN),
+  async (c) => {
+    try {
+      const rating = await getTechnicianRating(c.req.param("id")!);
+      return c.json(rating);
+    } catch (err) {
+      return c.json({ error: err instanceof Error ? err.message : "Unable to load rating" }, 404);
     }
   },
 );

@@ -16,6 +16,8 @@ type TechnicianOption = {
   id: string;
   name: string;
   email: string;
+  rating: number;
+  ratingCount: number;
 };
 
 async function getAuthHeader(): Promise<{ Authorization: string } | null> {
@@ -179,7 +181,8 @@ export default function AdminAssignTechnicianPage() {
             <option value="">Select a technician…</option>
             {technicians.map((t) => (
               <option key={t.id} value={t.id}>
-                {t.name} — {t.email}
+                {t.name} — {t.email} — ⭐ {t.rating.toFixed(1)}
+                {t.ratingCount > 0 ? ` (${t.ratingCount} review${t.ratingCount === 1 ? "" : "s"})` : " (no reviews yet)"}
               </option>
             ))}
           </select>

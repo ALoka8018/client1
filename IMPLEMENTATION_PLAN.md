@@ -150,9 +150,11 @@ Builds on Phase 0 infra (storage, PDFs, notifications).
 - Found and fixed a real gap while verifying: `/technician` was missing from the auth middleware's `PROTECTED_PREFIXES` (unlike `/admin`, `/account`, etc.) — anonymous visitors got a client-side "Restricted" screen instead of the usual redirect to `/login`. Not a security hole (all data still required a verified bearer token), but inconsistent; fixed.
 - Verified: direct library smoke test (full lifecycle assign→en_route→arrived→completed, cross-technician isolation, idempotent profile creation) plus a full real HTTP round trip with three dedicated throwaway users (ADMIN/TECHNICIAN/CUSTOMER, all cleaned up afterward including Supabase auth users and the uploaded GCS object) — confirmed a technician's attempt to set `featured=true` is correctly ignored server-side, and non-admins get 403 from the assign endpoint. `tsc`/`eslint` clean, full `next build` succeeds across all 28 routes.
 
-### 3.3 Technician performance/ratings
-- Once 1.2 (reviews) exist and bookings have an assigned technician, this is mostly a query: aggregate average rating per technician from reviews on their completed bookings.
-- `GET /v1/technicians/:id/rating` for internal use in assignment logic later (Phase 4 admin can use this when manually assigning jobs).
+### 3.3 Technician performance/ratings — ✅ Implemented
+- Was indeed mostly a query now that 1.2 (reviews) and 3.2 (technician assignment) both exist: `getTechnicianRating()` aggregates `Review.rating` joined through `booking.technicianId`, falling back to the curated seed `TechnicianProfile.rating` until a technician has real reviews — same no-denormalized-counter pattern as `Service.averageRating` in 1.2.
+- `GET /v1/technicians/:id/rating` (ADMIN-gated, per the plan's "internal use in assignment logic" framing — not customer-facing).
+- Small bonus since the join is cheap: `GET /v1/admin/technicians` (3.2) now returns each technician's rating inline, so `/admin/assign`'s picker shows it directly (e.g. "⭐ 4.5 (3 reviews)") without extra round trips.
+- Verified: direct library smoke test (seed-rating fallback with zero reviews, correct average of real reviews, non-technician lookup rejected) plus a full real HTTP round trip — assign → complete → submit a real review → rating endpoint reflects it correctly → confirmed inline in the admin technicians list → non-admin gets 403. `tsc`/`eslint` clean, full `next build` succeeds across all 28 routes.
 
 **Phase 3 effort:** M; 3.2 is the biggest piece since it's the first real technician-facing surface.
 

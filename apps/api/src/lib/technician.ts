@@ -109,10 +109,49 @@ export async function isBookingAssignedToTechnician(
   return booking !== null;
 }
 
+export interface TechnicianRating {
+  average: number;
+  count: number;
+}
+
+/**
+ * Aggregates reviews left on a technician's completed bookings. Falls back
+ * to the curated seed TechnicianProfile.rating until they have real reviews
+ * — same pattern as Service.averageRating in 1.2, no denormalized counter.
+ */
+export async function getTechnicianRating(technicianUserId: string): Promise<TechnicianRating> {
+  const technicianUser = await prisma.user.findUnique({ where: { id: technicianUserId } });
+
+  if (!technicianUser || technicianUser.role !== UserRole.TECHNICIAN) {
+    throw new Error("User is not a technician");
+  }
+
+  const profile = await prisma.technicianProfile.findUnique({
+    where: { userId: technicianUserId },
+  });
+
+  if (!profile) {
+    return { average: 0, count: 0 };
+  }
+
+  const result = await prisma.review.aggregate({
+    where: { booking: { technicianId: profile.id } },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+
+  return {
+    average: result._count.rating > 0 ? (result._avg.rating ?? 0) : Number(profile.rating),
+    count: result._count.rating,
+  };
+}
+
 export interface TechnicianUserOption {
   id: string;
   name: string;
   email: string;
+  rating: number;
+  ratingCount: number;
 }
 
 export async function listTechnicianUsers(): Promise<TechnicianUserOption[]> {
@@ -121,7 +160,13 @@ export async function listTechnicianUsers(): Promise<TechnicianUserOption[]> {
     select: { id: true, name: true, email: true },
     orderBy: { name: "asc" },
   });
-  return users;
+
+  return Promise.all(
+    users.map(async (u) => {
+      const rating = await getTechnicianRating(u.id);
+      return { ...u, rating: rating.average, ratingCount: rating.count };
+    }),
+  );
 }
 
 export async function assignTechnicianToBooking(
