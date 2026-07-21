@@ -28,6 +28,7 @@ import {
   markAllNotificationsRead,
 } from "./lib/notifications.js";
 import { listDocuments } from "./lib/documents.js";
+import { listProperties, getPropertyHealth } from "./lib/properties.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -141,6 +142,20 @@ app.patch("/v1/notifications/:id/read", requireAuth, async (c) => {
 app.get("/v1/documents", requireAuth, async (c) => {
   const result = await listDocuments(c.get("user"));
   return c.json(result);
+});
+
+app.get("/v1/properties", requireAuth, async (c) => {
+  const properties = await listProperties(c.get("user"));
+  return c.json(properties);
+});
+
+app.get("/v1/properties/:id/health", requireAuth, async (c) => {
+  try {
+    const metrics = await getPropertyHealth(c.get("user"), c.req.param("id")!);
+    return c.json(metrics);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to load property health" }, 404);
+  }
 });
 
 app.get("/v1/invoices", requireAuth, async (c) => {

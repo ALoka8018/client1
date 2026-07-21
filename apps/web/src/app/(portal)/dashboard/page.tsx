@@ -1,6 +1,6 @@
 import { ActiveJobCardData } from "@/components/dashboard/ActiveJobCardData";
 import { QuickActions } from "@/components/dashboard/QuickActions";
-import { PropertyInsight } from "@/components/dashboard/PropertyInsight";
+import { PropertyInsightData } from "@/components/dashboard/PropertyInsightData";
 import { Recommendations } from "@/components/dashboard/Recommendations";
 import { MaintenanceHistory } from "@/components/dashboard/MaintenanceHistory";
 
@@ -35,7 +35,7 @@ export default function DashboardPage() {
           <QuickActions />
         </div>
         <aside className="flex flex-col gap-gutter lg:col-span-4">
-          <PropertyInsight />
+          <PropertyInsightData />
           <Recommendations />
         </aside>
       </div>
