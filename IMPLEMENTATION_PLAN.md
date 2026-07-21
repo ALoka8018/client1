@@ -97,9 +97,11 @@ Builds on Phase 0 infra (storage, PDFs, notifications).
 - Start with polling (e.g. every 15–30s) rather than WebSockets — much less infra, acceptable UX for a service with hour-scale status changes, not sub-second ones.
 - Technician GPS/ETA is a bigger lift (needs technician mobile location reporting from Phase 3) — sequence after 3.2 if you want live location, not just status text.
 
-### 2.2 Notifications center (UI)
-- A bell icon + dropdown/page in the portal reading from the `Notification` model (0.4), `PATCH /v1/notifications/:id/read`.
-- This is the UI half of 0.4 — 0.4 without this is invisible to users, so don't let it lag far behind.
+### 2.2 Notifications center (UI) — ✅ Implemented
+- Backend: `GET /v1/notifications` (`{ notifications, unreadCount }`, most recent 50), `PATCH /v1/notifications/:id/read`, `PATCH /v1/notifications/read-all` (a "mark all as read" bulk action — not in the plan verbatim, but near-free to add alongside the single-mark endpoint and standard for any bell dropdown).
+- `NotificationBell` component: bell icon + unread-count badge in the portal header only (marketing visitors aren't logged in), dropdown listing notifications with per-type icons and relative timestamps, click-to-mark-read, "mark all read", empty state, light 60s poll while mounted.
+- Wired into `Header.tsx` via a new `showNotifications` prop, set only from `(portal)/layout.tsx` — the marketing `Header` usage is untouched.
+- Verified: direct library smoke test (gating, cross-user rejection, count math) plus a real HTTP round trip against the running server with the seeded test account's actual session (list → mark one read → mark-all-read → unread count correctly zero). `tsc`/`eslint` clean, full `next build` succeeds across all 23 routes.
 
 ### 2.3 Document vault
 - A single `/account/documents` (or a tab) listing invoices (PDF via 0.2) — warranty certificates are out of scope since that feature was cut, so this is just invoices + any inspection-report attachments already on the booking.

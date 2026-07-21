@@ -1,4 +1,4 @@
-import { prisma } from "@repo/database";
+import { prisma, type Notification, type User } from "@repo/database";
 import { sendMail } from "./mailer.js";
 import { logger } from "@repo/logger";
 
@@ -38,4 +38,43 @@ export async function notify(userId: string, type: NotificationType, input: Noti
   } catch (err) {
     logger.error(`Failed to send notification email (${type}) to user ${userId}: ${err}`);
   }
+}
+
+export async function listNotifications(
+  user: User,
+): Promise<{ notifications: Notification[]; unreadCount: number }> {
+  const [notifications, unreadCount] = await Promise.all([
+    prisma.notification.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    }),
+    prisma.notification.count({ where: { userId: user.id, read: false } }),
+  ]);
+
+  return { notifications, unreadCount };
+}
+
+export async function markNotificationRead(user: User, notificationId: string): Promise<Notification> {
+  const notification = await prisma.notification.findFirst({
+    where: { id: notificationId, userId: user.id },
+  });
+
+  if (!notification) {
+    throw new Error("Notification not found");
+  }
+
+  return prisma.notification.update({
+    where: { id: notification.id },
+    data: { read: true },
+  });
+}
+
+export async function markAllNotificationsRead(user: User): Promise<{ count: number }> {
+  const result = await prisma.notification.updateMany({
+    where: { userId: user.id, read: false },
+    data: { read: true },
+  });
+
+  return { count: result.count };
 }

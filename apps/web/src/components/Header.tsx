@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { buttonClasses, type ButtonVariant } from "@repo/ui/Button";
 import { cn } from "@repo/ui/cn";
+import { NotificationBell } from "@/components/NotificationBell";
 
 const DEFAULT_NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -19,6 +20,7 @@ export interface HeaderProps {
   ctaLabel?: string;
   ctaHref?: string;
   ctaVariant?: ButtonVariant;
+  showNotifications?: boolean;
 }
 
 export function Header({
@@ -27,6 +29,7 @@ export function Header({
   ctaLabel = "Book Now",
   ctaHref = "/book",
   ctaVariant = "accent",
+  showNotifications = false,
 }: HeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,12 +77,15 @@ export function Header({
           })}
         </nav>
 
-        <Link
-          href={ctaHref}
-          className={buttonClasses({ variant: ctaVariant, size: "sm", pill: true })}
-        >
-          {ctaLabel}
-        </Link>
+        <div className="flex items-center gap-2">
+          {showNotifications && <NotificationBell />}
+          <Link
+            href={ctaHref}
+            className={buttonClasses({ variant: ctaVariant, size: "sm", pill: true })}
+          >
+            {ctaLabel}
+          </Link>
+        </div>
       </div>
 
       {menuOpen && (

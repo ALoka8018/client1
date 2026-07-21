@@ -22,6 +22,12 @@ import {
 } from "./lib/payments.js";
 import { generateAndStoreInvoicePdf, closePdfBrowser } from "./lib/invoice-pdf.js";
 import { createReview, listReviews, serviceReviewAggregates } from "./lib/reviews.js";
+import {
+  listNotifications,
+  markNotificationRead,
+  markAllNotificationsRead,
+} from "./lib/notifications.js";
+import { listDocuments } from "./lib/documents.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -110,6 +116,30 @@ app.post("/v1/reviews", requireAuth, async (c) => {
 app.get("/v1/reviews", async (c) => {
   const serviceId = c.req.query("serviceId");
   const result = await listReviews(serviceId);
+  return c.json(result);
+});
+
+app.get("/v1/notifications", requireAuth, async (c) => {
+  const result = await listNotifications(c.get("user"));
+  return c.json(result);
+});
+
+app.patch("/v1/notifications/read-all", requireAuth, async (c) => {
+  const result = await markAllNotificationsRead(c.get("user"));
+  return c.json(result);
+});
+
+app.patch("/v1/notifications/:id/read", requireAuth, async (c) => {
+  try {
+    const notification = await markNotificationRead(c.get("user"), c.req.param("id")!);
+    return c.json(notification);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to update notification" }, 400);
+  }
+});
+
+app.get("/v1/documents", requireAuth, async (c) => {
+  const result = await listDocuments(c.get("user"));
   return c.json(result);
 });
 

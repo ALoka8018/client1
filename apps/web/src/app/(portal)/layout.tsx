@@ -27,6 +27,7 @@ export default function PortalLayout({
         navLinks={PORTAL_NAV_LINKS}
         logoHref="/dashboard"
         ctaVariant="primary"
+        showNotifications
       />
       <main className="flex-1 pt-16 pb-24 md:pb-0">{children}</main>
       <Footer />
