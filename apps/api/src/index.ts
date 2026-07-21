@@ -10,9 +10,10 @@ import {
   verifyPaymentSchema,
   modifyBookingSchema,
   createReviewSchema,
+  createSupportTicketSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
-import { requireAuth, type AuthEnv } from "./middleware/auth.js";
+import { requireAuth, requireRole, type AuthEnv } from "./middleware/auth.js";
 import { createBooking, listBookings, modifyBooking } from "./lib/bookings.js";
 import {
   createPaymentOrder,
@@ -29,6 +30,13 @@ import {
 } from "./lib/notifications.js";
 import { listDocuments } from "./lib/documents.js";
 import { listProperties, getPropertyHealth } from "./lib/properties.js";
+import { createSupportTicket, listSupportTickets } from "./lib/support.js";
+import {
+  uploadBookingAttachment,
+  listAllBookingsForAdmin,
+  listBookingAttachmentsForAdmin,
+  getProjectGallery,
+} from "./lib/attachments.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -156,6 +164,80 @@ app.get("/v1/properties/:id/health", requireAuth, async (c) => {
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : "Unable to load property health" }, 404);
   }
+});
+
+app.post("/v1/support-tickets", requireAuth, async (c) => {
+  const parsed = createSupportTicketSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid support ticket payload", issues: parsed.error.issues }, 400);
+  }
+
+  const ticket = await createSupportTicket(c.get("user"), parsed.data);
+  return c.json(ticket, 201);
+});
+
+app.get("/v1/support-tickets", requireAuth, async (c) => {
+  const tickets = await listSupportTickets(c.get("user"));
+  return c.json(tickets);
+});
+
+app.post(
+  "/v1/bookings/:id/attachments",
+  requireAuth,
+  requireRole(UserRole.ADMIN),
+  async (c) => {
+    const body = await c.req.parseBody();
+    const file = body.file;
+
+    if (!(file instanceof File)) {
+      return c.json({ error: "A file is required" }, 400);
+    }
+
+    const photoType = typeof body.photoType === "string" ? body.photoType : undefined;
+    if (photoType && photoType !== "BEFORE" && photoType !== "AFTER") {
+      return c.json({ error: "photoType must be BEFORE or AFTER" }, 400);
+    }
+
+    try {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const attachment = await uploadBookingAttachment({
+        bookingId: c.req.param("id")!,
+        fileName: file.name,
+        mimeType: file.type || "application/octet-stream",
+        data: buffer,
+        photoType: photoType as "BEFORE" | "AFTER" | undefined,
+        featured: body.featured === "true",
+        consent: body.consent === "true",
+      });
+      return c.json(attachment, 201);
+    } catch (err) {
+      return c.json(
+        { error: err instanceof Error ? err.message : "Unable to upload attachment" },
+        400,
+      );
+    }
+  },
+);
+
+app.get("/v1/admin/bookings", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const bookings = await listAllBookingsForAdmin();
+  return c.json(bookings);
+});
+
+app.get(
+  "/v1/admin/bookings/:id/attachments",
+  requireAuth,
+  requireRole(UserRole.ADMIN),
+  async (c) => {
+    const attachments = await listBookingAttachmentsForAdmin(c.req.param("id")!);
+    return c.json(attachments);
+  },
+);
+
+app.get("/v1/projects/gallery", async (c) => {
+  const gallery = await getProjectGallery();
+  return c.json(gallery);
 });
 
 app.get("/v1/invoices", requireAuth, async (c) => {

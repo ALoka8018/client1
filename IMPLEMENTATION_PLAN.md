@@ -116,9 +116,11 @@ Builds on Phase 0 infra (storage, PDFs, notifications).
 - `PropertyInsight` (presentational, split from data-fetching like the `ActiveJobCard`/`ActiveJobCardData` pattern from 1.1) now shows an honest "Not yet assessed" state per system instead of a fake green ring when no `PropertyHealthMetric` rows exist. New `PropertyInsightData` wrapper fetches properties + health and renders a selector once a user has more than one property. `SavedProperties` now lists real properties (read-only — "Add New" is disabled since properties are currently only created implicitly via the booking flow, no dedicated creation form exists).
 - Verified: direct library smoke test (list ordering, cross-user rejection, empty-then-populated health metrics) plus a real HTTP round trip against the running server with the seeded test account (real property returned, health correctly empty). `tsc`/`eslint` clean, full `next build` succeeds across all 24 routes.
 
-### 2.5 Support ticket flow
-- `SupportTicket` model exists, unused. `POST /v1/support-tickets`, `GET /v1/support-tickets` (own tickets + status), and a basic reply mechanism (could just be email-based replies logged manually at first if you don't want a full threaded UI yet).
-- Replace the static cards on `/support` with an actual "submit a ticket" form + a list of the user's open/past tickets.
+### 2.5 Support ticket flow — ✅ Implemented
+- `POST /v1/support-tickets`, `GET /v1/support-tickets` (own tickets). On creation: `notify()`s the customer (confirmation, in-app + email) and separately emails the real support inbox directly — no admin app exists yet, so that email is the only way a human currently learns a ticket exists. No threaded reply UI built (matches the plan — email-based replies for now, not a full thread).
+- Support inbox address is now `SUPPORT_INBOX_EMAIL`-overridable (defaults to `solutions@aiasengineering.com`) — added after an early smoke test sent two real test emails to that real inbox; the override currently sits in `.env` pointed at a test address per an explicit ask, and **must be removed/repointed at the real inbox before any real customer-facing use**, or new-ticket alerts won't reach staff.
+- New `SupportTicketPanel` on `/support`: submission form (topic + message) plus a list of the user's past/open tickets with status badges. Left the existing topic cards and phone/email contact block above it untouched.
+- Verified: direct library smoke test (creation, notification fan-out, list ordering) plus a real HTTP round trip against the running server (create → 201 → appears first in the list) — using the safe test-inbox override, not the real one. `tsc`/`eslint` clean, full `next build` succeeds across all 24 routes.
 
 ### 2.6 Before/after photo gallery per job
 - Needs 0.1 (storage). Add an "after photos" upload step for technicians (ties to Phase 3 technician view) or, short term, let admin/staff upload manually until a technician app exists.

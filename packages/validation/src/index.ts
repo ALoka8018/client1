@@ -54,3 +54,10 @@ export const createReviewSchema = z.object({
 });
 
 export type CreateReviewInput = z.infer<typeof createReviewSchema>;
+
+export const createSupportTicketSchema = z.object({
+  topic: z.string().min(1),
+  message: z.string().min(1),
+});
+
+export type CreateSupportTicketInput = z.infer<typeof createSupportTicketSchema>;

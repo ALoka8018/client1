@@ -1,3 +1,5 @@
+import { SupportTicketPanel } from "@/components/support/SupportTicketPanel";
+
 const TOPICS = [
   {
     icon: "calendar_today",
@@ -66,6 +68,10 @@ export default function SupportPage() {
           </a>
           .
         </p>
+      </div>
+
+      <div className="mt-12">
+        <SupportTicketPanel />
       </div>
     </div>
   );
