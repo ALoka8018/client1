@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 const SETTINGS_LINKS = [
+  { href: "/account/documents", icon: "folder_open", label: "Documents" },
   { href: "/support", icon: "support_agent", label: "Support Center" },
   { href: "/privacy", icon: "security", label: "Privacy & Security" },
   { href: "/admin", icon: "admin_panel_settings", label: "Admin Panel", badge: "Limited" },

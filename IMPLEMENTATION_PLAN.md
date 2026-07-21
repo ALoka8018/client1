@@ -103,9 +103,10 @@ Builds on Phase 0 infra (storage, PDFs, notifications).
 - Wired into `Header.tsx` via a new `showNotifications` prop, set only from `(portal)/layout.tsx` — the marketing `Header` usage is untouched.
 - Verified: direct library smoke test (gating, cross-user rejection, count math) plus a real HTTP round trip against the running server with the seeded test account's actual session (list → mark one read → mark-all-read → unread count correctly zero). `tsc`/`eslint` clean, full `next build` succeeds across all 23 routes.
 
-### 2.3 Document vault
-- A single `/account/documents` (or a tab) listing invoices (PDF via 0.2) — warranty certificates are out of scope since that feature was cut, so this is just invoices + any inspection-report attachments already on the booking.
-- Backend: `GET /v1/documents` aggregating invoice PDFs + booking attachments for the current user.
+### 2.3 Document vault — ✅ Implemented
+- `GET /v1/documents` (`apps/api/src/lib/documents.ts`) aggregates `PAID` invoices (with booking code/amount/dates) and `BookingAttachment` rows for the current user. Attachments come back as an empty array for now — nothing populates that table yet (photo gallery is Phase 2.6, technician uploads are Phase 3.2) — the response shape is just ready for whenever that lands.
+- New `/account/documents` page (`DocumentsList` component), linked from `SettingsSidebar`. This turned out to be **the first real UI wiring of invoice PDF downloads anywhere in the app** — 0.2 built `GET /v1/invoices/:number/pdf` but nothing in the frontend had ever called it. Clicking "Download PDF" fetches the signed URL and opens it via `window.open()` (not `window.location.href` — that trips the `react-hooks/immutability` lint rule as an external mutation).
+- Verified: direct library smoke test (empty state, PAID-only filtering, attachment inclusion) plus a full real HTTP round trip against the running server — list documents → fetch signed PDF URL → download it → confirmed genuine `%PDF-` bytes. `tsc`/`eslint` clean, full `next build` succeeds across all 24 routes (new `/account/documents` route included).
 
 ### 2.4 Multi-property health dashboard
 - `PropertyHealthMetric` already exists in the schema with no API. Add `GET /v1/properties/:id/health` and `GET /v1/properties` (list all of a user's properties) — needed since `/account` already shows `SavedProperties` but portal dashboard health ring is currently mock data for one property only.
