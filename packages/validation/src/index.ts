@@ -61,3 +61,17 @@ export const createSupportTicketSchema = z.object({
 });
 
 export type CreateSupportTicketInput = z.infer<typeof createSupportTicketSchema>;
+
+export const createTechnicianApplicationSchema = z.object({
+  name: z.string().min(1),
+  email: z.email(),
+  phone: z.string().min(1),
+  city: z.string().min(1),
+  experience: z.string().min(1),
+  certifications: z.string().min(1).optional(),
+  availability: z.string().min(1),
+});
+
+export type CreateTechnicianApplicationInput = z.infer<
+  typeof createTechnicianApplicationSchema
+>;

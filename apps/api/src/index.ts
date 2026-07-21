@@ -11,6 +11,7 @@ import {
   modifyBookingSchema,
   createReviewSchema,
   createSupportTicketSchema,
+  createTechnicianApplicationSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, requireRole, type AuthEnv } from "./middleware/auth.js";
@@ -37,6 +38,7 @@ import {
   listBookingAttachmentsForAdmin,
   getProjectGallery,
 } from "./lib/attachments.js";
+import { createTechnicianApplication } from "./lib/technician-applications.js";
 
 const app = new Hono<AuthEnv>();
 
@@ -238,6 +240,20 @@ app.get(
 app.get("/v1/projects/gallery", async (c) => {
   const gallery = await getProjectGallery();
   return c.json(gallery);
+});
+
+app.post("/v1/technician-applications", async (c) => {
+  const parsed = createTechnicianApplicationSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json(
+      { error: "Invalid technician application payload", issues: parsed.error.issues },
+      400,
+    );
+  }
+
+  const application = await createTechnicianApplication(parsed.data);
+  return c.json(application, 201);
 });
 
 app.get("/v1/invoices", requireAuth, async (c) => {

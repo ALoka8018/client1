@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 const SETTINGS_LINKS = [
@@ -29,12 +30,12 @@ export function SettingsSidebar() {
             Expert in structural repair? Become a certified Seepage Leakage All Solutions technician
             today.
           </p>
-          <button
-            type="button"
-            className="w-full rounded-full bg-secondary-container py-3 font-sans text-label-md text-on-secondary-container transition-all hover:opacity-90 active:scale-95"
+          <Link
+            href="/become-a-technician"
+            className="block w-full rounded-full bg-secondary-container py-3 text-center font-sans text-label-md text-on-secondary-container transition-all hover:opacity-90 active:scale-95"
           >
             Become a Technician
-          </button>
+          </Link>
         </div>
         <span className="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl opacity-10 transition-transform duration-500 group-hover:rotate-12">
           construction

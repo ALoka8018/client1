@@ -135,9 +135,11 @@ Builds on Phase 0 infra (storage, PDFs, notifications).
 
 ## Phase 3 — Technician / field operations
 
-### 3.1 "Become a Technician" application flow
-- Lowest-effort item in this phase and unblocks nothing else, so do it first if you want a quick technician-pipeline win.
-- `POST /v1/technician-applications` (public or lightly authed), simple form (experience, city, certifications, availability). Store in a new `TechnicianApplication` model; no auto-approval — reviewed manually until an admin app exists.
+### 3.1 "Become a Technician" application flow — ✅ Implemented
+- New `TechnicianApplication` model (name, email, phone, city, experience, certifications, availability, status defaulting `PENDING` — no auto-approval). `POST /v1/technician-applications` — fully public, no auth, since prospective technicians aren't necessarily existing customers.
+- Alerts the support inbox by email on submission (same pattern as 2.5's support tickets) — still the only way a human learns about a new application until an admin app exists.
+- New public page `/become-a-technician` with the application form. Fixed the dead "Become a Technician" button in `SettingsSidebar` (`/account`) — it had no `onClick` at all — to link there.
+- Verified: direct library smoke test (creation, persistence) plus a real HTTP round trip against the running server (`POST /v1/technician-applications` with no auth token → 201), using the safe test-inbox override from 2.5, not the real support address. `tsc`/`eslint` clean, full `next build` succeeds across all 26 routes.
 
 ### 3.2 Technician mobile-first view
 - Requires the `TECHNICIAN` role (already in `UserRole` enum) to actually be assignable — first wire `requireRole` (already written in `apps/api/src/middleware/auth.ts`, currently unused) onto new technician-only routes.

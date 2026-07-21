@@ -58,6 +58,12 @@ enum SupportTicketStatus {
   CLOSED
 }
 
+enum TechnicianApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // ---------- Identity ----------
 
 model User {
@@ -316,6 +322,21 @@ model SupportTicket {
   updatedAt DateTime            @updatedAt
 
   @@index([userId])
+  @@index([status])
+}
+
+model TechnicianApplication {
+  id             String                       @id @default(cuid())
+  name           String
+  email          String
+  phone          String
+  city           String
+  experience     String
+  certifications String?
+  availability   String
+  status         TechnicianApplicationStatus  @default(PENDING)
+  createdAt      DateTime                     @default(now())
+
   @@index([status])
 }
 
