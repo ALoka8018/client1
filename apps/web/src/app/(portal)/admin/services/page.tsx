@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
+import { Badge } from "@repo/ui/Badge";
+import { Card } from "@repo/ui/Card";
 import { Button } from "@repo/ui/Button";
 import { createClient } from "@/lib/supabase/client";
 
@@ -25,6 +28,10 @@ const emptyForm = {
   priceAmount: "",
   active: true,
 };
+
+const fieldClasses =
+  "w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20";
+const labelClasses = "px-1 font-sans text-label-md text-on-surface-variant";
 
 async function getAuthHeader(): Promise<{ Authorization: string } | null> {
   const supabase = createClient();
@@ -192,128 +199,178 @@ export default function AdminServicesPage() {
 
   return (
     <div className="container-max py-section-mobile md:py-section-desktop">
-      <h1 className="mb-8 font-display text-headline-lg-mobile text-primary md:text-headline-lg">
-        Manage Services
-      </h1>
+      <Link
+        href="/admin"
+        className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
+      >
+        <span className="material-symbols-outlined text-base">arrow_back</span>
+        Dashboard
+      </Link>
+
+      <div className="mb-8">
+        <h1 className="font-display text-headline-lg-mobile text-primary md:text-headline-lg">
+          Manage Services
+        </h1>
+        <p className="mt-1 font-sans text-body-sm text-on-surface-variant">
+          Create, edit, and toggle visibility of the services customers can book.
+        </p>
+      </div>
 
       <div className="grid gap-8 md:grid-cols-2">
-        <form className="glass h-fit space-y-4 rounded-3xl p-6" onSubmit={handleSubmit}>
-          <h3 className="font-display text-headline-sm text-primary">
-            {form.id ? "Edit Service" : "New Service"}
-          </h3>
-
-          <select
-            required
-            value={form.categoryId}
-            onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-          >
-            <option value="">Select a category…</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.label}
-              </option>
-            ))}
-          </select>
-
-          <input
-            required
-            placeholder="Title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-          />
-
-          <textarea
-            required
-            placeholder="Description"
-            value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-            rows={3}
-          />
-
-          <input
-            required
-            placeholder="Price label (e.g. Starting at)"
-            value={form.priceLabel}
-            onChange={(e) => setForm({ ...form, priceLabel: e.target.value })}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-          />
-
-          <input
-            required
-            type="number"
-            step="0.01"
-            placeholder="Price amount"
-            value={form.priceAmount}
-            onChange={(e) => setForm({ ...form, priceAmount: e.target.value })}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-          />
-
-          <label className="flex items-center gap-2 font-sans text-body-sm text-on-surface-variant">
-            <input
-              type="checkbox"
-              checked={form.active}
-              onChange={(e) => setForm({ ...form, active: e.target.checked })}
-            />
-            Active (visible to customers)
-          </label>
-
-          {error && (
-            <p className="font-sans text-body-sm text-error" role="alert">
-              {error}
-            </p>
-          )}
-
-          <div className="flex gap-3">
-            <Button type="submit" variant="accent" disabled={saving} fullWidth>
-              {saving ? "Saving…" : form.id ? "Update Service" : "Create Service"}
-            </Button>
-            {form.id && (
-              <Button type="button" variant="outline" onClick={resetForm}>
-                Cancel
-              </Button>
-            )}
+        <Card className="h-fit p-6">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary">
+              {form.id ? "edit" : "add_circle"}
+            </span>
+            <h2 className="font-display text-headline-sm text-primary">
+              {form.id ? "Edit Service" : "New Service"}
+            </h2>
           </div>
-        </form>
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="space-y-2">
+              <label className={labelClasses}>Category</label>
+              <select
+                required
+                value={form.categoryId}
+                onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
+                className={fieldClasses}
+              >
+                <option value="">Select a category…</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className={labelClasses}>Title</label>
+              <input
+                required
+                placeholder="e.g. Terrace Leakage Detection & Repair"
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                className={fieldClasses}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className={labelClasses}>Description</label>
+              <textarea
+                required
+                placeholder="What this service covers…"
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                className={fieldClasses}
+                rows={3}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <label className={labelClasses}>Price label</label>
+                <input
+                  required
+                  placeholder="Starting at"
+                  value={form.priceLabel}
+                  onChange={(e) => setForm({ ...form, priceLabel: e.target.value })}
+                  className={fieldClasses}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className={labelClasses}>Price amount (₹)</label>
+                <input
+                  required
+                  type="number"
+                  step="0.01"
+                  placeholder="4500"
+                  value={form.priceAmount}
+                  onChange={(e) => setForm({ ...form, priceAmount: e.target.value })}
+                  className={fieldClasses}
+                />
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2 font-sans text-body-sm text-on-surface-variant">
+              <input
+                type="checkbox"
+                checked={form.active}
+                onChange={(e) => setForm({ ...form, active: e.target.checked })}
+              />
+              Active (visible to customers)
+            </label>
+
+            {error && (
+              <p className="font-sans text-body-sm text-error" role="alert">
+                {error}
+              </p>
+            )}
+
+            <div className="flex gap-3">
+              <Button type="submit" variant="accent" disabled={saving} fullWidth>
+                {saving ? "Saving…" : form.id ? "Update Service" : "Create Service"}
+              </Button>
+              {form.id && (
+                <Button type="button" variant="outline" onClick={resetForm}>
+                  Cancel
+                </Button>
+              )}
+            </div>
+          </form>
+        </Card>
 
         <div>
-          <h3 className="mb-4 font-display text-headline-sm text-primary">Existing services</h3>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-display text-headline-sm text-primary">Existing Services</h2>
+            <span className="font-sans text-label-md text-on-surface-variant">
+              {services.length} total
+            </span>
+          </div>
           {services.length === 0 ? (
-            <p className="text-on-surface-variant">No services yet.</p>
+            <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-container-low py-16 text-center">
+              <span className="material-symbols-outlined text-4xl text-outline">
+                home_repair_service
+              </span>
+              <p className="font-sans text-body-sm text-on-surface-variant">No services yet.</p>
+            </div>
           ) : (
             <ul className="space-y-3">
               {services.map((s) => (
-                <li
-                  key={s.id}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-4"
-                >
-                  <div>
-                    <p className="font-sans text-sm font-bold text-on-surface">
-                      {s.title} {!s.active && "(inactive)"}
-                    </p>
+                <Card key={s.id} className="flex items-center justify-between gap-4 p-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="truncate font-sans text-sm font-bold text-on-surface">
+                        {s.title}
+                      </p>
+                      <Badge variant={s.active ? "primary" : "neutral"}>
+                        {s.active ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
                     <p className="text-xs text-on-surface-variant">
                       {s.priceLabel} — ₹{s.priceAmount}
                     </p>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex shrink-0 gap-1">
                     <button
                       type="button"
                       onClick={() => handleEdit(s)}
-                      className="text-sm font-bold text-primary hover:opacity-80"
+                      aria-label={`Edit ${s.title}`}
+                      className="flex h-9 w-9 items-center justify-center rounded-full text-primary hover:bg-surface-container-low"
                     >
-                      Edit
+                      <span className="material-symbols-outlined text-lg">edit</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => handleDelete(s.id)}
-                      className="text-sm font-bold text-error hover:opacity-80"
+                      aria-label={`Delete ${s.title}`}
+                      className="flex h-9 w-9 items-center justify-center rounded-full text-error hover:bg-error-container/30"
                     >
-                      Delete
+                      <span className="material-symbols-outlined text-lg">delete</span>
                     </button>
                   </div>
-                </li>
+                </Card>
               ))}
             </ul>
           )}
