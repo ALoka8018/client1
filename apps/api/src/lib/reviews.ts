@@ -37,7 +37,7 @@ export async function listReviews(
   serviceId?: string,
 ): Promise<{ reviews: ReviewListItem[]; average: number | null; count: number }> {
   const reviews = await prisma.review.findMany({
-    where: serviceId ? { serviceId } : undefined,
+    where: { status: "APPROVED", ...(serviceId ? { serviceId } : {}) },
     include: { user: { select: { name: true } } },
     orderBy: { createdAt: "desc" },
   });
@@ -48,12 +48,30 @@ export async function listReviews(
   return { reviews, average, count };
 }
 
+export async function listReviewsForAdmin(): Promise<ReviewListItem[]> {
+  return prisma.review.findMany({
+    include: { user: { select: { name: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export async function updateReviewStatus(
+  id: string,
+  status: "PENDING" | "APPROVED" | "HIDDEN",
+): Promise<Review> {
+  const existing = await prisma.review.findUnique({ where: { id } });
+  if (!existing) {
+    throw new Error("Review not found");
+  }
+  return prisma.review.update({ where: { id }, data: { status } });
+}
+
 export async function serviceReviewAggregates(): Promise<
   Map<string, { average: number; count: number }>
 > {
   const grouped = await prisma.review.groupBy({
     by: ["serviceId"],
-    where: { serviceId: { not: null } },
+    where: { serviceId: { not: null }, status: "APPROVED" },
     _avg: { rating: true },
     _count: { rating: true },
   });

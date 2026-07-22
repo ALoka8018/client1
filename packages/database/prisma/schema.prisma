@@ -64,6 +64,12 @@ enum TechnicianApplicationStatus {
   REJECTED
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
+}
+
 // ---------- Identity ----------
 
 model User {
@@ -361,11 +367,13 @@ model Review {
   service   Service? @relation(fields: [serviceId], references: [id])
   rating    Int
   body      String
-  verified  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  verified  Boolean      @default(true)
+  status    ReviewStatus @default(APPROVED)
+  createdAt DateTime     @default(now())
 
   @@index([serviceId])
   @@index([userId])
+  @@index([status])
 }
 
 model BlogPost {

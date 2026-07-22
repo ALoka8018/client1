@@ -88,3 +88,27 @@ export const assignTechnicianSchema = z.object({
 });
 
 export type AssignTechnicianInput = z.infer<typeof assignTechnicianSchema>;
+
+export const createServiceSchema = z.object({
+  categoryId: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  imageUrl: z.url().optional(),
+  priceLabel: z.string().min(1),
+  priceAmount: z.number().positive(),
+  priceUnit: z.string().min(1).optional(),
+  ctaType: z.string().min(1).optional(),
+  active: z.boolean().optional(),
+});
+
+export type CreateServiceInput = z.infer<typeof createServiceSchema>;
+
+export const updateServiceSchema = createServiceSchema.partial();
+
+export type UpdateServiceInput = z.infer<typeof updateServiceSchema>;
+
+export const updateReviewStatusSchema = z.object({
+  status: z.enum(["PENDING", "APPROVED", "HIDDEN"]),
+});
+
+export type UpdateReviewStatusInput = z.infer<typeof updateReviewStatusSchema>;

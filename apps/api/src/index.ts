@@ -14,6 +14,9 @@ import {
   createTechnicianApplicationSchema,
   updateTechnicianJobStatusSchema,
   assignTechnicianSchema,
+  createServiceSchema,
+  updateServiceSchema,
+  updateReviewStatusSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, requireRole, type AuthEnv } from "./middleware/auth.js";
@@ -25,7 +28,20 @@ import {
   processRazorpayWebhook,
 } from "./lib/payments.js";
 import { generateAndStoreInvoicePdf, closePdfBrowser } from "./lib/invoice-pdf.js";
-import { createReview, listReviews, serviceReviewAggregates } from "./lib/reviews.js";
+import {
+  createReview,
+  listReviews,
+  listReviewsForAdmin,
+  updateReviewStatus,
+  serviceReviewAggregates,
+} from "./lib/reviews.js";
+import {
+  listServicesForAdmin,
+  createService,
+  updateService,
+  deleteService,
+} from "./lib/services.js";
+import { getAdminDashboard } from "./lib/dashboard.js";
 import {
   listNotifications,
   markNotificationRead,
@@ -244,6 +260,71 @@ app.post(
     }
   },
 );
+
+app.get("/v1/admin/dashboard", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const dashboard = await getAdminDashboard();
+  return c.json(dashboard);
+});
+
+app.get("/v1/admin/services", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const services = await listServicesForAdmin();
+  return c.json(services);
+});
+
+app.post("/v1/admin/services", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const parsed = createServiceSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid service payload", issues: parsed.error.issues }, 400);
+  }
+
+  const service = await createService(parsed.data);
+  return c.json(service, 201);
+});
+
+app.patch("/v1/admin/services/:id", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const parsed = updateServiceSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid service payload", issues: parsed.error.issues }, 400);
+  }
+
+  try {
+    const service = await updateService(c.req.param("id")!, parsed.data);
+    return c.json(service);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to update service" }, 404);
+  }
+});
+
+app.delete("/v1/admin/services/:id", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  try {
+    await deleteService(c.req.param("id")!);
+    return c.json({ success: true });
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to delete service" }, 404);
+  }
+});
+
+app.get("/v1/admin/reviews", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const reviews = await listReviewsForAdmin();
+  return c.json(reviews);
+});
+
+app.patch("/v1/admin/reviews/:id", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+  const parsed = updateReviewStatusSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid review status payload", issues: parsed.error.issues }, 400);
+  }
+
+  try {
+    const review = await updateReviewStatus(c.req.param("id")!, parsed.data.status);
+    return c.json(review);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to update review" }, 404);
+  }
+});
 
 app.get("/v1/admin/bookings", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
   const bookings = await listAllBookingsForAdmin();
