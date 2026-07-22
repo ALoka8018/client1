@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Badge } from "@repo/ui/Badge";
+import { Card } from "@repo/ui/Card";
 import { Button } from "@repo/ui/Button";
 import { createClient } from "@/lib/supabase/client";
 
@@ -19,6 +22,10 @@ type TechnicianOption = {
   rating: number;
   ratingCount: number;
 };
+
+const labelClasses = "px-1 font-sans text-label-md text-on-surface-variant";
+const fieldClasses =
+  "w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20";
 
 async function getAuthHeader(): Promise<{ Authorization: string } | null> {
   const supabase = createClient();
@@ -82,6 +89,9 @@ export default function AdminAssignTechnicianPage() {
     })();
   }, []);
 
+  const selectedBooking = bookings.find((b) => b.id === selectedBookingId);
+  const selectedTechnician = technicians.find((t) => t.id === selectedTechnicianId);
+
   const handleAssign = async () => {
     setError(null);
     setSuccess(null);
@@ -139,26 +149,40 @@ export default function AdminAssignTechnicianPage() {
 
   return (
     <div className="container-max py-section-mobile md:py-section-desktop">
-      <h1 className="mb-8 font-display text-headline-lg-mobile text-primary md:text-headline-lg">
-        Assign Technician
-      </h1>
+      <Link
+        href="/admin"
+        className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
+      >
+        <span className="material-symbols-outlined text-base">arrow_back</span>
+        Dashboard
+      </Link>
+
+      <div className="mb-8">
+        <h1 className="font-display text-headline-lg-mobile text-primary md:text-headline-lg">
+          Assign Technician
+        </h1>
+        <p className="mt-1 font-sans text-body-sm text-on-surface-variant">
+          Match an open booking with an available technician.
+        </p>
+      </div>
 
       {technicians.length === 0 && (
-        <p className="mb-6 rounded-2xl bg-secondary-container/20 p-4 font-sans text-body-sm text-on-surface-variant">
-          No technician accounts exist yet — a user needs `role: TECHNICIAN` set before they can
-          be assigned.
-        </p>
+        <div className="mb-6 flex items-center gap-3 rounded-2xl bg-secondary-container/15 p-4">
+          <span className="material-symbols-outlined text-secondary">info</span>
+          <p className="font-sans text-body-sm text-on-surface-variant">
+            No technician accounts exist yet — a user needs <code>role: TECHNICIAN</code> set
+            before they can be assigned.
+          </p>
+        </div>
       )}
 
-      <div className="mx-auto max-w-xl space-y-6">
-        <div className="glass rounded-3xl p-6">
-          <label className="mb-2 block px-1 font-sans text-label-md text-on-surface-variant">
-            Booking
-          </label>
+      <Card className="mx-auto max-w-xl space-y-6 p-6">
+        <div className="space-y-2">
+          <label className={labelClasses}>Booking</label>
           <select
             value={selectedBookingId}
             onChange={(e) => setSelectedBookingId(e.target.value)}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
+            className={fieldClasses}
           >
             <option value="">Select a booking…</option>
             {bookings.map((b) => (
@@ -167,16 +191,22 @@ export default function AdminAssignTechnicianPage() {
               </option>
             ))}
           </select>
+          {selectedBooking && (
+            <div className="flex items-center gap-2 px-1">
+              <Badge variant="neutral">{selectedBooking.status}</Badge>
+              <span className="font-sans text-label-md text-on-surface-variant">
+                {selectedBooking.serviceTitle ?? "No service selected"}
+              </span>
+            </div>
+          )}
         </div>
 
-        <div className="glass rounded-3xl p-6">
-          <label className="mb-2 block px-1 font-sans text-label-md text-on-surface-variant">
-            Technician
-          </label>
+        <div className="space-y-2">
+          <label className={labelClasses}>Technician</label>
           <select
             value={selectedTechnicianId}
             onChange={(e) => setSelectedTechnicianId(e.target.value)}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
+            className={fieldClasses}
           >
             <option value="">Select a technician…</option>
             {technicians.map((t) => (
@@ -186,6 +216,26 @@ export default function AdminAssignTechnicianPage() {
               </option>
             ))}
           </select>
+          {selectedTechnician && (
+            <div className="flex items-center gap-1 px-1">
+              {Array.from({ length: 5 }, (_, i) => (
+                <span
+                  key={i}
+                  className="material-symbols-outlined text-base text-secondary"
+                  style={{
+                    fontVariationSettings:
+                      i < Math.round(selectedTechnician.rating) ? "'FILL' 1" : "'FILL' 0",
+                  }}
+                >
+                  star
+                </span>
+              ))}
+              <span className="ml-1 font-sans text-label-md text-on-surface-variant">
+                {selectedTechnician.ratingCount} review
+                {selectedTechnician.ratingCount === 1 ? "" : "s"}
+              </span>
+            </div>
+          )}
         </div>
 
         {error && (
@@ -194,7 +244,8 @@ export default function AdminAssignTechnicianPage() {
           </p>
         )}
         {success && (
-          <p className="font-sans text-body-sm text-secondary" role="status">
+          <p className="flex items-center gap-1.5 font-sans text-body-sm text-primary" role="status">
+            <span className="material-symbols-outlined text-base">check_circle</span>
             {success}
           </p>
         )}
@@ -202,7 +253,7 @@ export default function AdminAssignTechnicianPage() {
         <Button type="button" variant="accent" fullWidth disabled={assigning} onClick={handleAssign}>
           {assigning ? "Assigning…" : "Assign Technician"}
         </Button>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
+import { Badge } from "@repo/ui/Badge";
+import { Card } from "@repo/ui/Card";
 import { Button } from "@repo/ui/Button";
 import { createClient } from "@/lib/supabase/client";
 
@@ -20,6 +23,10 @@ type Attachment = {
   consentedAt: string | null;
   url: string;
 };
+
+const labelClasses = "px-1 font-sans text-label-md text-on-surface-variant";
+const fieldClasses =
+  "w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20";
 
 async function getAuthHeader(): Promise<{ Authorization: string } | null> {
   const supabase = createClient();
@@ -112,6 +119,8 @@ export default function AdminPhotosPage() {
     if (bookingId) loadAttachments(bookingId);
   };
 
+  const selectedBooking = bookings.find((b) => b.id === selectedBookingId);
+
   const handleUpload = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploadError(null);
@@ -182,108 +191,159 @@ export default function AdminPhotosPage() {
 
   return (
     <div className="container-max py-section-mobile md:py-section-desktop">
-      <h1 className="mb-8 font-display text-headline-lg-mobile text-primary md:text-headline-lg">
-        Job Photos
-      </h1>
+      <Link
+        href="/admin"
+        className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
+      >
+        <span className="material-symbols-outlined text-base">arrow_back</span>
+        Dashboard
+      </Link>
+
+      <div className="mb-8">
+        <h1 className="font-display text-headline-lg-mobile text-primary md:text-headline-lg">
+          Job Photos
+        </h1>
+        <p className="mt-1 font-sans text-body-sm text-on-surface-variant">
+          Upload before/after photos and manage what's featured in the public gallery.
+        </p>
+      </div>
 
       <div className="mx-auto max-w-2xl space-y-8">
-        <div className="glass rounded-3xl p-6">
-          <label className="mb-2 block px-1 font-sans text-label-md text-on-surface-variant">
-            Booking
-          </label>
-          <select
-            value={selectedBookingId}
-            onChange={(e) => handleSelectBooking(e.target.value)}
-            className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-          >
-            <option value="">Select a booking…</option>
-            {bookings.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.code} — {b.userEmail} — {b.serviceTitle ?? "No service"} ({b.status})
-              </option>
-            ))}
-          </select>
-        </div>
+        <Card className="p-6">
+          <div className="space-y-2">
+            <label className={labelClasses}>Booking</label>
+            <select
+              value={selectedBookingId}
+              onChange={(e) => handleSelectBooking(e.target.value)}
+              className={fieldClasses}
+            >
+              <option value="">Select a booking…</option>
+              {bookings.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.code} — {b.userEmail} — {b.serviceTitle ?? "No service"} ({b.status})
+                </option>
+              ))}
+            </select>
+            {selectedBooking && (
+              <div className="px-1">
+                <Badge variant="neutral">{selectedBooking.status}</Badge>
+              </div>
+            )}
+          </div>
+        </Card>
 
         {selectedBookingId && (
           <>
-            <form className="glass space-y-4 rounded-3xl p-6" onSubmit={handleUpload}>
-              <h3 className="font-display text-headline-sm text-primary">Upload a photo</h3>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                className="w-full font-sans text-body-sm text-on-surface-variant"
-              />
-              <select
-                value={photoType}
-                onChange={(e) => setPhotoType(e.target.value as "BEFORE" | "AFTER")}
-                className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20"
-              >
-                <option value="BEFORE">Before</option>
-                <option value="AFTER">After</option>
-              </select>
-              <label className="flex items-center gap-2 font-sans text-body-sm text-on-surface-variant">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                />
-                Customer has consented to this photo being used publicly
-              </label>
-              <label className="flex items-center gap-2 font-sans text-body-sm text-on-surface-variant">
-                <input
-                  type="checkbox"
-                  checked={featured}
-                  onChange={(e) => setFeatured(e.target.checked)}
-                  disabled={!consent}
-                />
-                Feature in public /projects gallery
-              </label>
-              {uploadError && (
-                <p className="font-sans text-body-sm text-error" role="alert">
-                  {uploadError}
-                </p>
-              )}
-              <Button type="submit" variant="accent" disabled={uploading} fullWidth>
-                {uploading ? "Uploading…" : "Upload Photo"}
-              </Button>
-            </form>
+            <Card className="p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">add_a_photo</span>
+                <h2 className="font-display text-headline-sm text-primary">Upload a photo</h2>
+              </div>
+              <form className="space-y-4" onSubmit={handleUpload}>
+                <div className="space-y-2">
+                  <label className={labelClasses}>Photo file</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                    className="w-full rounded-2xl bg-surface-container-low px-4 py-3 font-sans text-body-sm text-on-surface-variant"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className={labelClasses}>Photo type</label>
+                  <select
+                    value={photoType}
+                    onChange={(e) => setPhotoType(e.target.value as "BEFORE" | "AFTER")}
+                    className={fieldClasses}
+                  >
+                    <option value="BEFORE">Before</option>
+                    <option value="AFTER">After</option>
+                  </select>
+                </div>
+                <label className="flex items-center gap-2 font-sans text-body-sm text-on-surface-variant">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                  />
+                  Customer has consented to this photo being used publicly
+                </label>
+                <label className="flex items-center gap-2 font-sans text-body-sm text-on-surface-variant">
+                  <input
+                    type="checkbox"
+                    checked={featured}
+                    onChange={(e) => setFeatured(e.target.checked)}
+                    disabled={!consent}
+                  />
+                  Feature in public /projects gallery
+                </label>
+                {uploadError && (
+                  <p className="font-sans text-body-sm text-error" role="alert">
+                    {uploadError}
+                  </p>
+                )}
+                <Button type="submit" variant="accent" disabled={uploading} fullWidth>
+                  {uploading ? "Uploading…" : "Upload Photo"}
+                </Button>
+              </form>
+            </Card>
 
             <div>
-              <h3 className="mb-4 font-display text-headline-sm text-primary">
-                Existing photos for this booking
-              </h3>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="font-display text-headline-sm text-primary">
+                  Existing photos for this booking
+                </h2>
+                <span className="font-sans text-label-md text-on-surface-variant">
+                  {attachments.length} total
+                </span>
+              </div>
               {attachmentsLoading ? (
                 <p className="text-on-surface-variant">Loading…</p>
               ) : attachments.length === 0 ? (
-                <p className="text-on-surface-variant">No photos uploaded yet.</p>
+                <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-container-low py-16 text-center">
+                  <span className="material-symbols-outlined text-4xl text-outline">
+                    photo_library
+                  </span>
+                  <p className="font-sans text-body-sm text-on-surface-variant">
+                    No photos uploaded yet.
+                  </p>
+                </div>
               ) : (
-                <ul className="space-y-3">
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                   {attachments.map((a) => (
-                    <li
+                    <a
                       key={a.id}
-                      className="flex items-center justify-between gap-4 rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-4"
+                      href={a.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group block"
                     >
-                      <div>
-                        <p className="font-sans text-sm font-bold text-on-surface">
-                          {a.fileName} {a.photoType ? `(${a.photoType})` : ""}
-                        </p>
-                        <p className="text-xs text-on-surface-variant">
-                          {a.featured ? "Featured, consented" : "Not featured"}
-                        </p>
-                      </div>
-                      <a
-                        href={a.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-bold text-primary hover:opacity-80"
-                      >
-                        View
-                      </a>
-                    </li>
+                      <Card className="overflow-hidden p-0">
+                        <div className="relative aspect-square bg-surface-container-low">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={a.url}
+                            alt={a.fileName}
+                            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                          />
+                          {a.photoType && (
+                            <span className="absolute left-2 top-2 rounded-full bg-primary px-2.5 py-1 font-sans text-label-sm text-on-primary">
+                              {a.photoType}
+                            </span>
+                          )}
+                        </div>
+                        <div className="p-3">
+                          <p className="truncate font-sans text-xs font-bold text-on-surface">
+                            {a.fileName}
+                          </p>
+                          <p className="text-xs text-on-surface-variant">
+                            {a.featured ? "Featured, consented" : "Not featured"}
+                          </p>
+                        </div>
+                      </Card>
+                    </a>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           </>
