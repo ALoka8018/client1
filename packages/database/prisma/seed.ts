@@ -98,6 +98,14 @@ const SERVICES = [
   },
 ];
 
+const SERVICE_AREAS = [
+  { city: "Bhubaneswar", area: "Bhubaneswar GPO", pincode: "751001" },
+  { city: "Bhubaneswar", area: "Patia", pincode: "751024" },
+  { city: "Cuttack", area: "Cuttack GPO", pincode: "753001" },
+  { city: "Puri", area: "Puri Town", pincode: "752001" },
+  { city: "Rourkela", area: "Rourkela Town", pincode: "769001" },
+];
+
 async function main() {
   const categories = new Map<string, string>();
 
@@ -122,6 +130,14 @@ async function main() {
 
     await prisma.service.create({
       data: { ...service, categoryId, active: true },
+    });
+  }
+
+  for (const serviceArea of SERVICE_AREAS) {
+    await prisma.serviceArea.upsert({
+      where: { pincode: serviceArea.pincode },
+      update: {},
+      create: serviceArea,
     });
   }
 }

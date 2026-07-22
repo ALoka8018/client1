@@ -2,6 +2,7 @@ import "dotenv/config";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { secureHeaders } from "hono/secure-headers";
 import { logger } from "@repo/logger";
 import { prisma, InvoiceStatus, UserRole } from "@repo/database";
 import {
@@ -17,6 +18,7 @@ import {
   createServiceSchema,
   updateServiceSchema,
   updateReviewStatusSchema,
+  createLeadSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
 import { requireAuth, requireRole, type AuthEnv } from "./middleware/auth.js";
@@ -42,6 +44,8 @@ import {
   deleteService,
 } from "./lib/services.js";
 import { getAdminDashboard } from "./lib/dashboard.js";
+import { checkServiceAreaByPincode, createLead } from "./lib/serviceAreas.js";
+import { rateLimit } from "./middleware/rateLimit.js";
 import {
   listNotifications,
   markNotificationRead,
@@ -70,6 +74,8 @@ const app = new Hono<AuthEnv>();
 
 const allowedOrigins = (process.env.CORS_ORIGIN ?? "http://localhost:3000").split(",");
 
+app.use(secureHeaders());
+
 app.use(
   // "*",
   cors({
@@ -78,20 +84,58 @@ app.use(
   }),
 );
 
+app.onError((err, c) => {
+  logger.error(
+    `Unhandled error on ${c.req.method} ${c.req.path}: ${err instanceof Error ? (err.stack ?? err.message) : String(err)}`,
+  );
+  const isProd = process.env.NODE_ENV === "production";
+  return c.json(
+    { error: isProd ? "Internal server error" : (err instanceof Error ? err.message : "Internal server error") },
+    500,
+  );
+});
+
 app.get("/health", (c) => c.json({ status: "ok" }));
 
 app.get("/v1/me", requireAuth, (c) => c.json(c.get("user")));
 
-app.post("/v1/bookings", requireAuth, async (c) => {
-  const parsed = createBookingSchema.safeParse(await c.req.json());
+app.get("/v1/service-areas/check", async (c) => {
+  const pincode = c.req.query("pincode");
 
-  if (!parsed.success) {
-    return c.json({ error: "Invalid booking payload", issues: parsed.error.issues }, 400);
+  if (!pincode) {
+    return c.json({ error: "pincode query param is required" }, 400);
   }
 
-  const booking = await createBooking(c.get("user"), parsed.data);
-  return c.json(booking, 201);
+  const result = await checkServiceAreaByPincode(pincode);
+  return c.json(result);
 });
+
+app.post("/v1/leads", rateLimit({ windowMs: 5 * 60 * 1000, max: 10 }), async (c) => {
+  const parsed = createLeadSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid lead payload", issues: parsed.error.issues }, 400);
+  }
+
+  const lead = await createLead(parsed.data);
+  return c.json(lead, 201);
+});
+
+app.post(
+  "/v1/bookings",
+  requireAuth,
+  rateLimit({ windowMs: 5 * 60 * 1000, max: 10 }),
+  async (c) => {
+    const parsed = createBookingSchema.safeParse(await c.req.json());
+
+    if (!parsed.success) {
+      return c.json({ error: "Invalid booking payload", issues: parsed.error.issues }, 400);
+    }
+
+    const booking = await createBooking(c.get("user"), parsed.data);
+    return c.json(booking, 201);
+  },
+);
 
 app.get("/v1/bookings", requireAuth, async (c) => {
   const bookings = await listBookings(c.get("user"));
@@ -135,7 +179,7 @@ app.get("/v1/services", async (c) => {
   return c.json(withReviewStats);
 });
 
-app.post("/v1/reviews", requireAuth, async (c) => {
+app.post("/v1/reviews", requireAuth, rateLimit({ windowMs: 5 * 60 * 1000, max: 10 }), async (c) => {
   const parsed = createReviewSchema.safeParse(await c.req.json());
 
   if (!parsed.success) {
@@ -194,16 +238,21 @@ app.get("/v1/properties/:id/health", requireAuth, async (c) => {
   }
 });
 
-app.post("/v1/support-tickets", requireAuth, async (c) => {
-  const parsed = createSupportTicketSchema.safeParse(await c.req.json());
+app.post(
+  "/v1/support-tickets",
+  requireAuth,
+  rateLimit({ windowMs: 5 * 60 * 1000, max: 10 }),
+  async (c) => {
+    const parsed = createSupportTicketSchema.safeParse(await c.req.json());
 
-  if (!parsed.success) {
-    return c.json({ error: "Invalid support ticket payload", issues: parsed.error.issues }, 400);
-  }
+    if (!parsed.success) {
+      return c.json({ error: "Invalid support ticket payload", issues: parsed.error.issues }, 400);
+    }
 
-  const ticket = await createSupportTicket(c.get("user"), parsed.data);
-  return c.json(ticket, 201);
-});
+    const ticket = await createSupportTicket(c.get("user"), parsed.data);
+    return c.json(ticket, 201);
+  },
+);
 
 app.get("/v1/support-tickets", requireAuth, async (c) => {
   const tickets = await listSupportTickets(c.get("user"));
@@ -413,19 +462,23 @@ app.get(
   },
 );
 
-app.post("/v1/technician-applications", async (c) => {
-  const parsed = createTechnicianApplicationSchema.safeParse(await c.req.json());
+app.post(
+  "/v1/technician-applications",
+  rateLimit({ windowMs: 5 * 60 * 1000, max: 10 }),
+  async (c) => {
+    const parsed = createTechnicianApplicationSchema.safeParse(await c.req.json());
 
-  if (!parsed.success) {
-    return c.json(
-      { error: "Invalid technician application payload", issues: parsed.error.issues },
-      400,
-    );
-  }
+    if (!parsed.success) {
+      return c.json(
+        { error: "Invalid technician application payload", issues: parsed.error.issues },
+        400,
+      );
+    }
 
-  const application = await createTechnicianApplication(parsed.data);
-  return c.json(application, 201);
-});
+    const application = await createTechnicianApplication(parsed.data);
+    return c.json(application, 201);
+  },
+);
 
 app.get("/v1/invoices", requireAuth, async (c) => {
   const invoices = await prisma.invoice.findMany({

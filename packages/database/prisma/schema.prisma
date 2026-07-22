@@ -315,6 +315,28 @@ model PropertyHealthMetric {
   @@unique([propertyId, system])
 }
 
+// ---------- Coverage & leads ----------
+
+model ServiceArea {
+  id        String   @id @default(cuid())
+  city      String
+  area      String?
+  pincode   String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([pincode])
+}
+
+/// Captured when a visitor checks coverage for a pincode we don't yet serve.
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  area      String
+  createdAt DateTime @default(now())
+}
+
 // ---------- Support & marketing content ----------
 
 model SupportTicket {

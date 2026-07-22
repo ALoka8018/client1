@@ -112,3 +112,11 @@ export const updateReviewStatusSchema = z.object({
 });
 
 export type UpdateReviewStatusInput = z.infer<typeof updateReviewStatusSchema>;
+
+export const createLeadSchema = z.object({
+  name: z.string().min(1),
+  phone: z.string().min(1),
+  area: z.string().min(1),
+});
+
+export type CreateLeadInput = z.infer<typeof createLeadSchema>;
