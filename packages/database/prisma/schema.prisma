@@ -179,6 +179,7 @@ model Booking {
   status             BookingStatus      @default(REQUESTED)
   scheduledAt        DateTime
   problemDescription String
+  materialsUsed      String?
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
 

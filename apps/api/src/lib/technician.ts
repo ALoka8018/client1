@@ -62,7 +62,12 @@ export async function updateTechnicianJobStatus(
 
   const updated = await prisma.booking.update({
     where: { id: booking.id },
-    data: { status },
+    data: {
+      status,
+      ...(input.action === "completed" && input.materialsUsed
+        ? { materialsUsed: input.materialsUsed }
+        : {}),
+    },
   });
 
   await prisma.bookingStatusEvent.create({

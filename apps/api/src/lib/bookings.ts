@@ -24,9 +24,31 @@ const RESCHEDULABLE_STATUSES: BookingStatus[] = [
   BookingStatus.ASSIGNED,
 ];
 
-function generateBookingCode() {
-  const random = Math.random().toString(36).slice(2, 8).toUpperCase();
-  return `BK-${Date.now().toString(36).toUpperCase()}-${random}`;
+function todayPrefix() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  return `PL-${y}${m}${d}-`;
+}
+
+/**
+ * PL-YYYYMMDD-00001, sequential per day. Computed from today's booking count
+ * rather than a dedicated counter table or DB sequence.
+ * ponytail: race between the count read and the create can produce a
+ * duplicate candidate under concurrent bookings — createBooking retries on
+ * the unique-constraint conflict, so this is a throughput ceiling, not a
+ * correctness bug. Move to a `SELECT ... FOR UPDATE` counter row or a
+ * Postgres sequence if daily booking volume ever gets high enough to collide
+ * often enough to matter.
+ */
+async function generateBookingCode(attempt = 0): Promise<string> {
+  const prefix = todayPrefix();
+  const countToday = await prisma.booking.count({
+    where: { code: { startsWith: prefix } },
+  });
+  const sequence = String(countToday + 1 + attempt).padStart(5, "0");
+  return `${prefix}${sequence}`;
 }
 
 function generateInvoiceNumber() {
@@ -92,16 +114,29 @@ export async function createBooking(
     await prisma.user.update({ where: { id: user.id }, data: { phone: input.phone } });
   }
 
-  const booking = await prisma.booking.create({
-    data: {
-      code: generateBookingCode(),
-      userId: user.id,
-      propertyId: property.id,
-      serviceId: input.serviceId,
-      scheduledAt: input.scheduledAt,
-      problemDescription: input.problemDescription,
-    },
-  });
+  const bookingData = {
+    userId: user.id,
+    propertyId: property.id,
+    serviceId: input.serviceId,
+    scheduledAt: input.scheduledAt,
+    problemDescription: input.problemDescription,
+  };
+
+  let booking: Booking | undefined;
+  const maxAttempts = 5;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      booking = await prisma.booking.create({
+        data: { ...bookingData, code: await generateBookingCode(attempt) },
+      });
+      break;
+    } catch (err) {
+      const isUniqueConflict =
+        err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002";
+      if (!isUniqueConflict || attempt === maxAttempts - 1) throw err;
+    }
+  }
+  if (!booking) throw new Error("Unable to generate a unique booking code");
 
   await prisma.bookingStatusEvent.create({
     data: { bookingId: booking.id, status: booking.status },

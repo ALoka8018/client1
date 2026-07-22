@@ -70,6 +70,7 @@ export default function TechnicianPage() {
   const [jobsLoading, setJobsLoading] = useState(false);
 
   const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({});
+  const [materialsDrafts, setMaterialsDrafts] = useState<Record<string, string>>({});
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -126,7 +127,11 @@ export default function TechnicianPage() {
         {
           method: "PATCH",
           headers: { ...headers, "Content-Type": "application/json" },
-          body: JSON.stringify({ action, note: noteDrafts[job.id] || undefined }),
+          body: JSON.stringify({
+            action,
+            note: noteDrafts[job.id] || undefined,
+            materialsUsed: action === "completed" ? materialsDrafts[job.id] || undefined : undefined,
+          }),
         },
       );
 
@@ -266,6 +271,16 @@ export default function TechnicianPage() {
                         setNoteDrafts((prev) => ({ ...prev, [job.id]: e.target.value }))
                       }
                     />
+                    {next.action === "completed" && (
+                      <Textarea
+                        rows={2}
+                        placeholder="Materials used (optional)…"
+                        value={materialsDrafts[job.id] ?? ""}
+                        onChange={(e) =>
+                          setMaterialsDrafts((prev) => ({ ...prev, [job.id]: e.target.value }))
+                        }
+                      />
+                    )}
                     <Button
                       type="button"
                       variant="accent"

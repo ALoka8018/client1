@@ -79,6 +79,7 @@ export type CreateTechnicianApplicationInput = z.infer<
 export const updateTechnicianJobStatusSchema = z.object({
   action: z.enum(["en_route", "arrived", "completed"]),
   note: z.string().min(1).optional(),
+  materialsUsed: z.string().min(1).optional(),
 });
 
 export type UpdateTechnicianJobStatusInput = z.infer<typeof updateTechnicianJobStatusSchema>;

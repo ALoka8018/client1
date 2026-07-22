@@ -46,6 +46,7 @@ import {
 import { getAdminDashboard } from "./lib/dashboard.js";
 import { checkServiceAreaByPincode, createLead } from "./lib/serviceAreas.js";
 import { rateLimit } from "./middleware/rateLimit.js";
+import { openApiSpec } from "./openapi.js";
 import {
   listNotifications,
   markNotificationRead,
@@ -96,6 +97,26 @@ app.onError((err, c) => {
 });
 
 app.get("/health", (c) => c.json({ status: "ok" }));
+
+app.get("/openapi.json", (c) => c.json(openApiSpec));
+
+app.get("/docs", (c) =>
+  c.html(`<!doctype html>
+<html>
+  <head>
+    <title>API Docs — Seepage Leakage All Solutions</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  </head>
+  <body>
+    <div id="swagger-ui"></div>
+    <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+    <script>
+      window.ui = SwaggerUIBundle({ url: "/openapi.json", dom_id: "#swagger-ui" });
+    </script>
+  </body>
+</html>`),
+);
 
 app.get("/v1/me", requireAuth, (c) => c.json(c.get("user")));
 
