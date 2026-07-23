@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 import { logger } from "@repo/logger";
 import { prisma, InvoiceStatus, UserRole } from "@repo/database";
@@ -72,28 +73,16 @@ import {
 
 const app = new Hono<AuthEnv>();
 
+const allowedOrigins = (process.env.CORS_ORIGIN ?? "http://localhost:3000").split(",");
+
 app.use(secureHeaders());
 
-// ponytail: hand-rolled CORS reflecting any origin for debugging signup — no
-// allowlist enforced. hono/cors's Access-Control-Allow-Origin wasn't surviving
-// the trip through Cloud Run's front end for reasons that didn't reproduce
-// locally; this sets the header directly so there's no ambiguity. Restore the
-// allowlisted `cors()` middleware (CORS_ORIGIN env var) before production traffic.
-app.use(async (c, next) => {
-  const origin = c.req.header("origin");
-  if (origin) c.header("Access-Control-Allow-Origin", origin);
-  c.header("Access-Control-Allow-Credentials", "true");
-  c.header("Vary", "Origin");
-
-  if (c.req.method === "OPTIONS") {
-    c.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,POST,DELETE,PATCH");
-    const requestedHeaders = c.req.header("Access-Control-Request-Headers");
-    if (requestedHeaders) c.header("Access-Control-Allow-Headers", requestedHeaders);
-    return c.body(null, 204);
-  }
-
-  await next();
-});
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  }),
+);
 
 app.onError((err, c) => {
   logger.error(
