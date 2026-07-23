@@ -8,6 +8,11 @@ import { createClient } from "@/lib/supabase/client";
 const fieldClasses =
   "w-full rounded-2xl border-none bg-surface-container-low py-4 pl-13 pr-6 font-sans text-on-surface outline-none transition-all focus:ring-2 focus:ring-primary/20 appearance-none";
 
+function safeRedirect(path: string | null): string | null {
+  if (!path || !path.startsWith("/") || path.startsWith("//")) return null;
+  return path;
+}
+
 function FieldIcon({ icon }: { icon: string }) {
   return (
     <span
@@ -22,7 +27,7 @@ function FieldIcon({ icon }: { icon: string }) {
 export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next");
+  const next = safeRedirect(searchParams.get("next"));
   const switchModeHref = mode === "login" ? "/signup" : "/login";
   const switchModeQuery = next ? `?next=${encodeURIComponent(next)}` : "";
   const isBookingIntent = next === "/book";
@@ -46,7 +51,10 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { full_name: name } },
+        options: {
+          data: { full_name: name },
+          emailRedirectTo: `${window.location.origin}/login${switchModeQuery}`,
+        },
       });
       setLoading(false);
       if (signUpError) {
