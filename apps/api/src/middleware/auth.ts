@@ -22,10 +22,19 @@ async function upsertUserFromSupabase(supabaseUser: {
     email.split("@")[0] ??
     "User";
 
-  return prisma.user.upsert({
-    where: { supabaseId: supabaseUser.id },
-    update: { email },
-    create: {
+  const existing = await prisma.user.findFirst({
+    where: { OR: [{ supabaseId: supabaseUser.id }, { email }] },
+  });
+
+  if (existing) {
+    return prisma.user.update({
+      where: { id: existing.id },
+      data: { supabaseId: supabaseUser.id, email },
+    });
+  }
+
+  return prisma.user.create({
+    data: {
       supabaseId: supabaseUser.id,
       email,
       name,
