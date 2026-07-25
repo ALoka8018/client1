@@ -33,12 +33,15 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const isBookingIntent = next === "/book";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [signupDone, setSignupDone] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,8 +55,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         email,
         password,
         options: {
-          data: { full_name: name },
-          emailRedirectTo: `${window.location.origin}/login${switchModeQuery}`,
+          data: { full_name: name, phone },
         },
       });
       setLoading(false);
@@ -78,6 +80,41 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     router.refresh();
   };
 
+  const handleVerifyOtp = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const supabase = createClient();
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      email,
+      token: otp,
+      type: "signup",
+    });
+    setLoading(false);
+    if (verifyError) {
+      setError(verifyError.message);
+      return;
+    }
+    router.push(next ?? "/dashboard");
+    router.refresh();
+  };
+
+  const handleResendOtp = async () => {
+    setError(null);
+    setResendMessage(null);
+    const supabase = createClient();
+    const { error: resendError } = await supabase.auth.resend({
+      type: "signup",
+      email,
+    });
+    if (resendError) {
+      setError(resendError.message);
+      return;
+    }
+    setResendMessage("Code resent.");
+  };
+
   if (signupDone) {
     return (
       <div className="w-full max-w-md rounded-3xl bg-surface-container-lowest p-10 text-center shadow-level-2 motion-safe:animate-[card-rise_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
@@ -88,18 +125,45 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           mark_email_read
         </span>
         <h2 className="mb-2 font-display text-headline-md text-primary">
-          Check your inbox
+          Verify your email
         </h2>
-        <p className="font-sans text-body-md text-on-surface-variant">
-          We sent a confirmation link to {email}. Confirm your email, then{" "}
-          <Link
-            href={`/login${switchModeQuery}`}
-            className="font-semibold text-primary underline"
-          >
-            sign in
-          </Link>
-          {isBookingIntent ? " to continue your booking" : ""}.
+        <p className="mb-6 font-sans text-body-md text-on-surface-variant">
+          We sent a verification code to {email}. Enter it below to activate
+          your account{isBookingIntent ? " and continue your booking" : ""}.
         </p>
+        <form className="space-y-4" onSubmit={handleVerifyOtp}>
+          <input
+            required
+            inputMode="numeric"
+            pattern="[0-9]*"
+            className={`${fieldClasses} pl-6 text-center tracking-[0.5em]`}
+            placeholder="123456"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+          />
+          {error && (
+            <p className="font-sans text-body-sm text-error" role="alert">
+              {error}
+            </p>
+          )}
+          {resendMessage && (
+            <p className="font-sans text-body-sm text-secondary">{resendMessage}</p>
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary-container py-4 font-display text-headline-md text-on-secondary-container shadow-level-1 transition-all hover:brightness-95 disabled:opacity-50"
+          >
+            {loading ? "Verifying…" : "Verify & Continue"}
+          </button>
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            className="w-full font-sans text-body-sm font-semibold text-primary hover:underline"
+          >
+            Resend code
+          </button>
+        </form>
       </div>
     );
   }
@@ -154,6 +218,24 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
                   placeholder="John Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+          {mode === "signup" && (
+            <div className="space-y-2">
+              <label className="px-1 font-sans text-label-md text-on-surface-variant">
+                Mobile Number
+              </label>
+              <div className="relative">
+                <FieldIcon icon="call" />
+                <input
+                  required
+                  type="tel"
+                  className={fieldClasses}
+                  placeholder="+1 555 123 4567"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
             </div>

@@ -22,6 +22,8 @@ async function upsertUserFromSupabase(supabaseUser: {
     email.split("@")[0] ??
     "User";
 
+  const phone = supabaseUser.user_metadata?.phone as string | undefined;
+
   const existing = await prisma.user.findFirst({
     where: { OR: [{ supabaseId: supabaseUser.id }, { email }] },
   });
@@ -29,7 +31,7 @@ async function upsertUserFromSupabase(supabaseUser: {
   if (existing) {
     return prisma.user.update({
       where: { id: existing.id },
-      data: { supabaseId: supabaseUser.id, email },
+      data: { supabaseId: supabaseUser.id, email, phone: phone ?? existing.phone },
     });
   }
 
@@ -38,6 +40,7 @@ async function upsertUserFromSupabase(supabaseUser: {
       supabaseId: supabaseUser.id,
       email,
       name,
+      phone,
       role: UserRole.CUSTOMER,
     },
   });
