@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter, Sonsie_One } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Sonsie_One, Archivo } from "next/font/google";
 import { buildMetadata } from "@repo/seo";
 import "./globals.css";
 
@@ -20,6 +20,12 @@ const sonsieOne = Sonsie_One({
   weight: ["400"],
 });
 
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  weight: ["800", "900"],
+});
+
 export const metadata: Metadata = buildMetadata("https://example.com", {
   title: "Seepage Leakage All Solutions",
   description:
@@ -35,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${inter.variable} ${sonsieOne.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${inter.variable} ${sonsieOne.variable} ${archivo.variable} h-full antialiased`}
     >
       <head>
         <link
