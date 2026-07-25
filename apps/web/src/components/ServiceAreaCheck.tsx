@@ -66,7 +66,7 @@ export function ServiceAreaCheck({ className }: { className?: string }) {
           <span className="material-symbols-outlined text-primary">location_on</span>
         </div>
         <div>
-          <h3 className="font-display text-headline-sm text-primary">
+          <h3 className="font-display text-headline-sm text-primary-container">
             Check service coverage in your area
           </h3>
           <p className="font-sans text-body-sm text-on-surface-variant">

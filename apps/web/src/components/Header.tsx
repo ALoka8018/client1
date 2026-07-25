@@ -51,7 +51,7 @@ export function Header({
           </button>
           <Link
             href={logoHref}
-            className="font-display text-headline-md font-bold text-primary"
+            className="font-brand text-headline-md text-primary"
           >
             Seepage Leakage All Solutions
           </Link>

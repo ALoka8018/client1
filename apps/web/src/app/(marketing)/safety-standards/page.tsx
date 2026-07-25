@@ -30,7 +30,7 @@ export default function SafetyStandardsPage() {
     <>
       <section className="pt-section-mobile md:pt-section-desktop">
         <div className="container-max text-center">
-          <h1 className="mx-auto mb-6 max-w-2xl font-display text-headline-md text-primary md:text-display-lg">
+          <h1 className="mx-auto mb-6 max-w-2xl font-display text-display-sm text-primary md:text-display-lg">
             Safety Standards &amp; Compliance.
           </h1>
           <p className="mx-auto max-w-2xl font-sans text-body-lg text-on-surface-variant">
@@ -54,7 +54,7 @@ export default function SafetyStandardsPage() {
                 </span>
               </div>
               <div>
-                <h3 className="mb-2 font-display text-headline-md text-primary">
+                <h3 className="mb-2 font-display text-headline-md text-primary-container">
                   {standard.title}
                 </h3>
                 <p className="font-sans text-body-md text-on-surface-variant">

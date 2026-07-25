@@ -18,7 +18,7 @@ const HISTORY = [
 export function MaintenanceHistory() {
   return (
     <section className="mt-12">
-      <h3 className="mb-6 px-4 font-display text-headline-md text-primary">
+      <h3 className="mb-6 px-4 font-display text-headline-md text-primary-container">
         Maintenance History
       </h3>
       <div className="glass overflow-hidden rounded-3xl">

@@ -50,7 +50,7 @@ export function ValuesGrid() {
                   {value.icon}
                 </span>
               </div>
-              <h3 className="mb-3 font-display text-headline-md text-primary">
+              <h3 className="mb-3 font-display text-headline-md text-primary-container">
                 {value.title}
               </h3>
               <p className="font-sans text-body-md text-on-surface-variant">

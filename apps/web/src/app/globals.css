@@ -6,55 +6,58 @@
 
 @theme {
   /* Surfaces */
-  --color-surface: #f7f9fb;
-  --color-surface-dim: #d8dadc;
-  --color-surface-bright: #f7f9fb;
+  --color-surface: #f8f9fa;
+  --color-surface-dim: #dadbdd;
+  --color-surface-bright: #f8f9fa;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f2f4f6;
+  --color-surface-container-low: #f2f3f5;
   --color-surface-container: #eceef0;
-  --color-surface-container-high: #e6e8ea;
-  --color-surface-container-highest: #e0e3e5;
-  --color-surface-variant: #e0e3e5;
-  --color-surface-tint: #345baf;
+  --color-surface-container-high: #e6e7ea;
+  --color-surface-container-highest: #e0e1e5;
+  --color-surface-variant: #e0e1e5;
+  --color-surface-tint: #3c096c;
 
   /* On-surface */
-  --color-on-surface: #191c1e;
+  --color-on-surface: #222222;
   --color-on-surface-variant: #434652;
-  --color-inverse-surface: #2d3133;
-  --color-inverse-on-surface: #eff1f3;
+  --color-inverse-surface: #2d1f3a;
+  --color-inverse-on-surface: #e0e0e0;
   --color-outline: #747783;
   --color-outline-variant: #c4c6d3;
 
-  /* Primary (dark blue) */
-  --color-primary: #002869;
+  /* Primary (navbar / hero purple) */
+  --color-primary: #240046;
   --color-on-primary: #ffffff;
-  --color-primary-container: #0b3d91;
-  --color-on-primary-container: #8dadff;
-  --color-inverse-primary: #b1c5ff;
-  --color-primary-fixed: #dae2ff;
-  --color-primary-fixed-dim: #b1c5ff;
-  --color-on-primary-fixed: #001947;
-  --color-on-primary-fixed-variant: #144296;
+  --color-primary-container: #3c096c;
+  --color-on-primary-container: #e0c3ff;
+  --color-inverse-primary: #d8bee0;
+  --color-primary-fixed: #ecdcfa;
+  --color-primary-fixed-dim: #d8bee0;
+  --color-on-primary-fixed: #240046;
+  --color-on-primary-fixed-variant: #3c096c;
 
-  /* Secondary (accent orange) */
-  --color-secondary: #a04100;
+  /* Secondary (CTA orange) */
+  --color-secondary: #b34a00;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #fe6b00;
-  --color-on-secondary-container: #572000;
-  --color-secondary-fixed: #ffdbcc;
-  --color-secondary-fixed-dim: #ffb693;
-  --color-on-secondary-fixed: #351000;
-  --color-on-secondary-fixed-variant: #7a3000;
+  --color-secondary-container: #ff6d00;
+  --color-on-secondary-container: #240046;
+  --color-secondary-fixed: #ffe0c2;
+  --color-secondary-fixed-dim: #ffb774;
+  --color-on-secondary-fixed: #7a3000;
+  --color-on-secondary-fixed-variant: #b34a00;
 
-  /* Tertiary */
-  --color-tertiary: #1d2d41;
+  /* Tertiary (badge / highlight amber) */
+  --color-tertiary: #8a5700;
   --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #334358;
-  --color-on-tertiary-container: #9fb0c9;
-  --color-tertiary-fixed: #d3e4fe;
-  --color-tertiary-fixed-dim: #b7c8e1;
-  --color-on-tertiary-fixed: #0b1c30;
-  --color-on-tertiary-fixed-variant: #38485d;
+  --color-tertiary-container: #ff9e00;
+  --color-on-tertiary-container: #240046;
+  --color-tertiary-fixed: #ffe7c2;
+  --color-tertiary-fixed-dim: #ffcb80;
+  --color-on-tertiary-fixed: #402400;
+  --color-on-tertiary-fixed-variant: #8a5700;
+
+  /* Badge/micro-copy accent: vibrant orange text on a soft purple pill */
+  --color-badge-accent: #ff7900;
 
   /* Error */
   --color-error: #ba1a1a;
@@ -63,18 +66,26 @@
   --color-on-error-container: #93000a;
 
   /* Background */
-  --color-background: #f7f9fb;
+  --color-background: #f8f9fa;
   --color-on-background: #191c1e;
 
-  /* Fonts: Montserrat for headlines, Inter for body/UI */
+  /* Fonts: Plus Jakarta Sans for headlines, Inter for body/UI,
+     Sonsie One for the logo wordmark and hero display headlines only */
   --font-sans: var(--font-inter);
-  --font-display: var(--font-montserrat);
+  --font-display: var(--font-heading);
+  --font-brand: var(--font-sonsie-one);
 
   /* Type scale (from DESIGN.md) */
   --text-display-lg: 56px;
   --text-display-lg--line-height: 1.1;
   --text-display-lg--letter-spacing: -0.02em;
-  --text-display-lg--font-weight: 700;
+  --text-display-lg--font-weight: 800;
+
+  /* H1 mobile size — hero titles run display-sm on mobile, display-lg from md: up */
+  --text-display-sm: 42px;
+  --text-display-sm--line-height: 1.15;
+  --text-display-sm--letter-spacing: -0.01em;
+  --text-display-sm--font-weight: 800;
 
   --text-headline-lg: 40px;
   --text-headline-lg--line-height: 1.2;
@@ -115,9 +126,9 @@
   --spacing-section-desktop: 120px;
   --spacing-section-mobile: 64px;
 
-  /* Elevation: shadows tinted with primary blue, never pure black */
-  --shadow-level-1: 0 4px 20px 0 rgb(0 40 105 / 0.06);
-  --shadow-level-2: 0 8px 30px 0 rgb(0 40 105 / 0.12);
+  /* Elevation: shadows tinted with primary purple, never pure black */
+  --shadow-level-1: 0 4px 20px 0 rgb(36 0 70 / 0.06);
+  --shadow-level-2: 0 8px 30px 0 rgb(36 0 70 / 0.12);
 }
 
 /* Entrance & background motion — see hero + card usage. Custom easing per

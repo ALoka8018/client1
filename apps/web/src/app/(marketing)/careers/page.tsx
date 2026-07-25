@@ -30,7 +30,7 @@ export default function CareersPage() {
     <>
       <section className="pt-section-mobile md:pt-section-desktop">
         <div className="container-max text-center">
-          <h1 className="mx-auto mb-6 max-w-2xl font-display text-headline-md text-primary md:text-display-lg">
+          <h1 className="mx-auto mb-6 max-w-2xl font-display text-display-sm text-primary md:text-display-lg">
             Build Your Career in Structural Engineering.
           </h1>
           <p className="mx-auto max-w-2xl font-sans text-body-lg text-on-surface-variant">
@@ -49,7 +49,7 @@ export default function CareersPage() {
               className="flex flex-col gap-4 rounded-2xl bg-surface-container-lowest p-8 shadow-level-1 md:flex-row md:items-center md:justify-between"
             >
               <div>
-                <h3 className="mb-1 font-display text-headline-md text-primary">
+                <h3 className="mb-1 font-display text-headline-md text-primary-container">
                   {role.title}
                 </h3>
                 <p className="mb-3 font-sans text-label-md text-on-surface-variant">

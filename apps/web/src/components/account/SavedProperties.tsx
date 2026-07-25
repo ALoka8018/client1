@@ -68,7 +68,7 @@ export function SavedProperties() {
   return (
     <div className="glass h-full rounded-3xl p-8">
       <div className="mb-8 flex items-center justify-between">
-        <h3 className="font-display text-headline-md text-primary">
+        <h3 className="font-display text-headline-md text-primary-container">
           Saved Properties
         </h3>
         <button

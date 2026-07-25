@@ -11,7 +11,7 @@ export default function AboutPage() {
           <span className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1 font-sans text-label-md uppercase tracking-widest text-primary">
             About Seepage Leakage All Solutions
           </span>
-          <h1 className="mx-auto mb-6 max-w-3xl font-display text-headline-md text-primary md:text-display-lg">
+          <h1 className="mx-auto mb-6 max-w-3xl font-display text-display-sm text-primary md:text-display-lg">
             Engineering Trust Since 2008.
           </h1>
           <p className="mx-auto max-w-2xl font-sans text-body-lg text-on-surface-variant">

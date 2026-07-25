@@ -55,7 +55,7 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
         <span className="material-symbols-outlined text-4xl text-on-surface-variant">
           task_alt
         </span>
-        <h3 className="font-display text-headline-md text-primary">No active jobs</h3>
+        <h3 className="font-display text-headline-md text-primary-container">No active jobs</h3>
         <p className="max-w-sm text-on-surface-variant">
           You don&apos;t have any bookings in progress right now. Schedule a service to get
           started.
@@ -87,7 +87,7 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
           </span>
         </div>
         <div>
-          <h3 className="font-display text-headline-md text-primary">
+          <h3 className="font-display text-headline-md text-primary-container">
             {booking.service?.title ?? "Service Request"}
           </h3>
           <p className="text-on-surface-variant">

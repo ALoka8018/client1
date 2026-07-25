@@ -1,7 +1,7 @@
 export function PaymentMethods() {
   return (
     <div className="glass rounded-3xl p-8">
-      <h3 className="mb-8 font-display text-headline-md text-primary">
+      <h3 className="mb-8 font-display text-headline-md text-primary-container">
         Payment Methods
       </h3>
       <div className="flex flex-col gap-4">

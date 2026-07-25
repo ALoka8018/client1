@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Sonsie_One } from "next/font/google";
 import { buildMetadata } from "@repo/seo";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["500", "700", "800"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+const sonsieOne = Sonsie_One({
+  variable: "--font-sonsie-one",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = buildMetadata("https://example.com", {
@@ -29,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${inter.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${inter.variable} ${sonsieOne.variable} h-full antialiased`}
     >
       <head>
         <link

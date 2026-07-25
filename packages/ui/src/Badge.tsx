@@ -9,7 +9,7 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 const variantClasses: Record<BadgeVariant, string> = {
   neutral: "bg-surface-container-high text-on-surface-variant",
-  accent: "bg-secondary-container/15 text-secondary",
+  accent: "bg-primary-fixed text-badge-accent",
   primary: "bg-primary-container/10 text-primary",
   error: "bg-error-container text-on-error-container",
 };

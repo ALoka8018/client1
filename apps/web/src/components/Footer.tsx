@@ -45,7 +45,7 @@ export function Footer() {
       <div className="container-max flex flex-col">
         <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4">
           <div className="col-span-1 md:col-span-2">
-            <h2 className="mb-6 font-display text-headline-md text-primary">
+            <h2 className="mb-6 font-brand text-headline-md text-primary">
               Seepage Leakage All Solutions
             </h2>
             <p className="max-w-sm font-sans text-body-md text-on-surface-variant">

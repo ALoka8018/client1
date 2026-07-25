@@ -57,7 +57,7 @@ export function AdvancedEquipment() {
                 />
               </div>
               <div className="w-full lg:w-1/2">
-                <h3 className="mb-4 font-display text-headline-md text-primary">
+                <h3 className="mb-4 font-display text-headline-md text-primary-container">
                   {item.title}
                 </h3>
                 <p className="mb-6 font-sans text-body-md text-on-surface-variant">

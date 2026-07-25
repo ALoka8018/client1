@@ -90,7 +90,7 @@ export function PayNowButton({
           email: session.user?.email ?? undefined,
         },
         theme: {
-          color: "#002869",
+          color: "#240046",
         },
         modal: {
           ondismiss: () => {

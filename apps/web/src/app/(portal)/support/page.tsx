@@ -40,7 +40,7 @@ export default function SupportPage() {
             <span className="material-symbols-outlined mb-4 text-4xl text-primary">
               {topic.icon}
             </span>
-            <h3 className="mb-2 font-display text-headline-md text-primary">
+            <h3 className="mb-2 font-display text-headline-md text-primary-container">
               {topic.title}
             </h3>
             <p className="font-sans text-body-md text-on-surface-variant">
@@ -51,7 +51,7 @@ export default function SupportPage() {
       </div>
 
       <div className="glass mx-auto max-w-xl rounded-3xl p-8 text-center">
-        <h3 className="mb-2 font-display text-headline-md text-primary">
+        <h3 className="mb-2 font-display text-headline-md text-primary-container">
           Still stuck?
         </h3>
         <p className="mb-4 font-sans text-body-md text-on-surface-variant">

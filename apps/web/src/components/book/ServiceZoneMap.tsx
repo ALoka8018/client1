@@ -5,7 +5,7 @@ export function ServiceZoneMap() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-display text-headline-md text-primary">
+        <h3 className="font-display text-headline-md text-primary-container">
           Service Zones
         </h3>
         <span className="flex items-center gap-2 font-sans text-label-md text-secondary">

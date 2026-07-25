@@ -42,7 +42,7 @@ export function CoreSolutions() {
               <span className="material-symbols-outlined mb-4 text-4xl text-secondary">
                 foundation
               </span>
-              <h3 className="mb-4 font-display text-headline-md text-primary">
+              <h3 className="mb-4 font-display text-headline-md text-primary-container">
                 Seepage Repair
               </h3>
               <p className="font-sans text-body-md text-on-surface-variant">

@@ -74,7 +74,7 @@ export function ProjectGallery() {
         {useFallback
           ? FALLBACK_PROJECTS.map((project) => (
               <div key={project.title} className="flex flex-col gap-4">
-                <h3 className="font-display text-headline-md text-primary">
+                <h3 className="font-display text-headline-md text-primary-container">
                   {project.title}
                 </h3>
                 <BeforeAfterSlider
@@ -90,7 +90,7 @@ export function ProjectGallery() {
             ))
           : gallery.map((pair) => (
               <div key={pair.bookingId} className="flex flex-col gap-4">
-                <h3 className="font-display text-headline-md text-primary">
+                <h3 className="font-display text-headline-md text-primary-container">
                   {pair.serviceTitle ?? "Completed Project"}
                 </h3>
                 <BeforeAfterSlider

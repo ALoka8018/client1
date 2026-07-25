@@ -130,7 +130,7 @@ export function Marketplace() {
                   </span>
                 </div>
               </div>
-              <h3 className="mb-2 font-display text-headline-md text-primary">{item.title}</h3>
+              <h3 className="mb-2 font-display text-headline-md text-primary-container">{item.title}</h3>
               <p className="mb-6 line-clamp-2 font-sans text-body-md text-on-surface-variant">
                 {item.description}
               </p>

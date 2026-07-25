@@ -181,7 +181,7 @@ export default function FlowDocsPage() {
           <span className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1 font-sans text-label-md uppercase tracking-widest text-primary">
             How It Works
           </span>
-          <h1 className="mx-auto mb-6 max-w-3xl font-display text-headline-md text-primary md:text-display-lg">
+          <h1 className="mx-auto mb-6 max-w-3xl font-display text-display-sm text-primary md:text-display-lg">
             From first visit to a booked technician.
           </h1>
           <p className="mx-auto max-w-2xl font-sans text-body-lg text-on-surface-variant">
@@ -216,7 +216,7 @@ export default function FlowDocsPage() {
                 <div className="mb-1 font-sans text-label-md uppercase tracking-wide text-on-surface-variant">
                   {step.stage}
                 </div>
-                <h3 className="mb-2 font-display text-base font-semibold text-primary">
+                <h3 className="mb-2 font-display text-base font-semibold text-primary-container">
                   {step.title}
                 </h3>
                 <p className="font-sans text-sm text-on-surface-variant">
@@ -246,7 +246,7 @@ export default function FlowDocsPage() {
                 className="rounded-xl bg-surface-container-lowest p-6 shadow-level-1"
               >
                 <div className="mb-3 flex items-start justify-between gap-3">
-                  <h3 className="font-display text-base font-semibold text-primary">
+                  <h3 className="font-display text-base font-semibold text-primary-container">
                     {feature.title}
                   </h3>
                   <Badge variant={feature.status === "ready" ? "primary" : "neutral"}>
@@ -309,7 +309,7 @@ export default function FlowDocsPage() {
                 >
                   {item.icon}
                 </span>
-                <h3 className="mb-1 font-display text-base font-semibold text-primary">
+                <h3 className="mb-1 font-display text-base font-semibold text-primary-container">
                   {item.title}
                 </h3>
                 <p className="font-sans text-sm text-on-surface-variant">

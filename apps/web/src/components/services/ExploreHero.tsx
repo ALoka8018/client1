@@ -3,7 +3,7 @@ export function ExploreHero() {
     <section className="mb-12">
       <div className="relative flex min-h-[300px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-primary p-8 text-center">
         <div className="absolute inset-0 bg-primary/20 backdrop-blur-[2px]" />
-        <h1 className="relative z-10 mb-6 font-display text-headline-md text-on-primary drop-shadow-lg md:text-display-lg">
+        <h1 className="relative z-10 mb-6 font-display text-display-sm text-on-primary drop-shadow-lg md:text-display-lg">
           Engineering Solutions Discovery
         </h1>
         <div className="group relative z-10 w-full max-w-2xl">

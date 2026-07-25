@@ -38,7 +38,7 @@ const CONTACTS = [
 export function ContactDetails() {
   return (
     <div className="space-y-8">
-      <h3 className="font-display text-headline-md text-primary">
+      <h3 className="font-display text-headline-md text-primary-container">
         Direct Contact
       </h3>
       <div className="grid grid-cols-1 gap-4">

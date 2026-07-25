@@ -13,10 +13,10 @@ export function BookingHero() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40" />
         <div className="relative z-10 max-w-2xl text-on-primary">
-          <h1 className="mb-6 font-display text-headline-lg-mobile leading-tight md:text-display-lg">
+          <h1 className="mb-6 font-display text-display-sm leading-tight md:text-display-lg">
             Engineering Excellence, Just a Click Away.
           </h1>
-          <p className="max-w-lg font-sans text-body-lg text-white/80">
+          <p className="max-w-lg font-sans text-body-lg text-inverse-on-surface">
             From minor structural fixes to major infrastructure overhauls,
             our experts provide end-to-end solutions for every engineering
             challenge.

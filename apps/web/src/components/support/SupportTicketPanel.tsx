@@ -129,7 +129,7 @@ export function SupportTicketPanel() {
   return (
     <div className="mx-auto max-w-3xl space-y-10">
       <div className="glass rounded-3xl p-8">
-        <h3 className="mb-6 font-display text-headline-md text-primary">
+        <h3 className="mb-6 font-display text-headline-md text-primary-container">
           Submit a Ticket
         </h3>
 
@@ -187,7 +187,7 @@ export function SupportTicketPanel() {
       </div>
 
       <div>
-        <h3 className="mb-4 font-display text-headline-md text-primary">Your Tickets</h3>
+        <h3 className="mb-4 font-display text-headline-md text-primary-container">Your Tickets</h3>
         <div className="overflow-hidden rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">
           {ticketsLoading ? (
             <p className="px-6 py-10 text-center font-sans text-body-md text-on-surface-variant">

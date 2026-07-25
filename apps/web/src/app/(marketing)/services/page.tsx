@@ -8,7 +8,7 @@ export default function ServicesPage() {
       <section className="py-section-mobile md:py-section-desktop">
         <div className="container-max">
           <div className="mb-8 max-w-3xl">
-            <h1 className="mb-6 font-display text-headline-md text-primary md:text-display-lg">
+            <h1 className="mb-6 font-display text-display-sm text-primary md:text-display-lg">
               Precision Solutions for Every Structural Challenge.
             </h1>
             <p className="mb-12 font-sans text-body-lg text-on-surface-variant">

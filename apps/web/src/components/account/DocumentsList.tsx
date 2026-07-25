@@ -136,7 +136,7 @@ export function DocumentsList() {
   return (
     <div className="space-y-10">
       <section>
-        <h3 className="mb-4 font-display text-headline-sm text-primary">Invoices</h3>
+        <h3 className="mb-4 font-display text-headline-sm text-primary-container">Invoices</h3>
         {downloadError && (
           <p className="mb-4 font-sans text-body-sm text-error" role="alert">
             {downloadError}
@@ -195,7 +195,7 @@ export function DocumentsList() {
       </section>
 
       <section>
-        <h3 className="mb-4 font-display text-headline-sm text-primary">
+        <h3 className="mb-4 font-display text-headline-sm text-primary-container">
           Inspection Reports &amp; Photos
         </h3>
         <div className="overflow-hidden rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">

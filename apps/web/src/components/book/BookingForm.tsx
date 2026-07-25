@@ -152,7 +152,7 @@ export function BookingForm() {
           <span className="material-symbols-outlined text-5xl text-secondary">
             check_circle
           </span>
-          <h3 className="font-display text-headline-md text-primary">
+          <h3 className="font-display text-headline-md text-primary-container">
             Appointment Requested
           </h3>
           <p className="max-w-sm font-sans text-body-md text-on-surface-variant">
@@ -165,7 +165,7 @@ export function BookingForm() {
           <span className="material-symbols-outlined text-5xl text-primary">
             payments
           </span>
-          <h3 className="font-display text-headline-md text-primary">
+          <h3 className="font-display text-headline-md text-primary-container">
             Complete Your Payment
           </h3>
           <p className="max-w-sm font-sans text-body-md text-on-surface-variant">

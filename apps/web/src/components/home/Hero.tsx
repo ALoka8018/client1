@@ -7,13 +7,13 @@ export function Hero() {
     <section className="relative flex min-h-[795px] items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY78J0D81W2xHiffk_tsruouNtW90GTnKeAVV4eSNQ3kYuI6W-lvMH90HsiuhAoEfYq1xiGH-Chtc5HV7Lz09E7VTdsXUUg-FjfXPMG4zYKJoCW7ol496TOdil8v3jzR7_CkXz_ooPWQJmJgJdHnca2tFa_45Xiop_kvAWx4QAyiQrxM8NJKPzSBDix5SxNG00CLZvmL9BaAHD6r9o9oE2umT4402-BiWvlrRVcwIbHe7jeVtT6_EUm09cGkxk-peWP9HaU_6Bkt8"
-          alt=""
+          src="/hero-diagnostics.jpg"
+          alt="Technicians using thermal imaging and diagnostic sensors to inspect a building's plumbing infrastructure"
           fill
           priority
-          className="object-cover opacity-20 motion-safe:animate-[hero-bg-settle_12s_cubic-bezier(0.16,1,0.3,1)_forwards] motion-reduce:scale-105"
+          className="object-cover object-right motion-safe:animate-[hero-bg-settle_12s_cubic-bezier(0.16,1,0.3,1)_forwards] motion-reduce:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
       </div>
 
       <div className="container-max relative z-10 grid items-center gap-12 lg:grid-cols-2">
@@ -21,7 +21,7 @@ export function Hero() {
           <span className="mb-6 inline-block rounded-full bg-primary/10 px-4 py-1 font-sans text-label-md uppercase tracking-widest text-primary motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards]">
             Precision Engineering
           </span>
-          <h1 className="mb-6 font-display text-headline-lg-mobile text-primary leading-[1.1] md:text-display-lg motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:90ms]">
+          <h1 className="mb-6 font-display text-display-sm text-primary leading-[1.1] md:text-display-lg motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:90ms]">
             Hidden Water Leakage? <br />
             <span className="text-secondary">
               We Find It Without Breaking Your Walls.
@@ -52,18 +52,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="hidden lg:block motion-safe:animate-[card-rise_0.8s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:150ms]">
-          <div className="glass rounded-3xl border border-white/40 p-4 shadow-xl transition-[transform,box-shadow] duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:shadow-2xl motion-safe:hover:-translate-y-1.5">
-            <div className="relative h-[500px] w-full overflow-hidden rounded-2xl shadow-inner">
-              <Image
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLO7QrQORKFmhc4QCGl7gDg8YelK2XlL0VgLkMKuQpXadabtI_yBA0s4ipqJ1rI0ZTwwnURjiBUnoSlLwa1Z_W1b57SuL2TRfKvgcjhuoNm0o3r1-tCAQ7UQ7E9TxlPq84fHuYUVeaQVNG0XYvOM_RHyqYqXBFjFtCR1ExM0MGOiUKqFJ5dRttdlgZTzW0mNFyrt7yaDFXaF9XLcSXieDeLOCpdoezuIIHwRdQZRi8gXN1ljsJUXZfaz9nlr2N3CANQrrYR8CqO1o"
-                alt="Moisture detection sensor scan visualization over a structural wall"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
+        {/* Reserved for a future hero side image */}
+        <div className="hidden lg:block" />
       </div>
     </section>
   );

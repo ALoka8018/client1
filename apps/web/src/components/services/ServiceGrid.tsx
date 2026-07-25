@@ -144,7 +144,7 @@ export function ServiceGrid() {
                 {service.icon}
               </span>
             </div>
-            <h3 className="mb-3 font-display text-headline-md text-primary">
+            <h3 className="mb-3 font-display text-headline-md text-primary-container">
               {service.title}
             </h3>
             <p className="mb-8 flex-grow font-sans text-body-md text-on-surface-variant">

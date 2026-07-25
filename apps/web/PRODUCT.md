@@ -33,7 +33,7 @@ Technical and trustworthy first — precision-engineering, diagnostics, certifie
 
 ## Anti-references
 
-Should not read as a generic AI-generated SaaS template: no gradient text, no tiny uppercase tracked eyebrows stacked above every section, no identical icon-plus-heading card grids repeated down the page, no hero-metric clichés. Should also avoid the opposite failure mode — a cheap local-contractor site with stock photography and cluttered layout — the existing dark-blue/orange Material-derived palette and Montserrat/Inter type system already move away from both; extend that direction rather than defaulting back to generic patterns.
+Should not read as a generic AI-generated SaaS template: no gradient text, no tiny uppercase tracked eyebrows stacked above every section, no identical icon-plus-heading card grids repeated down the page, no hero-metric clichés. Should also avoid the opposite failure mode — a cheap local-contractor site with stock photography and cluttered layout — the existing deep-violet/orange Material-derived palette and Plus Jakarta Sans/Inter type system already move away from both; extend that direction rather than defaulting back to generic patterns.
 
 ## Design Principles
 

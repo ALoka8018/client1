@@ -339,7 +339,7 @@ export function BookingsTabs() {
                         >
                           {meta.label}
                         </span>
-                        <h3 className="font-display text-headline-md text-primary">
+                        <h3 className="font-display text-headline-md text-primary-container">
                           {booking.service?.title ?? "Service Request"}
                         </h3>
                         <p className="mt-1 text-sm text-on-surface-variant">
