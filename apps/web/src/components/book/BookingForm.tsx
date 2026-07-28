@@ -135,7 +135,7 @@ export function BookingForm() {
     <div className="rounded-[32px] border border-white/40 bg-surface-container-lowest p-8 shadow-xl shadow-primary/5 md:p-12">
       <div className="mb-10 flex items-center gap-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container">
-          <span className="material-symbols-outlined">event_available</span>
+          <span className="material-icon">event_available</span>
         </div>
         <div>
           <h2 className="font-display text-headline-md text-primary">
@@ -149,7 +149,7 @@ export function BookingForm() {
 
       {submitted ? (
         <div className="flex flex-col items-center gap-4 rounded-2xl bg-primary/5 py-16 text-center">
-          <span className="material-symbols-outlined text-5xl text-secondary">
+          <span className="material-icon text-5xl text-secondary">
             check_circle
           </span>
           <h3 className="font-display text-headline-md text-primary-container">
@@ -162,7 +162,7 @@ export function BookingForm() {
         </div>
       ) : pendingInvoice ? (
         <div className="flex flex-col items-center gap-4 rounded-2xl bg-primary/5 py-16 text-center">
-          <span className="material-symbols-outlined text-5xl text-primary">
+          <span className="material-icon text-5xl text-primary">
             payments
           </span>
           <h3 className="font-display text-headline-md text-primary-container">
@@ -288,7 +288,7 @@ export function BookingForm() {
               htmlFor="site-images"
               className="group flex h-48 cursor-pointer flex-col items-center justify-center rounded-[24px] border-2 border-dashed border-outline bg-surface-container-low text-center transition-all hover:scale-[1.01] hover:bg-surface-container"
             >
-              <span className="material-symbols-outlined mb-3 text-4xl text-outline transition-colors group-hover:text-primary">
+              <span className="material-icon mb-3 text-4xl text-outline transition-colors group-hover:text-primary">
                 cloud_upload
               </span>
               <p className="font-sans text-label-md text-on-surface-variant">

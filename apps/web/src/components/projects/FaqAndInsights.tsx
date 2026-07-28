@@ -42,7 +42,7 @@ const INSIGHTS = [
 export function FaqAndInsights() {
   return (
     <section className="container-max py-section-mobile md:py-section-desktop">
-      <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         <div>
           <h2 className="mb-8 font-display text-headline-md text-primary md:text-headline-lg">
             Frequently Asked Questions
@@ -56,7 +56,7 @@ export function FaqAndInsights() {
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between font-display text-headline-md text-primary [&::-webkit-details-marker]:hidden">
                   {faq.question}
-                  <span className="material-symbols-outlined transition-transform group-open:rotate-180">
+                  <span className="material-icon transition-transform group-open:rotate-180">
                     expand_more
                   </span>
                 </summary>
@@ -78,7 +78,7 @@ export function FaqAndInsights() {
               className="flex items-center gap-2 font-sans text-label-md text-secondary hover:underline"
             >
               View All
-              <span className="material-symbols-outlined">arrow_forward</span>
+              <span className="material-icon">arrow_forward</span>
             </Link>
           </div>
           <div className="space-y-6">

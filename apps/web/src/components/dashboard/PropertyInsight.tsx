@@ -38,7 +38,7 @@ export function PropertyInsight({ property, metrics }: PropertyInsightProps) {
         <h4 className="font-display text-headline-md text-primary">
           Property Insight
         </h4>
-        <span className="material-symbols-outlined text-outline">more_vert</span>
+        <span className="material-icon text-outline">more_vert</span>
       </div>
 
       {!property ? (

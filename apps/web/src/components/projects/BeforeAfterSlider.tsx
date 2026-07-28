@@ -50,13 +50,16 @@ export function BeforeAfterSlider({
       </div>
 
       <div
-        className="absolute inset-y-0 z-10 w-1 cursor-ew-resize bg-secondary-container shadow-[0_0_15px_rgba(254,107,0,0.4)]"
+        /* touch-none: without it a drag scrolls the page instead of moving the handle. */
+        className="absolute inset-y-0 z-10 w-1 touch-none cursor-ew-resize bg-secondary-container shadow-[0_0_15px_rgba(254,107,0,0.4)]"
         style={{ left: `${percent}%` }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
       >
-        <div className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-secondary-container text-white shadow-lg">
-          <span className="material-symbols-outlined">unfold_more</span>
+        {/* Invisible 44px-wide grab strip so the 4px bar is reachable by thumb. */}
+        <span className="absolute inset-y-0 left-1/2 w-11 -translate-x-1/2" />
+        <div className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-secondary-container text-white shadow-lg">
+          <span className="material-icon">unfold_more</span>
         </div>
       </div>
 

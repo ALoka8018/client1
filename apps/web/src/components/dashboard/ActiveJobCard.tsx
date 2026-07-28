@@ -52,7 +52,7 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
   if (!booking) {
     return (
       <section className="glass flex flex-col items-center justify-center gap-3 rounded-3xl p-8 text-center">
-        <span className="material-symbols-outlined text-4xl text-on-surface-variant">
+        <span className="material-icon text-4xl text-on-surface-variant">
           task_alt
         </span>
         <h3 className="font-display text-headline-md text-primary-container">No active jobs</h3>
@@ -82,7 +82,7 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
 
       <div className="mb-8 flex items-start gap-4">
         <div className="rounded-2xl bg-primary-container/10 p-3">
-          <span className="material-symbols-outlined text-3xl text-primary">
+          <span className="material-icon text-3xl text-primary">
             water_damage
           </span>
         </div>
@@ -115,7 +115,7 @@ export function ActiveJobCard({ booking }: { booking?: ActiveJobBooking }) {
                         : "bg-surface-container-high text-outline",
                   )}
                 >
-                  <span className="material-symbols-outlined text-[20px]">
+                  <span className="material-icon text-[20px]">
                     {step.icon}
                   </span>
                 </div>

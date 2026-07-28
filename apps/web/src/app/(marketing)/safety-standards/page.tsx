@@ -49,7 +49,7 @@ export default function SafetyStandardsPage() {
               className="flex gap-6 rounded-2xl bg-surface-container-lowest p-8 shadow-level-1"
             >
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-container">
-                <span className="material-symbols-outlined text-3xl text-on-primary-container">
+                <span className="material-icon text-3xl text-on-primary-container">
                   {standard.icon}
                 </span>
               </div>

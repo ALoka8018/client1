@@ -37,7 +37,7 @@ export default function SupportPage() {
             key={topic.title}
             className="glass rounded-3xl p-8 text-center"
           >
-            <span className="material-symbols-outlined mb-4 text-4xl text-primary">
+            <span className="material-icon mb-4 text-4xl text-primary">
               {topic.icon}
             </span>
             <h3 className="mb-2 font-display text-headline-md text-primary-container">

@@ -50,7 +50,7 @@ export function ContactDetails() {
                   contact.accent === "secondary" ? "text-secondary" : "text-primary"
                 }`}
               >
-                <span className="material-symbols-outlined">{contact.icon}</span>
+                <span className="material-icon">{contact.icon}</span>
               </div>
               <div>
                 <p className="font-sans text-label-md uppercase tracking-widest text-outline">

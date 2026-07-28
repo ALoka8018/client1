@@ -25,7 +25,7 @@ export function Recommendations() {
             className="group w-full rounded-2xl border border-white bg-surface-container-low p-4 text-left transition-all hover:border-primary/20"
           >
             <div className="mb-2 flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">
+              <span className="material-icon text-primary">
                 {item.icon}
               </span>
               <h5 className="font-bold text-primary transition-colors group-hover:text-secondary">

@@ -135,7 +135,7 @@ export function SupportTicketPanel() {
 
         {submitted ? (
           <div className="flex flex-col items-center gap-3 py-8 text-center">
-            <span className="material-symbols-outlined text-4xl text-secondary">
+            <span className="material-icon text-4xl text-secondary">
               check_circle
             </span>
             <p className="font-sans text-body-md text-on-surface-variant">
@@ -211,7 +211,7 @@ export function SupportTicketPanel() {
                     </h4>
                     <span
                       className={cn(
-                        "shrink-0 rounded-full px-3 py-1 text-[10px] font-extrabold tracking-wider uppercase",
+                        "shrink-0 rounded-full px-3 py-1 text-label-sm font-extrabold tracking-wider uppercase",
                         STATUS_META[ticket.status].className,
                       )}
                     >

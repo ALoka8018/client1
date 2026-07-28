@@ -21,7 +21,7 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-surface-container px-4 py-2 font-sans text-label-md text-primary">
-            <span className="material-symbols-outlined text-[18px]">
+            <span className="material-icon text-[18px]">
               verified_user
             </span>
             Verified Resident

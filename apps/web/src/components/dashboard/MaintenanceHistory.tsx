@@ -21,8 +21,8 @@ export function MaintenanceHistory() {
       <h3 className="mb-6 px-4 font-display text-headline-md text-primary-container">
         Maintenance History
       </h3>
-      <div className="glass overflow-hidden rounded-3xl">
-        <table className="w-full text-left">
+      <div className="glass overflow-x-auto rounded-3xl">
+        <table className="w-full min-w-[640px] text-left">
           <thead className="bg-surface-container font-sans text-label-md text-on-surface-variant">
             <tr>
               <th className="px-6 py-4">Service</th>
@@ -36,7 +36,7 @@ export function MaintenanceHistory() {
             {HISTORY.map((row) => (
               <tr key={row.title} className="transition-colors hover:bg-surface-container-low">
                 <td className="flex items-center gap-3 px-6 py-4">
-                  <span className="material-symbols-outlined text-primary">
+                  <span className="material-icon text-primary">
                     {row.icon}
                   </span>
                   <div>

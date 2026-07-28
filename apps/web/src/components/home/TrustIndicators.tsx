@@ -14,7 +14,7 @@ export function TrustIndicators() {
             className="flex items-center gap-4 rounded-full bg-surface-container-lowest px-8 py-4 shadow-level-1"
           >
             <span
-              className="material-symbols-outlined scale-125 text-primary"
+              className="material-icon scale-125 text-primary"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               {item.icon}

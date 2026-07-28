@@ -22,7 +22,7 @@ export function QuickActions() {
                 : "bg-primary-container/10 text-primary"
             }`}
           >
-            <span className="material-symbols-outlined text-3xl">
+            <span className="material-icon text-3xl">
               {action.icon}
             </span>
           </div>

@@ -39,7 +39,7 @@ async function getAuthHeader(): Promise<{ Authorization: string } | null> {
 function Restricted() {
   return (
     <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-symbols-outlined mb-6 text-6xl text-outline">lock</span>
+      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">
         Admin Panel — Restricted
       </h1>
@@ -195,7 +195,7 @@ export default function AdminPhotosPage() {
         href="/admin"
         className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
       >
-        <span className="material-symbols-outlined text-base">arrow_back</span>
+        <span className="material-icon text-base">arrow_back</span>
         Dashboard
       </Link>
 
@@ -236,7 +236,7 @@ export default function AdminPhotosPage() {
           <>
             <Card className="p-6">
               <div className="mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">add_a_photo</span>
+                <span className="material-icon text-primary">add_a_photo</span>
                 <h2 className="font-display text-headline-sm text-primary">Upload a photo</h2>
               </div>
               <form className="space-y-4" onSubmit={handleUpload}>
@@ -301,7 +301,7 @@ export default function AdminPhotosPage() {
                 <p className="text-on-surface-variant">Loading…</p>
               ) : attachments.length === 0 ? (
                 <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-container-low py-16 text-center">
-                  <span className="material-symbols-outlined text-4xl text-outline">
+                  <span className="material-icon text-4xl text-outline">
                     photo_library
                   </span>
                   <p className="font-sans text-body-sm text-on-surface-variant">

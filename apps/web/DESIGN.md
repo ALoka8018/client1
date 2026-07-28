@@ -28,8 +28,10 @@ colors:
 typography:
   brand:
     fontFamily: "Sonsie One, cursive"
+    fontSize: "13px mobile -> 24px desktop"
     fontWeight: 400
-    usage: "Logo wordmark only"
+    lineHeight: 1.15
+    usage: "Logo wordmark only. The face is unusually wide, so the wordmark drops to its own 13px step below md to stay inside the 64px header bar."
   h1:
     fontFamily: "Plus Jakarta Sans, sans-serif"
     fontSize: "42px-56px"

@@ -140,7 +140,7 @@ export function ServiceGrid() {
             className="flex h-full flex-col p-8"
           >
             <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-container">
-              <span className="material-symbols-outlined text-3xl text-on-primary-container">
+              <span className="material-icon text-3xl text-on-primary-container">
                 {service.icon}
               </span>
             </div>
@@ -155,7 +155,7 @@ export function ServiceGrid() {
               className="flex items-center font-sans text-label-md font-bold text-secondary transition-all hover:gap-2"
             >
               LEARN MORE
-              <span className="material-symbols-outlined ml-1">
+              <span className="material-icon ml-1">
                 chevron_right
               </span>
             </button>

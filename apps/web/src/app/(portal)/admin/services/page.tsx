@@ -44,7 +44,7 @@ async function getAuthHeader(): Promise<{ Authorization: string } | null> {
 function Restricted() {
   return (
     <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-symbols-outlined mb-6 text-6xl text-outline">lock</span>
+      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">
         Admin Panel — Restricted
       </h1>
@@ -203,7 +203,7 @@ export default function AdminServicesPage() {
         href="/admin"
         className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
       >
-        <span className="material-symbols-outlined text-base">arrow_back</span>
+        <span className="material-icon text-base">arrow_back</span>
         Dashboard
       </Link>
 
@@ -219,7 +219,7 @@ export default function AdminServicesPage() {
       <div className="grid gap-8 md:grid-cols-2">
         <Card className="h-fit p-6">
           <div className="mb-4 flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary">
+            <span className="material-icon text-primary">
               {form.id ? "edit" : "add_circle"}
             </span>
             <h2 className="font-display text-headline-sm text-primary">
@@ -330,7 +330,7 @@ export default function AdminServicesPage() {
           </div>
           {services.length === 0 ? (
             <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-container-low py-16 text-center">
-              <span className="material-symbols-outlined text-4xl text-outline">
+              <span className="material-icon text-4xl text-outline">
                 home_repair_service
               </span>
               <p className="font-sans text-body-sm text-on-surface-variant">No services yet.</p>
@@ -359,7 +359,7 @@ export default function AdminServicesPage() {
                       aria-label={`Edit ${s.title}`}
                       className="flex h-9 w-9 items-center justify-center rounded-full text-primary hover:bg-surface-container-low"
                     >
-                      <span className="material-symbols-outlined text-lg">edit</span>
+                      <span className="material-icon text-lg">edit</span>
                     </button>
                     <button
                       type="button"
@@ -367,7 +367,7 @@ export default function AdminServicesPage() {
                       aria-label={`Delete ${s.title}`}
                       className="flex h-9 w-9 items-center justify-center rounded-full text-error hover:bg-error-container/30"
                     >
-                      <span className="material-symbols-outlined text-lg">delete</span>
+                      <span className="material-icon text-lg">delete</span>
                     </button>
                   </div>
                 </Card>

@@ -63,7 +63,7 @@ export function ServiceAreaCheck({ className }: { className?: string }) {
     <div className={cn("glass rounded-3xl border border-white/50 p-6 md:p-8", className)}>
       <div className="mb-4 flex items-center gap-3">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-container/10">
-          <span className="material-symbols-outlined text-primary">location_on</span>
+          <span className="material-icon text-primary">location_on</span>
         </div>
         <div>
           <h3 className="font-display text-headline-sm text-primary-container">
@@ -82,12 +82,16 @@ export function ServiceAreaCheck({ className }: { className?: string }) {
           placeholder="e.g. 751001"
           value={pincode}
           onChange={(e) => setPincode(e.target.value)}
-          className="w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none transition-all focus:ring-2 focus:ring-primary/20"
+          className="h-14 w-full min-w-0 rounded-2xl border-none bg-surface-container-low px-5 font-sans text-on-surface outline-none transition-all focus:ring-2 focus:ring-primary/20"
         />
         <button
           type="submit"
           disabled={checking}
-          className={buttonClasses({ variant: "accent", size: "sm" })}
+          className={buttonClasses({
+            variant: "accent",
+            size: "lg",
+            className: "shrink-0 rounded-2xl px-5",
+          })}
         >
           {checking ? "Checking…" : "Check"}
         </button>

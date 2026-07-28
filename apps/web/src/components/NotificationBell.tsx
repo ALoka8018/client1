@@ -118,9 +118,9 @@ export function NotificationBell() {
         onClick={() => setOpen((o) => !o)}
         className="relative flex h-10 w-10 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container-low"
       >
-        <span className="material-symbols-outlined">notifications</span>
+        <span className="material-icon">notifications</span>
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-error px-1 text-[10px] font-bold text-on-error">
+          <span className="absolute top-0.5 right-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-error px-1 text-label-sm font-bold text-on-error">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
@@ -157,7 +157,7 @@ export function NotificationBell() {
                     !n.read && "bg-primary/5",
                   )}
                 >
-                  <span className="material-symbols-outlined mt-0.5 text-primary">
+                  <span className="material-icon mt-0.5 text-primary">
                     {TYPE_ICONS[n.type] ?? "notifications"}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -165,7 +165,7 @@ export function NotificationBell() {
                     <p className="line-clamp-2 font-sans text-xs text-on-surface-variant">
                       {n.body}
                     </p>
-                    <p className="mt-1 font-sans text-[11px] text-outline">
+                    <p className="mt-1 font-sans text-label-sm text-outline">
                       {formatRelativeTime(n.createdAt)}
                     </p>
                   </div>

@@ -142,13 +142,13 @@ export function DocumentsList() {
             {downloadError}
           </p>
         )}
-        <div className="overflow-hidden rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">
+        <div className="overflow-x-auto rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">
           {invoices.length === 0 ? (
             <p className="px-6 py-10 text-center font-sans text-body-md text-on-surface-variant">
               No paid invoices yet — invoices appear here once payment is confirmed.
             </p>
           ) : (
-            <table className="w-full border-collapse text-left">
+            <table className="w-full min-w-[640px] border-collapse text-left">
               <thead className="bg-surface-container-low">
                 <tr>
                   <th className="px-6 py-4 font-sans text-label-md text-primary">Invoice</th>
@@ -182,7 +182,7 @@ export function DocumentsList() {
                         onClick={() => downloadInvoice(invoice)}
                         className="inline-flex items-center gap-1 text-sm font-bold text-primary transition-opacity hover:opacity-80 disabled:opacity-50"
                       >
-                        <span className="material-symbols-outlined text-sm">download</span>
+                        <span className="material-icon text-sm">download</span>
                         {downloadingId === invoice.id ? "Preparing…" : "Download PDF"}
                       </button>
                     </td>
@@ -212,7 +212,7 @@ export function DocumentsList() {
                   className="flex items-center justify-between gap-4 px-6 py-4"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">description</span>
+                    <span className="material-icon text-primary">description</span>
                     <div>
                       <p className="font-sans text-sm font-bold text-on-surface">
                         {attachment.fileName}

@@ -34,7 +34,7 @@ export function ServiceZoneMap() {
 
         <div className="glass absolute right-4 bottom-4 left-4 flex items-center justify-between rounded-2xl p-4">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-primary">
+            <span className="material-icon text-primary">
               distance
             </span>
             <span className="font-sans text-label-md text-primary">

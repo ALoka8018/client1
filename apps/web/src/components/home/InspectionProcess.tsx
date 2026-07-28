@@ -29,7 +29,7 @@ export function InspectionProcess() {
   return (
     <section className="bg-surface-container py-section-mobile md:py-section-desktop">
       <div className="container-max">
-        <div className="mb-20 text-center">
+        <div className="mb-12 text-center md:mb-20">
           <h2 className="font-display text-headline-md text-primary md:text-headline-lg">
             The Seepage Leakage All Solutions Inspection Process
           </h2>

@@ -208,7 +208,7 @@ export default function FlowDocsPage() {
                 className="rounded-xl bg-surface-container-lowest p-6 shadow-level-1"
               >
                 <span
-                  className="material-symbols-outlined mb-4 block text-3xl text-secondary-container"
+                  className="material-icon mb-4 block text-3xl text-secondary-container"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   {step.icon}
@@ -304,7 +304,7 @@ export default function FlowDocsPage() {
             {FOUNDATION.map((item) => (
               <div key={item.title} className="border-t-2 border-secondary-container pt-4">
                 <span
-                  className="material-symbols-outlined mb-2 block text-2xl text-primary"
+                  className="material-icon mb-2 block text-2xl text-primary"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   {item.icon}

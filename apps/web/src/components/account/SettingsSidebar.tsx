@@ -37,7 +37,7 @@ export function SettingsSidebar() {
             Become a Technician
           </Link>
         </div>
-        <span className="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl opacity-10 transition-transform duration-500 group-hover:rotate-12">
+        <span className="material-icon absolute -right-4 -bottom-4 text-9xl opacity-10 transition-transform duration-500 group-hover:rotate-12">
           construction
         </span>
       </div>
@@ -49,16 +49,16 @@ export function SettingsSidebar() {
             href={link.href}
             className="group flex items-center gap-4 rounded-2xl p-4 text-on-surface-variant transition-all hover:bg-primary/5 hover:text-primary"
           >
-            <span className="material-symbols-outlined text-primary">
+            <span className="material-icon text-primary">
               {link.icon}
             </span>
             <span className="grow font-sans text-label-md">{link.label}</span>
             {link.badge ? (
-              <span className="rounded bg-error-container px-2 py-0.5 text-[10px] font-bold tracking-tighter text-on-error-container uppercase">
+              <span className="rounded bg-error-container px-2 py-0.5 text-label-sm font-bold tracking-tighter text-on-error-container uppercase">
                 {link.badge}
               </span>
             ) : (
-              <span className="material-symbols-outlined opacity-0 transition-opacity group-hover:opacity-100">
+              <span className="material-icon opacity-0 transition-opacity group-hover:opacity-100">
                 chevron_right
               </span>
             )}
@@ -70,21 +70,21 @@ export function SettingsSidebar() {
           onClick={handleSignOut}
           className="flex w-full items-center gap-4 rounded-2xl p-4 text-left text-error transition-all hover:bg-error/5"
         >
-          <span className="material-symbols-outlined">logout</span>
+          <span className="material-icon">logout</span>
           <span className="font-sans text-label-md">Sign Out</span>
         </button>
       </nav>
 
       <div className="flex items-center justify-between rounded-full bg-surface-container-low px-6 py-4">
         <div className="flex items-center gap-3">
-          <span className="material-symbols-outlined text-secondary">
+          <span className="material-icon text-secondary">
             verified_user
           </span>
           <span className="font-sans text-label-md text-primary">
             End-to-End Encrypted
           </span>
         </div>
-        <span className="material-symbols-outlined text-sm text-on-surface-variant">
+        <span className="material-icon text-sm text-on-surface-variant">
           info
         </span>
       </div>

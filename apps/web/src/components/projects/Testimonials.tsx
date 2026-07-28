@@ -49,7 +49,7 @@ export function Testimonials() {
                 {Array.from({ length: 5 }).map((_, index) => (
                   <span
                     key={index}
-                    className="material-symbols-outlined"
+                    className="material-icon"
                     style={{ fontVariationSettings: "'FILL' 1" }}
                   >
                     star

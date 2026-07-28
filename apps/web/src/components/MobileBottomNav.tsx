@@ -20,7 +20,7 @@ export function MobileBottomNav({ items = DEFAULT_NAV_ITEMS }: MobileBottomNavPr
   const pathname = usePathname();
 
   return (
-    <nav className="glass fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-3xl px-4 py-3 md:hidden">
+    <nav className="glass fixed bottom-0 left-0 z-50 flex w-full items-stretch rounded-t-3xl px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] lg:hidden">
       {items.map((item) => {
         const active = pathname === item.href;
         return (
@@ -28,14 +28,21 @@ export function MobileBottomNav({ items = DEFAULT_NAV_ITEMS }: MobileBottomNavPr
             key={item.href}
             href={item.href}
             className={cn(
-              "flex flex-col items-center justify-center gap-0.5 rounded-full px-4 py-1 text-on-surface-variant",
-              active && "bg-secondary-container text-on-secondary-container",
+              "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 py-1.5",
+              active ? "text-secondary" : "text-on-surface-variant",
             )}
           >
-            <span className="material-symbols-outlined text-2xl">
+            <span
+              className={cn(
+                "material-icon flex h-7 w-12 items-center justify-center rounded-full text-2xl",
+                active && "bg-secondary-container/25",
+              )}
+            >
               {item.icon}
             </span>
-            <span className="font-sans text-label-md">{item.label}</span>
+            <span className="w-full truncate text-center font-sans text-label-sm">
+              {item.label}
+            </span>
           </Link>
         );
       })}

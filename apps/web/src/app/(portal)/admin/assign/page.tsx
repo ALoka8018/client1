@@ -38,7 +38,7 @@ async function getAuthHeader(): Promise<{ Authorization: string } | null> {
 function Restricted() {
   return (
     <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-symbols-outlined mb-6 text-6xl text-outline">lock</span>
+      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">
         Admin Panel — Restricted
       </h1>
@@ -153,7 +153,7 @@ export default function AdminAssignTechnicianPage() {
         href="/admin"
         className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
       >
-        <span className="material-symbols-outlined text-base">arrow_back</span>
+        <span className="material-icon text-base">arrow_back</span>
         Dashboard
       </Link>
 
@@ -168,7 +168,7 @@ export default function AdminAssignTechnicianPage() {
 
       {technicians.length === 0 && (
         <div className="mb-6 flex items-center gap-3 rounded-2xl bg-secondary-container/15 p-4">
-          <span className="material-symbols-outlined text-secondary">info</span>
+          <span className="material-icon text-secondary">info</span>
           <p className="font-sans text-body-sm text-on-surface-variant">
             No technician accounts exist yet — a user needs <code>role: TECHNICIAN</code> set
             before they can be assigned.
@@ -221,7 +221,7 @@ export default function AdminAssignTechnicianPage() {
               {Array.from({ length: 5 }, (_, i) => (
                 <span
                   key={i}
-                  className="material-symbols-outlined text-base text-secondary"
+                  className="material-icon text-base text-secondary"
                   style={{
                     fontVariationSettings:
                       i < Math.round(selectedTechnician.rating) ? "'FILL' 1" : "'FILL' 0",
@@ -245,7 +245,7 @@ export default function AdminAssignTechnicianPage() {
         )}
         {success && (
           <p className="flex items-center gap-1.5 font-sans text-body-sm text-primary" role="status">
-            <span className="material-symbols-outlined text-base">check_circle</span>
+            <span className="material-icon text-base">check_circle</span>
             {success}
           </p>
         )}

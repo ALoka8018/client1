@@ -1,10 +1,11 @@
 import Image from "next/image";
+import { buttonClasses } from "@repo/ui/Button";
 
 export function CoreSolutions() {
   return (
     <section className="py-section-mobile md:py-section-desktop">
       <div className="container-max">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center md:mb-16">
           <h2 className="mb-4 font-display text-headline-md text-primary md:text-headline-lg">
             Core Engineering Solutions
           </h2>
@@ -31,7 +32,12 @@ export function CoreSolutions() {
               Using sub-surface acoustic technology to pinpoint leaks without
               any drilling or wall demolition.
             </p>
-            <button className="rounded bg-secondary-container px-6 py-2 font-sans text-label-md text-on-secondary-container transition-all duration-300 group-hover:px-10">
+            <button
+              className={buttonClasses({
+                variant: "accent",
+                className: "transition-all duration-300 group-hover:px-10",
+              })}
+            >
               Learn More
             </button>
           </div>
@@ -39,7 +45,7 @@ export function CoreSolutions() {
 
           <div className="flex flex-col justify-between rounded-3xl bg-surface-container-lowest p-8 shadow-level-1 md:col-span-4">
             <div>
-              <span className="material-symbols-outlined mb-4 text-4xl text-secondary">
+              <span className="material-icon mb-4 text-4xl text-secondary">
                 foundation
               </span>
               <h3 className="mb-4 font-display text-headline-md text-primary-container">

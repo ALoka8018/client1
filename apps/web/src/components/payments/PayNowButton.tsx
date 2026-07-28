@@ -145,7 +145,7 @@ export function PayNowButton({
   if (paid) {
     return (
       <span className="inline-flex items-center gap-1 text-xs font-bold text-green-700">
-        <span className="material-symbols-outlined text-sm">check_circle</span>
+        <span className="material-icon text-sm">check_circle</span>
         Paid
       </span>
     );

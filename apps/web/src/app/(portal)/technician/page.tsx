@@ -56,7 +56,7 @@ async function getAuthHeader(): Promise<{ Authorization: string } | null> {
 function Restricted() {
   return (
     <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-symbols-outlined mb-6 text-6xl text-outline">lock</span>
+      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">Technician Access Only</h1>
       <p className="max-w-md font-sans text-body-md text-on-surface-variant">
         This area is limited to Seepage Leakage All Solutions technician accounts. If you believe
@@ -266,7 +266,7 @@ export default function TechnicianPage() {
         <p className="text-on-surface-variant">Loading jobs…</p>
       ) : jobs.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-container-low py-16 text-center">
-          <span className="material-symbols-outlined text-4xl text-outline">event_available</span>
+          <span className="material-icon text-4xl text-outline">event_available</span>
           <p className="font-sans text-body-md text-on-surface-variant">
             No jobs assigned to you right now.
           </p>
@@ -329,16 +329,16 @@ export default function TechnicianPage() {
                   )}
                 >
                   <p className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-base">person</span>
+                    <span className="material-icon text-base">person</span>
                     {job.user.name}
                     {job.user.phone ? ` • ${job.user.phone}` : ""}
                   </p>
                   <p className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-base">location_on</span>
+                    <span className="material-icon text-base">location_on</span>
                     {job.property.addressLine}, {job.property.city}
                   </p>
                   <p className="flex items-start gap-2">
-                    <span className="material-symbols-outlined text-base">build</span>
+                    <span className="material-icon text-base">build</span>
                     {job.problemDescription}
                   </p>
                 </div>
@@ -387,7 +387,7 @@ export default function TechnicianPage() {
                       isActive ? "text-on-primary/70" : "text-on-surface-variant",
                     )}
                   >
-                    <span className="material-symbols-outlined text-base">add_a_photo</span>
+                    <span className="material-icon text-base">add_a_photo</span>
                     Upload a photo
                   </p>
                   <div className="flex items-center gap-2">

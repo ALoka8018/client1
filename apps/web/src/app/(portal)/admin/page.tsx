@@ -25,7 +25,7 @@ async function getAuthHeader(): Promise<{ Authorization: string } | null> {
 function Restricted() {
   return (
     <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-symbols-outlined mb-6 text-6xl text-outline">lock</span>
+      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">
         Admin Panel — Restricted
       </h1>
@@ -80,7 +80,7 @@ function StarRating({ rating }: { rating: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          className="material-symbols-outlined text-base text-secondary"
+          className="material-icon text-base text-secondary"
           style={{ fontVariationSettings: i < rating ? "'FILL' 1" : "'FILL' 0" }}
         >
           star
@@ -156,7 +156,7 @@ export default function AdminPage() {
             href={link.href}
             className={buttonClasses({ variant: "outline", size: "sm", pill: true })}
           >
-            <span className="material-symbols-outlined text-lg">{link.icon}</span>
+            <span className="material-icon text-lg">{link.icon}</span>
             {link.label}
           </Link>
         ))}
@@ -168,7 +168,7 @@ export default function AdminPage() {
         <div className="space-y-8">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-8">
             <Card className="p-5">
-              <span className="material-symbols-outlined text-primary">calendar_today</span>
+              <span className="material-icon text-primary">calendar_today</span>
               <p className="mt-3 font-display text-headline-md text-primary tabular-nums">
                 {dashboard.todayBookingsCount}
               </p>
@@ -180,7 +180,7 @@ export default function AdminPage() {
               const meta = STATUS_META[status] ?? { label: status, icon: "help" };
               return (
                 <Card key={status} className="p-5">
-                  <span className="material-symbols-outlined text-on-surface-variant">
+                  <span className="material-icon text-on-surface-variant">
                     {meta.icon}
                   </span>
                   <p className="mt-3 font-display text-headline-md text-primary tabular-nums">

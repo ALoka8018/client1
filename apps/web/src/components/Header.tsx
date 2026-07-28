@@ -36,28 +36,28 @@ export function Header({
 
   return (
     <header className="glass fixed top-0 z-50 w-full">
-      <div className="container-max flex h-16 items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="container-max flex h-16 items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-1 lg:gap-4">
           <button
             type="button"
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
-            className="text-primary md:hidden"
+            className="-ml-2 flex h-11 w-11 shrink-0 items-center justify-center text-primary lg:hidden"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            <span className="material-symbols-outlined">
+            <span className="material-icon">
               {menuOpen ? "close" : "menu"}
             </span>
           </button>
           <Link
             href={logoHref}
-            className="font-brand text-headline-md text-primary"
+            className="font-brand text-brand-sm text-primary lg:text-headline-md"
           >
             Seepage Leakage All Solutions
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => {
             const active = pathname === link.href;
             return (
@@ -89,7 +89,7 @@ export function Header({
       </div>
 
       {menuOpen && (
-        <nav className="flex flex-col gap-1 border-t border-outline-variant bg-surface-container-lowest px-margin-mobile py-4 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-outline-variant bg-surface-container-lowest px-margin-mobile py-4 lg:hidden">
           {navLinks.map((link) => {
             const active = pathname === link.href;
             return (

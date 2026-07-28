@@ -75,7 +75,7 @@ export function EstimateCalculator() {
     <section className="glass mb-12 rounded-3xl border border-white/50 p-8 md:p-10">
       <div className="mb-8 flex items-center gap-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container">
-          <span className="material-symbols-outlined">calculate</span>
+          <span className="material-icon">calculate</span>
         </div>
         <div>
           <h2 className="font-display text-headline-md text-primary">Instant Estimate</h2>

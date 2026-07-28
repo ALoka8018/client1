@@ -1,3 +1,5 @@
+import { buttonClasses } from "@repo/ui/Button";
+
 export function ExploreHero() {
   return (
     <section className="mb-12">
@@ -7,18 +9,19 @@ export function ExploreHero() {
           Engineering Solutions Discovery
         </h1>
         <div className="group relative z-10 w-full max-w-2xl">
-          <div className="glass flex items-center rounded-full px-6 py-4 transition-all group-focus-within:ring-2 ring-secondary-container/50">
-            <span className="material-symbols-outlined mr-3 text-on-surface-variant">
+          <div className="glass flex items-center gap-2 rounded-full p-2 pl-4 transition-all group-focus-within:ring-2 ring-secondary-container/50 sm:gap-3 sm:pl-6">
+            {/* Decorative — drop it below sm so the input and button keep room. */}
+            <span className="material-icon hidden text-on-surface-variant sm:inline-block">
               search
             </span>
             <input
               type="text"
               placeholder="Search for waterproofing, plumbing, inspections..."
-              className="w-full border-none bg-transparent font-sans text-on-surface placeholder:text-outline focus:outline-none focus:ring-0"
+              className="w-full min-w-0 border-none bg-transparent font-sans text-on-surface placeholder:text-outline focus:outline-none focus:ring-0"
             />
             <button
               type="button"
-              className="ml-4 rounded-full bg-primary px-6 py-2 font-sans text-label-md text-on-primary transition-colors hover:bg-primary-container"
+              className={buttonClasses({ variant: "primary", pill: true })}
             >
               Find
             </button>

@@ -80,7 +80,7 @@ export function Marketplace() {
                 : "border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-primary",
             )}
           >
-            <span className="material-symbols-outlined">{item.icon}</span>
+            <span className="material-icon">{item.icon}</span>
             {item.label}
           </button>
         ))}
@@ -104,14 +104,14 @@ export function Marketplace() {
                   <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <span className="material-symbols-outlined text-6xl text-primary/30">
+                    <span className="material-icon text-6xl text-primary/30">
                       {item.category.icon ?? "engineering"}
                     </span>
                   </div>
                 )}
                 <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 shadow-sm">
                   <span
-                    className="material-symbols-outlined text-sm text-secondary-container"
+                    className="material-icon text-sm text-secondary-container"
                     style={{ fontVariationSettings: "'FILL' 1" }}
                   >
                     star
@@ -142,7 +142,7 @@ export function Marketplace() {
                     </span>
                     <span className="text-xl font-bold text-primary">{item.priceLabel}</span>
                   </div>
-                  <span className="material-symbols-outlined text-outline">arrow_forward</span>
+                  <span className="material-icon text-outline">arrow_forward</span>
                 </div>
                 {item.ctaType === "dual" ? (
                   <div className="grid grid-cols-2 gap-3">
@@ -172,7 +172,7 @@ export function Marketplace() {
           ))}
 
           <div className="flex flex-col items-center justify-center rounded-3xl bg-primary p-8 text-center text-on-primary">
-            <span className="material-symbols-outlined mb-4 text-5xl text-secondary-container">
+            <span className="material-icon mb-4 text-5xl text-secondary-container">
               engineering
             </span>
             <h3 className="mb-4 font-display text-headline-md">Custom Technical Solution?</h3>

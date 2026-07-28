@@ -1,11 +1,12 @@
 import Image from "next/image";
+import { buttonClasses } from "@repo/ui/Button";
 
 export function ProfileHero() {
   return (
     <section className="mb-12">
       <div className="glass relative flex flex-col items-center gap-8 overflow-hidden rounded-3xl p-8 md:flex-row md:items-end">
         <div className="pointer-events-none absolute top-0 right-0 p-8 opacity-10">
-          <span className="material-symbols-outlined text-9xl">engineering</span>
+          <span className="material-icon text-9xl">engineering</span>
         </div>
 
         <div className="group relative">
@@ -23,7 +24,7 @@ export function ProfileHero() {
             aria-label="Edit avatar"
             className="absolute right-0 bottom-0 rounded-full bg-primary p-2 text-white shadow-lg transition-transform hover:scale-110"
           >
-            <span className="material-symbols-outlined text-sm">edit</span>
+            <span className="material-icon text-sm">edit</span>
           </button>
         </div>
 
@@ -32,7 +33,7 @@ export function ProfileHero() {
             Marcus Sterling
           </h1>
           <p className="mb-4 flex items-center justify-center gap-2 font-sans text-body-lg text-on-surface-variant md:justify-start">
-            <span className="material-symbols-outlined text-lg text-primary">
+            <span className="material-icon text-lg text-primary">
               verified
             </span>
             Premium Partner • Member since 2022
@@ -49,7 +50,11 @@ export function ProfileHero() {
 
         <button
           type="button"
-          className="rounded-full bg-primary px-8 py-3 font-sans text-label-md text-white shadow-lg transition-all hover:opacity-90 active:scale-95"
+          className={buttonClasses({
+            variant: "primary",
+            pill: true,
+            className: "shadow-lg",
+          })}
         >
           Edit Profile
         </button>

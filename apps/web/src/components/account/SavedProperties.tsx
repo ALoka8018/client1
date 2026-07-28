@@ -78,7 +78,7 @@ export function SavedProperties() {
           className="flex items-center gap-1 font-sans text-label-md text-outline"
         >
           Add New
-          <span className="material-symbols-outlined text-sm">add</span>
+          <span className="material-icon text-sm">add</span>
         </button>
       </div>
 
@@ -103,7 +103,7 @@ export function SavedProperties() {
               <div className="mb-4 flex items-start justify-between">
                 <div className="rounded-xl bg-primary/5 p-3 text-primary">
                   <span
-                    className="material-symbols-outlined"
+                    className="material-icon"
                     style={{ fontVariationSettings: "'FILL' 1" }}
                   >
                     {PROPERTY_TYPE_ICONS[property.propertyType] ?? "home"}

@@ -3,7 +3,7 @@ import Image from "next/image";
 export function OurStory() {
   return (
     <section className="py-section-mobile md:py-section-desktop">
-      <div className="container-max grid items-center gap-16 lg:grid-cols-2">
+      <div className="container-max grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-level-2">
           <Image
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLNHeIvNlcofyiisADUyexVdBBItuF51mItN4Sq-jWyKrUbvvUCBcsRa4MAPL4rFUYwTmPwsQncbvnmmIvfWcRoS7crsXXnK3BGObx8B6dgo3A8xNTnGNnAF1KGHaf0wpZcLwB28QQY3U27-9pY6fzBwUf1T37mQBMCco3zCMvIPeBbG2u3YV20aDShcbbdfZ-ANvoDFfO_U5rlL6OoJ3QSZdkimqRhFhsdDEc0R5VvVY1KOzAiLSZXa0-WHQXE7bPtlTuELL1Fn8"

@@ -44,6 +44,10 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${inter.variable} ${sonsieOne.variable} ${archivo.variable} h-full antialiased`}
     >
       <head>
+        {/* Used for its @font-face only. We style icons with our own
+            `.material-icon` class because this sheet's own rule is unlayered and
+            would outrank every Tailwind utility. See globals.css. */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"

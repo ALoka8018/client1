@@ -5,7 +5,7 @@ export default function ContactPage() {
   return (
     <section className="py-section-mobile md:py-section-desktop">
       <div className="container-max">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center md:mb-16">
           <h1 className="mx-auto mb-6 max-w-2xl font-display text-display-sm text-primary md:text-display-lg">
             Talk to an Engineer.
           </h1>

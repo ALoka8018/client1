@@ -32,9 +32,9 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <div className="w-full max-w-md rounded-3xl bg-surface-container-lowest p-10 text-center shadow-level-2">
+      <div className="w-full max-w-md rounded-3xl bg-surface-container-lowest p-6 text-center sm:p-10 shadow-level-2">
         <span
-          className="material-symbols-outlined mb-4 text-5xl text-secondary"
+          className="material-icon mb-4 text-5xl text-secondary"
           style={{ fontVariationSettings: "'FILL' 1" }}
         >
           mark_email_read

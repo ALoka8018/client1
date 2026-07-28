@@ -33,7 +33,7 @@ export function AdvancedEquipment() {
   return (
     <section className="mt-section-mobile bg-surface-container-low py-24 md:mt-section-desktop">
       <div className="container-max">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center md:mb-16">
           <span className="font-sans text-label-md uppercase tracking-widest text-secondary">
             Engineering-Grade Tech
           </span>
@@ -69,7 +69,7 @@ export function AdvancedEquipment() {
                       key={feature}
                       className="flex items-center gap-3 text-on-surface-variant"
                     >
-                      <span className="material-symbols-outlined text-secondary">
+                      <span className="material-icon text-secondary">
                         check_circle
                       </span>
                       {feature}

@@ -19,7 +19,7 @@ export function PaymentMethods() {
               </p>
             </div>
           </div>
-          <span className="rounded bg-primary-container/10 px-3 py-1 text-[10px] font-bold text-primary-container">
+          <span className="rounded bg-primary-container/10 px-3 py-1 text-label-sm font-bold text-primary-container">
             DEFAULT
           </span>
         </div>
@@ -27,7 +27,7 @@ export function PaymentMethods() {
           type="button"
           className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-outline-variant py-4 font-sans text-label-md text-on-surface-variant transition-colors hover:border-primary hover:text-primary"
         >
-          <span className="material-symbols-outlined">add_card</span>
+          <span className="material-icon">add_card</span>
           Add New Payment Method
         </button>
       </div>

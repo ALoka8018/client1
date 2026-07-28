@@ -27,7 +27,7 @@ function StarPicker({ value, onChange }: { value: number; onChange: (rating: num
         >
           <span
             className={cn(
-              "material-symbols-outlined text-2xl",
+              "material-icon text-2xl",
               star <= value ? "text-secondary" : "text-outline-variant",
             )}
             style={star <= value ? { fontVariationSettings: "'FILL' 1" } : undefined}
@@ -47,7 +47,7 @@ function StarDisplay({ rating }: { rating: number }) {
         <span
           key={star}
           className={cn(
-            "material-symbols-outlined text-lg",
+            "material-icon text-lg",
             star <= rating ? "text-secondary" : "text-outline-variant",
           )}
           style={star <= rating ? { fontVariationSettings: "'FILL' 1" } : undefined}

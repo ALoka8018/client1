@@ -11,7 +11,7 @@ const scanSteps = [
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[795px] items-center overflow-hidden">
+    <section className="relative flex min-h-[600px] items-center overflow-hidden py-12 lg:min-h-[795px] lg:py-0">
       <div className="absolute inset-0 z-0">
         <Image
           src="/hero-diagnostics.jpg"
@@ -20,7 +20,9 @@ export function Hero() {
           priority
           className="object-cover object-right motion-safe:animate-[hero-bg-settle_12s_cubic-bezier(0.16,1,0.3,1)_forwards,hero-bg-pulse_8s_ease-in-out_12s_infinite] motion-reduce:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
+        {/* Mobile stacks text over the full image, so the wash has to cover the
+            whole frame; from lg: the copy sits in the left column only. */}
+        <div className="absolute inset-0 bg-background/85 lg:bg-transparent lg:bg-gradient-to-r lg:from-background lg:via-background/70 lg:to-transparent" />
       </div>
 
       <div className="container-max relative z-10 grid items-center gap-12 lg:grid-cols-2">
@@ -42,12 +44,14 @@ export function Hero() {
             and Moisture Mapping. Non-invasive, accurate, and cost-effective
             solutions for your infrastructure.
           </p>
-          <div className="mb-10 grid grid-cols-2 border-t border-outline-variant motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:220ms]">
+          <div className="mb-10 grid grid-cols-1 border-t border-outline-variant sm:grid-cols-2 motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:220ms]">
             {scanSteps.map((step, i) => (
               <div
                 key={step.n}
                 className={`flex gap-3 border-b border-outline-variant py-3 ${
-                  i % 2 === 0 ? "pr-4" : "border-l border-outline-variant pl-4"
+                  i % 2 === 0
+                    ? "sm:pr-4"
+                    : "sm:border-l sm:border-outline-variant sm:pl-4"
                 }`}
               >
                 <span className="font-sans text-label-md font-bold text-secondary">
@@ -65,7 +69,7 @@ export function Hero() {
               className={buttonClasses({ variant: "accent", size: "lg" })}
             >
               Book Inspection
-              <span className="material-symbols-outlined">
+              <span className="material-icon">
                 calendar_today
               </span>
             </Link>
@@ -74,7 +78,7 @@ export function Hero() {
               className={buttonClasses({ variant: "outline", size: "lg" })}
             >
               Call Now
-              <span className="material-symbols-outlined">call</span>
+              <span className="material-icon">call</span>
             </a>
           </div>
         </div>
@@ -124,11 +128,11 @@ export function Hero() {
                   </g>
                   <g className="motion-safe:animate-[radar-blip_var(--scan)_linear_infinite]">
                     <circle
-                      cx="300"
-                      cy="152"
+                      cx="126"
+                      cy="232"
                       r="7"
                       fill="#ff6d00"
-                      style={{ transformOrigin: "300px 152px" }}
+                      style={{ transformOrigin: "126px 232px" }}
                     />
                   </g>
                   <g
@@ -156,31 +160,31 @@ export function Hero() {
                     />
                   </g>
                   <circle
-                    cx="300"
-                    cy="152"
+                    cx="126"
+                    cy="232"
                     r="7"
                     fill="none"
                     stroke="#ff6d00"
                     strokeWidth="2"
-                    style={{ transformOrigin: "300px 152px" }}
+                    style={{ transformOrigin: "126px 232px" }}
                     className="motion-safe:animate-[radar-ring_2s_ease-out_infinite]"
                   />
                   <circle cx="220" cy="220" r="6" fill="#9d4edd" />
                   <g className="motion-safe:animate-[fade-up-blur_0.7s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:1.3s]">
-                    <path d="M307 145L364 96" stroke="#ff9e00" strokeWidth="1.5" />
+                    <path d="M133 224L70 168" stroke="#ff9e00" strokeWidth="1.5" />
                     <rect
-                      x="230"
-                      y="46"
+                      x="20"
+                      y="116"
                       width="184"
                       height="52"
                       fill="#240046"
                       stroke="#7b2cbf"
                       strokeWidth="2"
                     />
-                    <rect x="230" y="46" width="5" height="52" fill="#ff6d00" />
+                    <rect x="20" y="116" width="5" height="52" fill="#ff6d00" />
                     <text
-                      x="248"
-                      y="70"
+                      x="38"
+                      y="140"
                       fontFamily="var(--font-archivo)"
                       fontSize="13"
                       fontWeight="800"
@@ -190,8 +194,8 @@ export function Hero() {
                       SEEPAGE FOUND
                     </text>
                     <text
-                      x="248"
-                      y="88"
+                      x="38"
+                      y="158"
                       fontSize="11"
                       fontWeight="500"
                       fill="#c79bf0"

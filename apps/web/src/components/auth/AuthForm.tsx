@@ -16,7 +16,7 @@ function safeRedirect(path: string | null): string | null {
 function FieldIcon({ icon }: { icon: string }) {
   return (
     <span
-      className="material-symbols-outlined pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-outline"
+      className="material-icon pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-outline"
       aria-hidden
     >
       {icon}
@@ -117,9 +117,9 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
 
   if (signupDone) {
     return (
-      <div className="w-full max-w-md rounded-3xl bg-surface-container-lowest p-10 text-center shadow-level-2 motion-safe:animate-[card-rise_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
+      <div className="w-full max-w-md rounded-3xl bg-surface-container-lowest p-6 text-center sm:p-10 shadow-level-2 motion-safe:animate-[card-rise_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
         <span
-          className="material-symbols-outlined mb-4 text-5xl text-secondary"
+          className="material-icon mb-4 text-5xl text-secondary"
           style={{ fontVariationSettings: "'FILL' 1" }}
         >
           mark_email_read
@@ -173,7 +173,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       <div className="mb-8 flex flex-col items-center motion-safe:animate-[fade-up-blur_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
         <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-container shadow-level-1">
           <span
-            className="material-symbols-outlined text-4xl text-on-primary"
+            className="material-icon text-4xl text-on-primary"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             sensors
@@ -285,7 +285,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
                 className="absolute right-5 top-1/2 -translate-y-1/2 text-outline transition-colors hover:text-primary"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                <span className="material-symbols-outlined">
+                <span className="material-icon">
                   {showPassword ? "visibility_off" : "visibility"}
                 </span>
               </button>
@@ -332,7 +332,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
                 ? "Sign In"
                 : "Get Started"}
             {!loading && (
-              <span className="material-symbols-outlined">
+              <span className="material-icon">
                 {mode === "login" ? "login" : "arrow_forward"}
               </span>
             )}
@@ -367,7 +367,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       <div className="mt-8 flex flex-wrap justify-center gap-4 motion-safe:animate-[fade-up-blur_0.6s_0.3s_cubic-bezier(0.16,1,0.3,1)_both]">
         <div className="flex items-center gap-2 rounded-full bg-surface-container-lowest px-4 py-2 shadow-level-1">
           <span
-            className="material-symbols-outlined text-sm text-primary"
+            className="material-icon text-sm text-primary"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             verified
@@ -378,7 +378,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </div>
         <div className="flex items-center gap-2 rounded-full bg-surface-container-lowest px-4 py-2 shadow-level-1">
           <span
-            className="material-symbols-outlined text-sm text-primary"
+            className="material-icon text-sm text-primary"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             security

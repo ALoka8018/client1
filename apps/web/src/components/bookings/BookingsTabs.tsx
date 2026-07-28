@@ -436,7 +436,7 @@ export function BookingsTabs() {
                           className="flex items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2"
                         >
                           View Details
-                          <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                          <span className="material-icon text-sm">arrow_forward</span>
                         </button>
                       </div>
                     )}
@@ -468,7 +468,7 @@ export function BookingsTabs() {
               >
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-surface-container text-primary">
-                    <span className="material-symbols-outlined">verified</span>
+                    <span className="material-icon">verified</span>
                   </div>
                   <div>
                     <h4 className="font-bold text-primary">
@@ -503,7 +503,7 @@ export function BookingsTabs() {
       )}
 
       {tab === "invoices" && (
-        <div className="overflow-hidden rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">
+        <div className="overflow-x-auto rounded-3xl border border-white/50 bg-surface-container-lowest shadow-level-1">
           {invoicesLoading ? (
             <p className="px-6 py-10 text-center font-sans text-body-md text-on-surface-variant">
               Loading invoices…
@@ -517,7 +517,7 @@ export function BookingsTabs() {
               No invoices yet
             </p>
           ) : (
-            <table className="w-full border-collapse text-left">
+            <table className="w-full min-w-[640px] border-collapse text-left">
               <thead className="bg-surface-container-low">
                 <tr>
                   <th className="px-6 py-4 font-sans text-label-md text-primary">
@@ -552,7 +552,7 @@ export function BookingsTabs() {
                     <td className="px-6 py-4">
                       <span
                         className={cn(
-                          "rounded-full px-3 py-1 text-[10px] font-extrabold tracking-wider uppercase",
+                          "rounded-full px-3 py-1 text-label-sm font-extrabold tracking-wider uppercase",
                           invoice.status === "PAID"
                             ? "bg-green-100 text-green-700"
                             : invoice.status === "OVERDUE"
@@ -583,7 +583,7 @@ export function BookingsTabs() {
                         </div>
                       ) : invoice.status === "PAID" ? (
                         <span className="inline-flex items-center gap-1 text-xs font-bold text-green-700">
-                          <span className="material-symbols-outlined text-sm">
+                          <span className="material-icon text-sm">
                             check_circle
                           </span>
                           Paid

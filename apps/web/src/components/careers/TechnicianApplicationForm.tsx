@@ -58,7 +58,7 @@ export function TechnicianApplicationForm() {
   if (submitted) {
     return (
       <div className="flex flex-col items-center gap-4 rounded-2xl bg-primary/5 py-16 text-center">
-        <span className="material-symbols-outlined text-5xl text-secondary">
+        <span className="material-icon text-5xl text-secondary">
           check_circle
         </span>
         <h3 className="font-display text-headline-md text-primary-container">

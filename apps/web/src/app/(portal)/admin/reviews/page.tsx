@@ -46,7 +46,7 @@ function StarRating({ rating }: { rating: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          className="material-symbols-outlined text-base text-secondary"
+          className="material-icon text-base text-secondary"
           style={{ fontVariationSettings: i < rating ? "'FILL' 1" : "'FILL' 0" }}
         >
           star
@@ -67,7 +67,7 @@ async function getAuthHeader(): Promise<{ Authorization: string } | null> {
 function Restricted() {
   return (
     <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-symbols-outlined mb-6 text-6xl text-outline">lock</span>
+      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">
         Admin Panel — Restricted
       </h1>
@@ -157,7 +157,7 @@ export default function AdminReviewsPage() {
         href="/admin"
         className="mb-4 inline-flex items-center gap-1 font-sans text-label-md text-on-surface-variant hover:text-primary"
       >
-        <span className="material-symbols-outlined text-base">arrow_back</span>
+        <span className="material-icon text-base">arrow_back</span>
         Dashboard
       </Link>
 
@@ -185,7 +185,7 @@ export default function AdminReviewsPage() {
 
       {reviews.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-container-low py-16 text-center">
-          <span className="material-symbols-outlined text-4xl text-outline">reviews</span>
+          <span className="material-icon text-4xl text-outline">reviews</span>
           <p className="font-sans text-body-sm text-on-surface-variant">No reviews yet.</p>
         </div>
       ) : (
@@ -214,7 +214,7 @@ export default function AdminReviewsPage() {
                     onClick={() => handleStatusChange(r.id, a.status)}
                     className="inline-flex items-center gap-1.5 rounded-full border border-outline-variant/30 px-4 py-2 font-sans text-label-md text-on-surface hover:bg-surface-container-low disabled:opacity-50"
                   >
-                    <span className="material-symbols-outlined text-base">{a.icon}</span>
+                    <span className="material-icon text-base">{a.icon}</span>
                     {a.label}
                   </button>
                 ))}

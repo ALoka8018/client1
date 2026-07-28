@@ -29,7 +29,7 @@ export function ValuesGrid() {
   return (
     <section className="py-section-mobile md:py-section-desktop">
       <div className="container-max">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center md:mb-16">
           <h2 className="mb-4 font-display text-headline-md text-primary md:text-headline-lg">
             What We Stand On
           </h2>
@@ -46,7 +46,7 @@ export function ValuesGrid() {
               className="rounded-2xl bg-surface-container-lowest p-8 shadow-level-1"
             >
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-container">
-                <span className="material-symbols-outlined text-3xl text-on-primary-container">
+                <span className="material-icon text-3xl text-on-primary-container">
                   {value.icon}
                 </span>
               </div>

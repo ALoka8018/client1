@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 const COMPANY_LINKS = [
-  { href: "/services", label: "Expertise" },
   { href: "/safety-standards", label: "Safety Standards" },
   { href: "/careers", label: "Careers" },
 ];
@@ -20,15 +19,15 @@ function FooterLinkList({
 }) {
   return (
     <div>
-      <h4 className="mb-6 font-sans text-label-md uppercase text-primary">
+      <h4 className="mb-3 font-sans text-label-md uppercase text-primary md:mb-6">
         {title}
       </h4>
-      <ul className="space-y-4">
+      <ul className="space-y-1 md:space-y-4">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-on-surface-variant underline decoration-transparent transition-colors hover:text-secondary hover:decoration-secondary"
+              className="-mx-2 inline-block rounded px-2 py-2 text-on-surface-variant underline decoration-transparent transition-colors hover:text-secondary hover:decoration-secondary md:mx-0 md:px-0 md:py-0"
             >
               {link.label}
             </Link>
@@ -41,11 +40,13 @@ function FooterLinkList({
 
 export function Footer() {
   return (
-    <footer className="w-full bg-surface-container-highest pt-16 pb-32 md:pb-16">
+    <footer className="w-full bg-surface-container-highest pt-12 pb-32 md:pt-16 lg:pb-16">
       <div className="container-max flex flex-col">
-        <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4">
-          <div className="col-span-1 md:col-span-2">
-            <h2 className="mb-6 font-brand text-headline-md text-primary">
+        {/* Link groups sit side by side on mobile — stacked they made the footer
+            taller than the viewport for five links. */}
+        <div className="mb-10 grid grid-cols-2 gap-x-6 gap-y-10 md:mb-16 md:grid-cols-4 md:gap-12">
+          <div className="col-span-2">
+            <h2 className="mb-4 font-brand text-headline-md text-primary md:mb-6">
               Seepage Leakage All Solutions
             </h2>
             <p className="max-w-sm font-sans text-body-md text-on-surface-variant">
@@ -57,7 +58,7 @@ export function Footer() {
           <FooterLinkList title="Company" links={COMPANY_LINKS} />
           <FooterLinkList title="Legal" links={LEGAL_LINKS} />
         </div>
-        <div className="border-t border-outline-variant pt-8 text-center md:text-left">
+        <div className="border-t border-outline-variant pt-6 text-center md:pt-8 md:text-left">
           <p className="font-sans text-body-md text-on-surface-variant">
             © 2024 Seepage Leakage All Solutions. All Rights Reserved.
           </p>

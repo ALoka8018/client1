@@ -29,7 +29,7 @@ export default function PortalLayout({
         ctaVariant="primary"
         showNotifications
       />
-      <main className="flex-1 pt-16 pb-24 md:pb-0">{children}</main>
+      <main className="flex-1 pt-16">{children}</main>
       <Footer />
       <MobileBottomNav items={PORTAL_BOTTOM_NAV_ITEMS} />
       <WhatsAppWidget />
