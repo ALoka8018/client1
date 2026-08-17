@@ -11,7 +11,7 @@ export function TrustIndicators() {
         {INDICATORS.map((item) => (
           <div
             key={item.stat}
-            className="flex items-center gap-4 rounded-full bg-surface-container-lowest px-8 py-4 shadow-level-1"
+            className="flex items-center gap-4 rounded-full bg-surface-container-lowest px-8 py-4"
           >
             <span
               className="material-icon scale-125 text-primary"

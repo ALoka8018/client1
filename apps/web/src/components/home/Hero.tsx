@@ -87,8 +87,8 @@ export function Hero() {
           className="hidden lg:block motion-safe:animate-[fade-up-blur_0.8s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-safe:[animation-delay:360ms]"
           style={{ ["--scan" as string]: "4s" }}
         >
-          <div className="glass rounded-3xl border border-white/40 p-4 shadow-level-2">
-            <div className="flex h-[500px] flex-col overflow-hidden rounded-2xl bg-primary shadow-inner">
+          <div className="glass rounded-3xl border border-white/40 p-4">
+            <div className="flex h-[500px] flex-col overflow-hidden rounded-2xl bg-primary">
               <div className="flex items-center justify-between gap-3 border-b border-on-primary/15 px-4 py-3">
                 <span className="font-sans text-[10px] font-bold tracking-[0.22em] text-on-primary-container">
                   MOISTURE RADAR &mdash; GROUND FLOOR

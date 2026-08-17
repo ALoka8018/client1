@@ -43,7 +43,7 @@ export function CoreSolutions() {
           </div>
           </div>
 
-          <div className="flex flex-col justify-between rounded-3xl bg-surface-container-lowest p-8 shadow-level-1 md:col-span-4">
+          <div className="flex flex-col justify-between rounded-3xl bg-surface-container-lowest p-8 md:col-span-4">
             <div>
               <span className="material-icon mb-4 text-4xl text-secondary">
                 foundation

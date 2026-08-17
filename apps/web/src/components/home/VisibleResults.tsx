@@ -34,15 +34,15 @@ export function VisibleResults() {
           </div>
         </div>
 
-        <div className="relative aspect-video overflow-hidden rounded-2xl shadow-2xl">
+        <div className="relative aspect-video overflow-hidden rounded-2xl">
           <Image
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-DNRxnjTsQp1AIvglD8AkmdcRQH1LmvsfgNZbqMwQ3zH4AbTYmW1H62o3eFhztJ8aVr46R-g0OuA45G_T63a2g8zpIW3WEnWt3oDk31IaNEsXEGbwPxTOoopLsmtVHY-7nniwAkC0lYk5XEoK6nzzD8ch_ugMVngC_4pvp-ahmAre-4JLF25Qn7RUSH2Jn9qm0-exML61ZUIwF1negrVvXH8nvV3OpyFe5jqGTjOiHyM82VwaScNJG4zigYFisTqBYqu9Pn4-P18"
             alt="Split comparison: a normal wall alongside its thermal imaging view revealing a hidden moisture plume"
             fill
             className="object-cover"
           />
-          <div className="absolute inset-y-0 left-1/2 z-20 w-1 bg-secondary-container shadow-[0_0_15px_rgba(254,107,0,0.5)]">
-            <div className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-secondary-container text-white shadow-lg">
+          <div className="absolute inset-y-0 left-1/2 z-20 w-1 bg-secondary-container">
+            <div className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-secondary-container text-white">
               <span className="material-icon">unfold_more</span>
             </div>
           </div>
