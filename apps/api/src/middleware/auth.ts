@@ -67,6 +67,10 @@ export async function requireAuth(c: Context<AuthEnv>, next: Next) {
   await next();
 }
 
+export const ADMIN_ROLES = [UserRole.ADMIN, UserRole.SUPER_ADMIN] as const;
+export const isAdminRole = (role: UserRole) =>
+  role === UserRole.ADMIN || role === UserRole.SUPER_ADMIN;
+
 export function requireRole(...roles: UserRole[]) {
   return async (c: Context<AuthEnv>, next: Next) => {
     const user = c.get("user");

@@ -81,7 +81,7 @@ async function markInvoicePaid(
         html: `
           <p>Thanks for your payment.</p>
           <p>Invoice <strong>${paidInvoice.number}</strong> is now marked as paid. You can download your invoice PDF from your account portal.</p>
-          <p>— Seepage Leakage All Solutions</p>
+          <p>— Seepage Doctor</p>
         `,
         text: `Invoice ${paidInvoice.number} is now paid. Download your invoice from the portal.`,
       },

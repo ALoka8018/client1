@@ -97,7 +97,7 @@ function bookingConfirmationNotification(booking: Booking, user: User) {
           <li><strong>Issue:</strong> ${booking.problemDescription}</li>
         </ul>
         <p>Our team will confirm your visit shortly by phone or email.</p>
-        <p>— Seepage Leakage All Solutions</p>
+        <p>— Seepage Doctor</p>
       `,
       text: `Hi ${user.name}, your booking ${booking.code} is scheduled for ${scheduledLabel}. Issue: ${booking.problemDescription}`,
     },
@@ -217,7 +217,7 @@ function bookingModifiedNotification(
         html: `
           <p>Your booking <strong>${booking.code}</strong> has been rescheduled to <strong>${scheduledLabel}</strong>.</p>
           ${reason ? `<p>Reason: ${reason}</p>` : ""}
-          <p>— Seepage Leakage All Solutions</p>
+          <p>— Seepage Doctor</p>
         `,
         text: `Booking ${booking.code} rescheduled to ${scheduledLabel}.${reason ? ` Reason: ${reason}` : ""}`,
       },
@@ -232,7 +232,7 @@ function bookingModifiedNotification(
       html: `
         <p>Your booking <strong>${booking.code}</strong> has been cancelled.</p>
         ${reason ? `<p>Reason: ${reason}</p>` : ""}
-        <p>— Seepage Leakage All Solutions</p>
+        <p>— Seepage Doctor</p>
       `,
       text: `Booking ${booking.code} cancelled.${reason ? ` Reason: ${reason}` : ""}`,
     },

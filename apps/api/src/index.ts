@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 import { logger } from "@repo/logger";
-import { prisma, InvoiceStatus, UserRole } from "@repo/database";
+import { prisma, InvoiceStatus, UserRole, TechnicianApplicationStatus } from "@repo/database";
 import {
   createBookingSchema,
   createPaymentOrderSchema,
@@ -19,9 +19,17 @@ import {
   updateServiceSchema,
   updateReviewStatusSchema,
   createLeadSchema,
+  adminUpdateUserSchema,
+  reviewTechnicianApplicationSchema,
 } from "@repo/validation";
 import { createStorageDriver } from "@repo/storage";
-import { requireAuth, requireRole, type AuthEnv } from "./middleware/auth.js";
+import {
+  requireAuth,
+  requireRole,
+  ADMIN_ROLES,
+  isAdminRole,
+  type AuthEnv,
+} from "./middleware/auth.js";
 import { createBooking, listBookings, modifyBooking } from "./lib/bookings.js";
 import {
   createPaymentOrder,
@@ -61,7 +69,12 @@ import {
   listBookingAttachmentsForAdmin,
   getProjectGallery,
 } from "./lib/attachments.js";
-import { createTechnicianApplication } from "./lib/technician-applications.js";
+import {
+  createTechnicianApplication,
+  listTechnicianApplications,
+  reviewTechnicianApplication,
+} from "./lib/technician-applications.js";
+import { listUsers, updateUserAsAdmin } from "./lib/staff.js";
 import {
   listTechnicianJobs,
   updateTechnicianJobStatus,
@@ -103,7 +116,7 @@ app.get("/docs", (c) =>
   c.html(`<!doctype html>
 <html>
   <head>
-    <title>API Docs — Seepage Leakage All Solutions</title>
+    <title>API Docs — Seepage Doctor</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
   </head>
@@ -282,7 +295,7 @@ app.get("/v1/support-tickets", requireAuth, async (c) => {
 app.post(
   "/v1/bookings/:id/attachments",
   requireAuth,
-  requireRole(UserRole.ADMIN, UserRole.TECHNICIAN),
+  requireRole(...ADMIN_ROLES, UserRole.TECHNICIAN),
   async (c) => {
     const user = c.get("user");
     const bookingId = c.req.param("id")!;
@@ -307,7 +320,7 @@ app.post(
     }
 
     // Technicians can document a job, but only staff can approve a photo for public featuring.
-    const isAdmin = user.role === UserRole.ADMIN;
+    const isAdmin = isAdminRole(user.role);
 
     try {
       const buffer = Buffer.from(await file.arrayBuffer());
@@ -330,17 +343,17 @@ app.post(
   },
 );
 
-app.get("/v1/admin/dashboard", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.get("/v1/admin/dashboard", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const dashboard = await getAdminDashboard();
   return c.json(dashboard);
 });
 
-app.get("/v1/admin/services", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.get("/v1/admin/services", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const services = await listServicesForAdmin();
   return c.json(services);
 });
 
-app.post("/v1/admin/services", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.post("/v1/admin/services", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const parsed = createServiceSchema.safeParse(await c.req.json());
 
   if (!parsed.success) {
@@ -351,7 +364,7 @@ app.post("/v1/admin/services", requireAuth, requireRole(UserRole.ADMIN), async (
   return c.json(service, 201);
 });
 
-app.patch("/v1/admin/services/:id", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.patch("/v1/admin/services/:id", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const parsed = updateServiceSchema.safeParse(await c.req.json());
 
   if (!parsed.success) {
@@ -366,7 +379,7 @@ app.patch("/v1/admin/services/:id", requireAuth, requireRole(UserRole.ADMIN), as
   }
 });
 
-app.delete("/v1/admin/services/:id", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.delete("/v1/admin/services/:id", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   try {
     await deleteService(c.req.param("id")!);
     return c.json({ success: true });
@@ -375,12 +388,12 @@ app.delete("/v1/admin/services/:id", requireAuth, requireRole(UserRole.ADMIN), a
   }
 });
 
-app.get("/v1/admin/reviews", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.get("/v1/admin/reviews", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const reviews = await listReviewsForAdmin();
   return c.json(reviews);
 });
 
-app.patch("/v1/admin/reviews/:id", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.patch("/v1/admin/reviews/:id", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const parsed = updateReviewStatusSchema.safeParse(await c.req.json());
 
   if (!parsed.success) {
@@ -395,7 +408,7 @@ app.patch("/v1/admin/reviews/:id", requireAuth, requireRole(UserRole.ADMIN), asy
   }
 });
 
-app.get("/v1/admin/bookings", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.get("/v1/admin/bookings", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const bookings = await listAllBookingsForAdmin();
   return c.json(bookings);
 });
@@ -403,7 +416,7 @@ app.get("/v1/admin/bookings", requireAuth, requireRole(UserRole.ADMIN), async (c
 app.get(
   "/v1/admin/bookings/:id/attachments",
   requireAuth,
-  requireRole(UserRole.ADMIN),
+  requireRole(...ADMIN_ROLES),
   async (c) => {
     const attachments = await listBookingAttachmentsForAdmin(c.req.param("id")!);
     return c.json(attachments);
@@ -440,7 +453,7 @@ app.patch(
   },
 );
 
-app.get("/v1/admin/technicians", requireAuth, requireRole(UserRole.ADMIN), async (c) => {
+app.get("/v1/admin/technicians", requireAuth, requireRole(...ADMIN_ROLES), async (c) => {
   const technicians = await listTechnicianUsers();
   return c.json(technicians);
 });
@@ -448,7 +461,7 @@ app.get("/v1/admin/technicians", requireAuth, requireRole(UserRole.ADMIN), async
 app.patch(
   "/v1/admin/bookings/:id/assign",
   requireAuth,
-  requireRole(UserRole.ADMIN),
+  requireRole(...ADMIN_ROLES),
   async (c) => {
     const parsed = assignTechnicianSchema.safeParse(await c.req.json());
 
@@ -471,7 +484,7 @@ app.patch(
 app.get(
   "/v1/technicians/:id/rating",
   requireAuth,
-  requireRole(UserRole.ADMIN),
+  requireRole(...ADMIN_ROLES),
   async (c) => {
     try {
       const rating = await getTechnicianRating(c.req.param("id")!);
@@ -500,6 +513,64 @@ app.post(
   },
 );
 
+app.get(
+  "/v1/admin/technician-applications",
+  requireAuth,
+  requireRole(UserRole.SUPER_ADMIN),
+  async (c) => {
+    const status = c.req.query("status");
+    const applications = await listTechnicianApplications(
+      status ? (status as TechnicianApplicationStatus) : undefined,
+    );
+    return c.json(applications);
+  },
+);
+
+app.patch(
+  "/v1/admin/technician-applications/:id",
+  requireAuth,
+  requireRole(UserRole.SUPER_ADMIN),
+  async (c) => {
+    const parsed = reviewTechnicianApplicationSchema.safeParse(await c.req.json());
+
+    if (!parsed.success) {
+      return c.json({ error: "Invalid review payload", issues: parsed.error.issues }, 400);
+    }
+
+    try {
+      const application = await reviewTechnicianApplication(c.req.param("id")!, parsed.data);
+      return c.json(application);
+    } catch (err) {
+      return c.json(
+        { error: err instanceof Error ? err.message : "Unable to review application" },
+        400,
+      );
+    }
+  },
+);
+
+app.get("/v1/admin/users", requireAuth, requireRole(UserRole.SUPER_ADMIN), async (c) => {
+  const role = c.req.query("role");
+  const q = c.req.query("q");
+  const users = await listUsers({ role: role ? (role as UserRole) : undefined, q });
+  return c.json(users);
+});
+
+app.patch("/v1/admin/users/:id", requireAuth, requireRole(UserRole.SUPER_ADMIN), async (c) => {
+  const parsed = adminUpdateUserSchema.safeParse(await c.req.json());
+
+  if (!parsed.success) {
+    return c.json({ error: "Invalid user update payload", issues: parsed.error.issues }, 400);
+  }
+
+  try {
+    const user = await updateUserAsAdmin(c.get("user").id, c.req.param("id")!, parsed.data);
+    return c.json(user);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Unable to update user" }, 400);
+  }
+});
+
 app.get("/v1/invoices", requireAuth, async (c) => {
   const invoices = await prisma.invoice.findMany({
     where: { userId: c.get("user").id },
@@ -515,7 +586,7 @@ app.get("/v1/invoices/:number/pdf", requireAuth, async (c) => {
 
   const invoice = await prisma.invoice.findUnique({ where: { number } });
 
-  if (!invoice || (invoice.userId !== user.id && user.role !== UserRole.ADMIN)) {
+  if (!invoice || (invoice.userId !== user.id && !isAdminRole(user.role))) {
     return c.json({ error: "Invoice not found" }, 404);
   }
 

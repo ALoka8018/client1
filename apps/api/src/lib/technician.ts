@@ -84,7 +84,7 @@ export async function updateTechnicianJobStatus(
           html: `
             <p>Your service for booking <strong>${booking.code}</strong> has been marked complete.</p>
             <p>We'd love your feedback — you can leave a review from your bookings page.</p>
-            <p>— Seepage Leakage All Solutions</p>
+            <p>— Seepage Doctor</p>
           `,
           text: `Your booking ${booking.code} is complete. Leave a review from your bookings page.`,
         },

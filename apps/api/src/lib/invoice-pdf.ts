@@ -78,7 +78,7 @@ function renderInvoiceHtml(invoice: InvoiceWithDetails): string {
 <body>
   <div class="header">
     <div>
-      <div class="brand">Seepage Leakage All Solutions</div>
+      <div class="brand">Seepage Doctor</div>
       <div class="brand-sub">Bhubaneswar &middot; Cuttack &middot; Puri &middot; Rourkela</div>
     </div>
     <div class="invoice-meta">
@@ -126,7 +126,7 @@ function renderInvoiceHtml(invoice: InvoiceWithDetails): string {
     </tbody>
   </table>
 
-  <div class="footer">Thank you for choosing Seepage Leakage All Solutions.</div>
+  <div class="footer">Thank you for choosing Seepage Doctor.</div>
 </body>
 </html>`;
 }

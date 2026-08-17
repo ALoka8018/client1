@@ -26,7 +26,7 @@ export async function createSupportTicket(
           <p><strong>Topic:</strong> ${ticket.topic}</p>
           <p><strong>Message:</strong> ${ticket.message}</p>
           <p>Our team will get back to you shortly.</p>
-          <p>— Seepage Leakage All Solutions</p>
+          <p>— Seepage Doctor</p>
         `,
         text: `We've received your support ticket about "${ticket.topic}". Our team will get back to you shortly.`,
       },

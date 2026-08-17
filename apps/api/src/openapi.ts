@@ -1,4 +1,4 @@
-const bearerAuth = [{ bearerAuth: [] as string[] }];
+﻿const bearerAuth = [{ bearerAuth: [] as string[] }];
 
 const errorResponse = {
   description: "Error",
@@ -19,10 +19,10 @@ function json(description: string, schema: object = {}) {
 export const openApiSpec = {
   openapi: "3.0.3",
   info: {
-    title: "Seepage Leakage All Solutions API",
+    title: "Seepage Doctor API",
     version: "1.0.0",
     description:
-      "Booking, technician, and service-management API for the Seepage Leakage All Solutions plumbing platform.",
+      "Booking, technician, and service-management API for the Seepage Doctor plumbing platform.",
   },
   servers: [{ url: "/v1" }],
   components: {
