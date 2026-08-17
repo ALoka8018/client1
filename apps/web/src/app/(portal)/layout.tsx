@@ -7,6 +7,8 @@ const PORTAL_NAV_LINKS = [
   { href: "/dashboard", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
+  { href: "/bookings", label: "Bookings" },
+  { href: "/account", label: "Profile" },
 ];
 
 const PORTAL_BOTTOM_NAV_ITEMS = [

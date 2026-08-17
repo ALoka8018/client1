@@ -21,5 +21,8 @@
     "concurrently": "^10.0.3",
     "turbo": "^2.10.4",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "agent-browser": "^0.34.0"
   }
 }

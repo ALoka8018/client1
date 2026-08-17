@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -53,7 +53,7 @@ export function Header({
             href={logoHref}
             className="font-brand text-brand-sm text-primary lg:text-headline-md"
           >
-            Seepage Leakage All Solutions
+            Seepage Doctor
           </Link>
         </div>
 

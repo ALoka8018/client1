@@ -4,9 +4,9 @@ import { Badge } from "@repo/ui/Badge";
 import { CtaBanner } from "@/components/services/CtaBanner";
 
 export const metadata: Metadata = buildMetadata("https://example.com", {
-  title: "How It Works | Seepage Leakage All Solutions",
+  title: "How It Works | Seepage Doctor",
   description:
-    "The full flow of the Seepage Leakage All Solutions platform — from first visit to a booked survey — plus what's live today and what's next.",
+    "The full flow of the Seepage Doctor platform — from first visit to a booked survey — plus what's live today and what's next.",
   path: "/docs/flow",
 });
 

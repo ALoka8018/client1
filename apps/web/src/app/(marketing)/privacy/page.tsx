@@ -5,7 +5,7 @@ export default function PrivacyPage() {
     <LegalDocument
       title="Privacy Policy"
       updated="July 18, 2026"
-      intro='Seepage Leakage All Solutions ("we", "us", "our") provides waterproofing, plumbing, and structural repair services across Bhubaneswar and surrounding areas in Odisha, India. This Privacy Policy explains what personal information we collect when you use our website and booking platform, why we collect it, and the choices you have. By creating an account or booking a service with us, you agree to the practices described here.'
+      intro='Seepage Doctor ("we", "us", "our") provides waterproofing, plumbing, and structural repair services across Bhubaneswar and surrounding areas in Odisha, India. This Privacy Policy explains what personal information we collect when you use our website and booking platform, why we collect it, and the choices you have. By creating an account or booking a service with us, you agree to the practices described here.'
       sections={[
         {
           heading: "Information We Collect",
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
         },
         {
           heading: "Contact Us",
-          body: "If you have any questions about this Privacy Policy or how we handle your data, please reach out. Email us at solutions@aiasengineering.com, call +91 674 230 4500, or write to Seepage Leakage All Solutions, Infocity Road, Patia, Bhubaneswar, Odisha 751024. We aim to respond to all privacy enquiries promptly.",
+          body: "If you have any questions about this Privacy Policy or how we handle your data, please reach out. Email us at solutions@aiasengineering.com, call +91 674 230 4500, or write to Seepage Doctor, Infocity Road, Patia, Bhubaneswar, Odisha 751024. We aim to respond to all privacy enquiries promptly.",
         },
       ]}
     />

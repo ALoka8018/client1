@@ -1,4 +1,4 @@
-import { cn } from "@repo/ui/cn";
+﻿import { cn } from "@repo/ui/cn";
 
 const STEPS = [
   {
@@ -31,7 +31,7 @@ export function InspectionProcess() {
       <div className="container-max">
         <div className="mb-12 text-center md:mb-20">
           <h2 className="font-display text-headline-md text-primary md:text-headline-lg">
-            The Seepage Leakage All Solutions Inspection Process
+            The Seepage Doctor Inspection Process
           </h2>
         </div>
 

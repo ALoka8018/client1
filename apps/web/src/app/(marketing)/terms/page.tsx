@@ -5,7 +5,7 @@ export default function TermsPage() {
     <LegalDocument
       title="Terms of Service"
       updated="July 18, 2026"
-      intro="These Terms of Service govern your use of the Seepage Leakage All Solutions website, booking platform, and the waterproofing, plumbing, and structural repair services we provide. By creating an account, making a booking, or using our site, you agree to these terms. If you do not agree, please do not use our services."
+      intro="These Terms of Service govern your use of the Seepage Doctor website, booking platform, and the waterproofing, plumbing, and structural repair services we provide. By creating an account, making a booking, or using our site, you agree to these terms. If you do not agree, please do not use our services."
       sections={[
         {
           heading: "Services Description",
@@ -53,7 +53,7 @@ export default function TermsPage() {
         },
         {
           heading: "Contact Us",
-          body: "For questions about these terms, your booking, or a warranty claim, email us at solutions@aiasengineering.com or call +91 674 230 4500 during business hours. You can also visit or write to us at Seepage Leakage All Solutions, Infocity Road, Patia, Bhubaneswar, Odisha 751024.",
+          body: "For questions about these terms, your booking, or a warranty claim, email us at solutions@aiasengineering.com or call +91 674 230 4500 during business hours. You can also visit or write to us at Seepage Doctor, Infocity Road, Patia, Bhubaneswar, Odisha 751024.",
         },
       ]}
     />

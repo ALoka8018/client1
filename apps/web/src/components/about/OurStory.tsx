@@ -7,7 +7,7 @@ export function OurStory() {
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-level-2">
           <Image
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLNHeIvNlcofyiisADUyexVdBBItuF51mItN4Sq-jWyKrUbvvUCBcsRa4MAPL4rFUYwTmPwsQncbvnmmIvfWcRoS7crsXXnK3BGObx8B6dgo3A8xNTnGNnAF1KGHaf0wpZcLwB28QQY3U27-9pY6fzBwUf1T37mQBMCco3zCMvIPeBbG2u3YV20aDShcbbdfZ-ANvoDFfO_U5rlL6OoJ3QSZdkimqRhFhsdDEc0R5VvVY1KOzAiLSZXa0-WHQXE7bPtlTuELL1Fn8"
-            alt="Seepage Leakage All Solutions office"
+            alt="Seepage Doctor office"
             fill
             className="object-cover"
           />
@@ -20,7 +20,7 @@ export function OurStory() {
             From One Leaking Basement to a Region-Wide Standard.
           </h2>
           <p className="mb-4 font-sans text-body-md text-on-surface-variant">
-            Seepage Leakage All Solutions started in 2008 when a single stubborn basement
+            Seepage Doctor started in 2008 when a single stubborn basement
             leak resisted three separate cement-patch attempts from local
             contractors. Our founders, a civil engineer and a materials
             scientist, diagnosed it with acoustic sensors in an afternoon and

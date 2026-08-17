@@ -83,7 +83,7 @@ export function PayNowButton({
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
-        name: "Seepage Leakage All Solutions",
+        name: "Seepage Doctor",
         description: `Invoice ${order.invoiceNumber}`,
         order_id: order.orderId,
         prefill: {

@@ -180,7 +180,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           </span>
         </div>
         <span className="font-display text-headline-md text-primary tracking-tight">
-          Seepage Leakage All Solutions
+          Seepage Doctor
         </span>
       </div>
 

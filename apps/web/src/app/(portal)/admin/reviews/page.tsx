@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Badge, type BadgeProps } from "@repo/ui/Badge";
 import { Card } from "@repo/ui/Card";
-import { createClient } from "@/lib/supabase/client";
+import { useAdminRole } from "../layout";
 
 type Review = {
   id: string;
@@ -56,69 +56,26 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-async function getAuthHeader(): Promise<{ Authorization: string } | null> {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return session ? { Authorization: `Bearer ${session.access_token}` } : null;
-}
-
-function Restricted() {
-  return (
-    <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
-      <h1 className="mb-4 font-display text-headline-md text-primary">
-        Admin Panel — Restricted
-      </h1>
-      <p className="max-w-md font-sans text-body-md text-on-surface-variant">
-        This area is limited to Seepage Leakage All Solutions staff accounts with administrative
-        permissions. If you believe you should have access, contact your account manager.
-      </p>
-    </div>
-  );
-}
-
 export default function AdminReviewsPage() {
-  const [roleChecked, setRoleChecked] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { headers } = useAdminRole();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
-  const loadReviews = async (headers: { Authorization: string }) => {
+  const loadReviews = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/admin/reviews`, { headers });
     if (res.ok) setReviews(await res.json());
   };
 
   useEffect(() => {
     (async () => {
-      const headers = await getAuthHeader();
-      if (!headers) {
-        setRoleChecked(true);
-        return;
-      }
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/me`, { headers });
-      if (res.ok) {
-        const me = await res.json();
-        setIsAdmin(me.role === "ADMIN");
-        if (me.role === "ADMIN") await loadReviews(headers);
-      }
-      setRoleChecked(true);
+      await loadReviews();
     })();
-  }, []);
+  }, [headers]);
 
   const handleStatusChange = async (id: string, status: Review["status"]) => {
     setError(null);
     setUpdatingId(id);
-
-    const headers = await getAuthHeader();
-    if (!headers) {
-      setError("Your session expired. Please sign in again.");
-      setUpdatingId(null);
-      return;
-    }
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/admin/reviews/${id}`, {
       method: "PATCH",
@@ -133,21 +90,9 @@ export default function AdminReviewsPage() {
       return;
     }
 
-    await loadReviews(headers);
+    await loadReviews();
     setUpdatingId(null);
   };
-
-  if (!roleChecked) {
-    return (
-      <div className="container-max py-section-mobile text-center md:py-section-desktop">
-        <p className="text-on-surface-variant">Checking access…</p>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return <Restricted />;
-  }
 
   const pendingCount = reviews.filter((r) => r.status === "PENDING").length;
 

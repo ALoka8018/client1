@@ -59,7 +59,7 @@ function Restricted() {
       <span className="material-icon mb-6 text-6xl text-outline">lock</span>
       <h1 className="mb-4 font-display text-headline-md text-primary">Technician Access Only</h1>
       <p className="max-w-md font-sans text-body-md text-on-surface-variant">
-        This area is limited to Seepage Leakage All Solutions technician accounts. If you believe
+        This area is limited to Seepage Doctor technician accounts. If you believe
         you should have access, contact your account manager.
       </p>
     </div>

@@ -1,4 +1,4 @@
-# Feature Ideas — Seepage Leakage All Solutions
+# Feature Ideas — Seepage Doctor
 
 Based on a full survey of the codebase (marketing site, customer portal, API, and data model) as of 2026-07-20. Existing work is already tracked in `PROJECT_PLAN.md` (bookings, invoices, Razorpay payments, portal dashboard). This file lists **additional features not yet planned there**, organized by priority/impact.
 

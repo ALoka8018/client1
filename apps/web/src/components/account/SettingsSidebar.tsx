@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -27,7 +27,7 @@ export function SettingsSidebar() {
         <div className="relative z-10">
           <h3 className="mb-2 font-display text-headline-md">Join the Fleet</h3>
           <p className="mb-6 text-on-primary-container">
-            Expert in structural repair? Become a certified Seepage Leakage All Solutions technician
+            Expert in structural repair? Become a certified Seepage Doctor technician
             today.
           </p>
           <Link

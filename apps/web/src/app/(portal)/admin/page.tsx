@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "@repo/ui/Badge";
 import { Card } from "@repo/ui/Card";
 import { buttonClasses } from "@repo/ui/Button";
-import { createClient } from "@/lib/supabase/client";
+import { useAdminRole } from "./layout";
 
 type Dashboard = {
   todayBookingsCount: number;
@@ -13,29 +13,6 @@ type Dashboard = {
   availableTechnicians: { id: string; name: string; email: string }[];
   latestReviews: { id: string; rating: number; body: string; userName: string; createdAt: string }[];
 };
-
-async function getAuthHeader(): Promise<{ Authorization: string } | null> {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return session ? { Authorization: `Bearer ${session.access_token}` } : null;
-}
-
-function Restricted() {
-  return (
-    <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
-      <h1 className="mb-4 font-display text-headline-md text-primary">
-        Admin Panel — Restricted
-      </h1>
-      <p className="max-w-md font-sans text-body-md text-on-surface-variant">
-        This area is limited to Seepage Leakage All Solutions staff accounts with administrative
-        permissions. If you believe you should have access, contact your account manager.
-      </p>
-    </div>
-  );
-}
 
 const STATUS_META: Record<string, { label: string; icon: string }> = {
   REQUESTED: { label: "Requested", icon: "inbox" },
@@ -52,6 +29,10 @@ const QUICK_LINKS = [
   { href: "/admin/services", label: "Manage Services", icon: "home_repair_service" },
   { href: "/admin/reviews", label: "Moderate Reviews", icon: "reviews" },
   { href: "/admin/photos", label: "Job Photos", icon: "photo_library" },
+];
+
+const SUPER_ADMIN_QUICK_LINKS = [
+  { href: "/admin/staff", label: "Manage Staff & Users", icon: "manage_accounts" },
 ];
 
 function initials(name: string) {
@@ -91,46 +72,17 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export default function AdminPage() {
-  const [roleChecked, setRoleChecked] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { role, headers } = useAdminRole();
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
 
   useEffect(() => {
     (async () => {
-      const headers = await getAuthHeader();
-      if (!headers) {
-        setRoleChecked(true);
-        return;
-      }
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/me`, { headers });
-      if (res.ok) {
-        const me = await res.json();
-        setIsAdmin(me.role === "ADMIN");
-
-        if (me.role === "ADMIN") {
-          const dashboardRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/dashboard`,
-            { headers },
-          );
-          if (dashboardRes.ok) setDashboard(await dashboardRes.json());
-        }
-      }
-      setRoleChecked(true);
+      const dashboardRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/admin/dashboard`, {
+        headers,
+      });
+      if (dashboardRes.ok) setDashboard(await dashboardRes.json());
     })();
-  }, []);
-
-  if (!roleChecked) {
-    return (
-      <div className="container-max py-section-mobile text-center md:py-section-desktop">
-        <p className="text-on-surface-variant">Checking access…</p>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return <Restricted />;
-  }
+  }, [headers]);
 
   return (
     <div className="container-max py-section-mobile md:py-section-desktop">
@@ -140,7 +92,7 @@ export default function AdminPage() {
             Admin Dashboard
           </h1>
           <p className="mt-1 font-sans text-body-sm text-on-surface-variant">
-            Seepage Leakage All Solutions · Central Management
+            Seepage Doctor · Central Management
           </p>
         </div>
         <Badge variant="primary" className="w-fit normal-case">
@@ -150,16 +102,18 @@ export default function AdminPage() {
       </div>
 
       <div className="mb-8 flex flex-wrap gap-3">
-        {QUICK_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={buttonClasses({ variant: "outline", size: "sm", pill: true })}
-          >
-            <span className="material-icon text-lg">{link.icon}</span>
-            {link.label}
-          </Link>
-        ))}
+        {[...QUICK_LINKS, ...(role === "SUPER_ADMIN" ? SUPER_ADMIN_QUICK_LINKS : [])].map(
+          (link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={buttonClasses({ variant: "outline", size: "sm", pill: true })}
+            >
+              <span className="material-icon text-lg">{link.icon}</span>
+              {link.label}
+            </Link>
+          ),
+        )}
       </div>
 
       {!dashboard ? (

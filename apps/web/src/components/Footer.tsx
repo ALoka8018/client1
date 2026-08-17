@@ -47,7 +47,7 @@ export function Footer() {
         <div className="mb-10 grid grid-cols-2 gap-x-6 gap-y-10 md:mb-16 md:grid-cols-4 md:gap-12">
           <div className="col-span-2">
             <h2 className="mb-4 font-brand text-headline-md text-primary md:mb-6">
-              Seepage Leakage All Solutions
+              Seepage Doctor
             </h2>
             <p className="max-w-sm font-sans text-body-md text-on-surface-variant">
               Leading structural diagnostics and engineering solutions across
@@ -60,7 +60,7 @@ export function Footer() {
         </div>
         <div className="border-t border-outline-variant pt-6 text-center md:pt-8 md:text-left">
           <p className="font-sans text-body-md text-on-surface-variant">
-            © 2024 Seepage Leakage All Solutions. All Rights Reserved.
+            © 2024 Seepage Doctor. All Rights Reserved.
           </p>
         </div>
       </div>

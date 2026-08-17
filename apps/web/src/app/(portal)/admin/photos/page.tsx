@@ -5,7 +5,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Badge } from "@repo/ui/Badge";
 import { Card } from "@repo/ui/Card";
 import { Button } from "@repo/ui/Button";
-import { createClient } from "@/lib/supabase/client";
+import { useAdminRole } from "../layout";
 
 type AdminBooking = {
   id: string;
@@ -28,32 +28,8 @@ const labelClasses = "px-1 font-sans text-label-md text-on-surface-variant";
 const fieldClasses =
   "w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20";
 
-async function getAuthHeader(): Promise<{ Authorization: string } | null> {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return session ? { Authorization: `Bearer ${session.access_token}` } : null;
-}
-
-function Restricted() {
-  return (
-    <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
-      <h1 className="mb-4 font-display text-headline-md text-primary">
-        Admin Panel — Restricted
-      </h1>
-      <p className="max-w-md font-sans text-body-md text-on-surface-variant">
-        This area is limited to Seepage Leakage All Solutions staff accounts with administrative
-        permissions. If you believe you should have access, contact your account manager.
-      </p>
-    </div>
-  );
-}
-
 export default function AdminPhotosPage() {
-  const [roleChecked, setRoleChecked] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { headers } = useAdminRole();
 
   const [bookings, setBookings] = useState<AdminBooking[]>([]);
   const [selectedBookingId, setSelectedBookingId] = useState("");
@@ -69,39 +45,18 @@ export default function AdminPhotosPage() {
 
   useEffect(() => {
     (async () => {
-      const headers = await getAuthHeader();
-      if (!headers) {
-        setRoleChecked(true);
-        return;
+      const bookingsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/admin/bookings`, {
+        headers,
+      });
+      if (bookingsRes.ok) {
+        const data = (await bookingsRes.json()) as AdminBooking[];
+        setBookings(Array.isArray(data) ? data : []);
       }
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/me`, { headers });
-      if (res.ok) {
-        const me = await res.json();
-        setIsAdmin(me.role === "ADMIN");
-
-        if (me.role === "ADMIN") {
-          const bookingsRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/bookings`,
-            { headers },
-          );
-          if (bookingsRes.ok) {
-            const data = (await bookingsRes.json()) as AdminBooking[];
-            setBookings(Array.isArray(data) ? data : []);
-          }
-        }
-      }
-      setRoleChecked(true);
     })();
-  }, []);
+  }, [headers]);
 
   const loadAttachments = async (bookingId: string) => {
     setAttachmentsLoading(true);
-    const headers = await getAuthHeader();
-    if (!headers) {
-      setAttachmentsLoading(false);
-      return;
-    }
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/bookings/${bookingId}/attachments`,
       { headers },
@@ -141,13 +96,6 @@ export default function AdminPhotosPage() {
     setUploading(true);
 
     try {
-      const headers = await getAuthHeader();
-      if (!headers) {
-        setUploadError("Your session expired. Please sign in again.");
-        setUploading(false);
-        return;
-      }
-
       const formData = new FormData();
       formData.append("file", file);
       formData.append("photoType", photoType);
@@ -176,18 +124,6 @@ export default function AdminPhotosPage() {
       setUploading(false);
     }
   };
-
-  if (!roleChecked) {
-    return (
-      <div className="container-max py-section-mobile text-center md:py-section-desktop">
-        <p className="text-on-surface-variant">Checking access…</p>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return <Restricted />;
-  }
 
   return (
     <div className="container-max py-section-mobile md:py-section-desktop">

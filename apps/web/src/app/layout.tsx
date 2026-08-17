@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter, Sonsie_One, Archivo } from "next/font/google";
 import { buildMetadata } from "@repo/seo";
 import "./globals.css";
@@ -27,7 +27,7 @@ const archivo = Archivo({
 });
 
 export const metadata: Metadata = buildMetadata("https://example.com", {
-  title: "Seepage Leakage All Solutions",
+  title: "Seepage Doctor",
   description:
     "Advanced leak detection, structural diagnostics, and precision engineering solutions.",
   path: "/",

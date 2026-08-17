@@ -6,7 +6,7 @@ Inventory of every placeholder / mock / test value in the codebase that must be 
 
 | File | Current (placeholder) | Needed |
 |---|---|---|
-| `apps/web/src/components/Footer.tsx` | Name "Seepage Leakage All Solutions", "© 2024" | Real legal business name; dynamic/current year |
+| `apps/web/src/components/Footer.tsx` | Name "Seepage Doctor", "© 2024" | Real legal business name; dynamic/current year |
 | `apps/web/src/components/Header.tsx` | Hardcoded brand text logo | Real brand name / logo image |
 | `apps/web/src/components/book/ContactDetails.tsx` | Phone `+91 674 230 4500`, WhatsApp `+91 94370 00000`, email `solutions@aiasengineering.com`, address "Infocity Road, Patia, Bhubaneswar, Odisha 751024" | Real phone, WhatsApp, email, HQ address |
 | `apps/web/src/lib/whatsapp.ts` | `WHATSAPP_NUMBER = "919437000000"` | Real WhatsApp business number |

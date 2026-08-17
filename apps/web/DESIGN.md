@@ -1,5 +1,5 @@
 ---
-name: Seepage Leakage All Solutions
+name: Seepage Doctor
 description: Diagnostic-first leak-detection and structural-inspection service platform
 colors:
   deep-violet: "#240046"
@@ -118,7 +118,7 @@ components:
     padding: "12px 16px"
 ---
 
-# Design System: Seepage Leakage All Solutions
+# Design System: Seepage Doctor
 
 ## 1. Overview
 

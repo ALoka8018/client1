@@ -9,8 +9,7 @@ export default function BecomeATechnicianPage() {
             Become a Technician
           </h1>
           <p className="font-sans text-body-md text-on-surface-variant">
-            Expert in structural repair, waterproofing, or plumbing? Join the Seepage Leakage All
-            Solutions field team.
+            Expert in structural repair, waterproofing, or plumbing? Join the Seepage Doctor field team.
           </p>
         </div>
 

@@ -121,3 +121,24 @@ export const createLeadSchema = z.object({
 });
 
 export type CreateLeadInput = z.infer<typeof createLeadSchema>;
+
+export const adminUpdateUserSchema = z
+  .object({
+    role: z.enum(["CUSTOMER", "TECHNICIAN", "ADMIN", "SUPER_ADMIN"]).optional(),
+    name: z.string().min(1).optional(),
+    phone: z.string().min(1).optional(),
+    technicianActive: z.boolean().optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  });
+
+export type AdminUpdateUserInput = z.infer<typeof adminUpdateUserSchema>;
+
+export const reviewTechnicianApplicationSchema = z.object({
+  status: z.enum(["APPROVED", "REJECTED"]),
+});
+
+export type ReviewTechnicianApplicationInput = z.infer<
+  typeof reviewTechnicianApplicationSchema
+>;

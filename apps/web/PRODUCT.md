@@ -14,7 +14,7 @@ Two audiences in roughly equal weight, both landing on the same marketing surfac
 
 ## Product Purpose
 
-Seepage Leakage All Solutions is a plumbing / leak-detection / waterproofing / structural-inspection service company (India — Bhubaneswar, Cuttack, Puri, Rourkela). The marketing site exists to convert both anxious homeowners and considered commercial buyers into booked diagnostic visits; the portal exists to give booked customers visibility into job status, property health, and billing without needing to call in.
+Seepage Doctor is a plumbing / leak-detection / waterproofing / structural-inspection service company (India — Bhubaneswar, Cuttack, Puri, Rourkela). The marketing site exists to convert both anxious homeowners and considered commercial buyers into booked diagnostic visits; the portal exists to give booked customers visibility into job status, property health, and billing without needing to call in.
 
 ## Positioning
 

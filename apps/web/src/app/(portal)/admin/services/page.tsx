@@ -5,7 +5,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Badge } from "@repo/ui/Badge";
 import { Card } from "@repo/ui/Card";
 import { Button } from "@repo/ui/Button";
-import { createClient } from "@/lib/supabase/client";
+import { useAdminRole } from "../layout";
 
 type Category = { id: string; label: string };
 
@@ -33,32 +33,8 @@ const fieldClasses =
   "w-full rounded-2xl border-none bg-surface-container-low px-6 py-4 font-sans text-on-surface outline-none focus:ring-2 focus:ring-primary/20";
 const labelClasses = "px-1 font-sans text-label-md text-on-surface-variant";
 
-async function getAuthHeader(): Promise<{ Authorization: string } | null> {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return session ? { Authorization: `Bearer ${session.access_token}` } : null;
-}
-
-function Restricted() {
-  return (
-    <div className="container-max flex flex-col items-center py-section-mobile text-center md:py-section-desktop">
-      <span className="material-icon mb-6 text-6xl text-outline">lock</span>
-      <h1 className="mb-4 font-display text-headline-md text-primary">
-        Admin Panel — Restricted
-      </h1>
-      <p className="max-w-md font-sans text-body-md text-on-surface-variant">
-        This area is limited to Seepage Leakage All Solutions staff accounts with administrative
-        permissions. If you believe you should have access, contact your account manager.
-      </p>
-    </div>
-  );
-}
-
 export default function AdminServicesPage() {
-  const [roleChecked, setRoleChecked] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { headers } = useAdminRole();
   const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form, setForm] = useState(emptyForm);
@@ -72,36 +48,20 @@ export default function AdminServicesPage() {
 
   useEffect(() => {
     (async () => {
-      const headers = await getAuthHeader();
-      if (!headers) {
-        setRoleChecked(true);
-        return;
-      }
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/me`, { headers });
-      if (res.ok) {
-        const me = await res.json();
-        setIsAdmin(me.role === "ADMIN");
-
-        if (me.role === "ADMIN") {
-          const servicesRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/admin/services`,
-            { headers },
-          );
-          if (servicesRes.ok) {
-            const data = (await servicesRes.json()) as Service[];
-            setServices(data);
-            const seen = new Map<string, Category>();
-            for (const s of data as (Service & { category?: Category })[]) {
-              if (s.category) seen.set(s.category.id, s.category);
-            }
-            setCategories(Array.from(seen.values()));
-          }
+      const servicesRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/admin/services`, {
+        headers,
+      });
+      if (servicesRes.ok) {
+        const data = (await servicesRes.json()) as Service[];
+        setServices(data);
+        const seen = new Map<string, Category>();
+        for (const s of data as (Service & { category?: Category })[]) {
+          if (s.category) seen.set(s.category.id, s.category);
         }
+        setCategories(Array.from(seen.values()));
       }
-      setRoleChecked(true);
     })();
-  }, []);
+  }, [headers]);
 
   const resetForm = () => setForm(emptyForm);
 
@@ -123,12 +83,6 @@ export default function AdminServicesPage() {
     setSaving(true);
 
     try {
-      const headers = await getAuthHeader();
-      if (!headers) {
-        setError("Your session expired. Please sign in again.");
-        return;
-      }
-
       const payload = {
         categoryId: form.categoryId,
         title: form.title,
@@ -165,11 +119,6 @@ export default function AdminServicesPage() {
 
   const handleDelete = async (id: string) => {
     setError(null);
-    const headers = await getAuthHeader();
-    if (!headers) {
-      setError("Your session expired. Please sign in again.");
-      return;
-    }
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/admin/services/${id}`, {
       method: "DELETE",
@@ -184,18 +133,6 @@ export default function AdminServicesPage() {
 
     await loadServices(headers);
   };
-
-  if (!roleChecked) {
-    return (
-      <div className="container-max py-section-mobile text-center md:py-section-desktop">
-        <p className="text-on-surface-variant">Checking access…</p>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return <Restricted />;
-  }
 
   return (
     <div className="container-max py-section-mobile md:py-section-desktop">

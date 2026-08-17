@@ -39,3 +39,6 @@ next-env.d.ts
 
 # Reference assets (design exports, etc.) not meant for version control
 *.zip
+
+# Local secret material accidentally dropped in repo root
+/key.txt
