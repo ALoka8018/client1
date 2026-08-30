@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { prisma, InvoiceStatus } from "@repo/database";
-import { createBooking } from "../src/lib/bookings.ts";
-import { processRazorpayWebhook } from "../src/lib/payments.ts";
-import { closePdfBrowser } from "../src/lib/invoice-pdf.ts";
+import { createBooking } from "../src/modules/bookings/bookings.ts";
+import { processRazorpayWebhook } from "../src/modules/payments/payments.ts";
+import { closePdfBrowser } from "../src/modules/payments/invoice-pdf.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

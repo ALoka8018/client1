@@ -23,13 +23,13 @@ const prisma = {
 };
 
 vi.mock("@repo/database", () => ({ prisma, UserRole, TechnicianApplicationStatus }));
-vi.mock("./supabase.js", () => ({
+vi.mock("../common/supabase.js", () => ({
   supabaseAdmin: { auth: { admin: { inviteUserByEmail: vi.fn(), listUsers: vi.fn() } } },
 }));
-vi.mock("./mailer.js", () => ({ sendMail: vi.fn() }));
+vi.mock("../common/mailer.js", () => ({ sendMail: vi.fn() }));
 
 const { updateUserAsAdmin } = await import("./staff.js");
-const { reviewTechnicianApplication } = await import("./technician-applications.js");
+const { reviewTechnicianApplication } = await import("../technicians/technician-applications.js");
 
 beforeEach(() => {
   vi.clearAllMocks();

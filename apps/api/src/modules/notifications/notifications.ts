@@ -1,5 +1,5 @@
 import { prisma, type Notification, type User } from "@repo/database";
-import { sendMail } from "./mailer.js";
+import { sendMail } from "../common/mailer.js";
 import { logger } from "@repo/logger";
 
 export const NotificationType = {

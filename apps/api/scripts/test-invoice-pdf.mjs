@@ -3,7 +3,7 @@ import { prisma, InvoiceStatus } from "@repo/database";
 import {
   generateAndStoreInvoicePdf,
   closePdfBrowser,
-} from "../src/lib/invoice-pdf.ts";
+} from "../src/modules/payments/invoice-pdf.ts";
 import { createStorageDriver } from "@repo/storage";
 
 const suffix = Math.random().toString(36).slice(2, 8);

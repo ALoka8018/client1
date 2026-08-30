@@ -18,7 +18,7 @@ const PORTAL_BOTTOM_NAV_ITEMS = [
   { href: "/account", label: "Profile", icon: "person" },
 ];
 
-export default function PortalLayout({
+export function PortalShell({
   children,
 }: Readonly<{
   children: React.ReactNode;

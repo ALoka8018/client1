@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import { prisma, Prisma, InvoiceStatus, type Invoice, type User } from "@repo/database";
 import { razorpay } from "./razorpay.js";
 import { generateAndStoreInvoicePdf } from "./invoice-pdf.js";
-import { notify, NotificationType } from "./notifications.js";
+import { notify, NotificationType } from "../notifications/notifications.js";
 import { logger } from "@repo/logger";
 
 export async function createPaymentOrder(user: User, invoiceId: string) {

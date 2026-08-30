@@ -5,8 +5,8 @@ import {
   assignTechnicianToBooking,
   getTechnicianRating,
   listTechnicianUsers,
-} from "../src/lib/technician.ts";
-import { createReview } from "../src/lib/reviews.ts";
+} from "../src/modules/technicians/technician.ts";
+import { createReview } from "../src/modules/reviews/reviews.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

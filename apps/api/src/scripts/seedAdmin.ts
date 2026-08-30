@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { prisma, UserRole } from "@repo/database";
-import { supabaseAdmin } from "../lib/supabase.js";
+import { supabaseAdmin } from "../modules/common/supabase.js";
 
 const email = process.env.ADMIN_EMAIL ?? "admin@plumbingallsolution.test";
 const password = process.env.ADMIN_PASSWORD ?? "Admin@12345";

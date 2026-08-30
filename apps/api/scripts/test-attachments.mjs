@@ -5,7 +5,7 @@ import {
   listAllBookingsForAdmin,
   listBookingAttachmentsForAdmin,
   getProjectGallery,
-} from "../src/lib/attachments.ts";
+} from "../src/modules/bookings/attachments.ts";
 import { createStorageDriver } from "@repo/storage";
 
 const suffix = Math.random().toString(36).slice(2, 8);

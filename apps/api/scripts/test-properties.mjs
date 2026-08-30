@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { prisma } from "@repo/database";
-import { listProperties, getPropertyHealth } from "../src/lib/properties.ts";
+import { listProperties, getPropertyHealth } from "../src/modules/customers/properties.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

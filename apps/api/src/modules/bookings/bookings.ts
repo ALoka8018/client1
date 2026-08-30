@@ -8,7 +8,7 @@ import {
   type User,
 } from "@repo/database";
 import type { CreateBookingInput, ModifyBookingInput } from "@repo/validation";
-import { notify, NotificationType } from "./notifications.js";
+import { notify, NotificationType } from "../notifications/notifications.js";
 import { logger } from "@repo/logger";
 
 const CANCELLABLE_STATUSES: BookingStatus[] = [

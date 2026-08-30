@@ -7,7 +7,7 @@ import {
   isBookingAssignedToTechnician,
   listTechnicianUsers,
   assignTechnicianToBooking,
-} from "../src/lib/technician.ts";
+} from "../src/modules/technicians/technician.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

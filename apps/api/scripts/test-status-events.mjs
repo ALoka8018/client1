@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { prisma } from "@repo/database";
-import { createBooking, listBookings, modifyBooking } from "../src/lib/bookings.ts";
-import { closePdfBrowser } from "../src/lib/invoice-pdf.ts";
+import { createBooking, listBookings, modifyBooking } from "../src/modules/bookings/bookings.ts";
+import { closePdfBrowser } from "../src/modules/payments/invoice-pdf.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

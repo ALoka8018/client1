@@ -4,7 +4,7 @@ import {
   listNotifications,
   markNotificationRead,
   markAllNotificationsRead,
-} from "../src/lib/notifications.ts";
+} from "../src/modules/notifications/notifications.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

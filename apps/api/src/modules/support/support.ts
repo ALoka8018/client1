@@ -1,7 +1,7 @@
 import { prisma, type SupportTicket, type User } from "@repo/database";
 import type { CreateSupportTicketInput } from "@repo/validation";
-import { notify, NotificationType } from "./notifications.js";
-import { sendMail } from "./mailer.js";
+import { notify, NotificationType } from "../notifications/notifications.js";
+import { sendMail } from "../common/mailer.js";
 import { logger } from "@repo/logger";
 
 const SUPPORT_INBOX = process.env.SUPPORT_INBOX_EMAIL ?? "solutions@aiasengineering.com";

@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { prisma, InvoiceStatus } from "@repo/database";
-import { listDocuments } from "../src/lib/documents.ts";
+import { listDocuments } from "../src/modules/customers/documents.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

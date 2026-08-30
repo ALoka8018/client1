@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { prisma, BookingStatus } from "@repo/database";
-import { createReview, listReviews, serviceReviewAggregates } from "../src/lib/reviews.ts";
+import { createReview, listReviews, serviceReviewAggregates } from "../src/modules/reviews/reviews.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

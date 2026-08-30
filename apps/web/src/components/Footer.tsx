@@ -46,7 +46,7 @@ export function Footer() {
             taller than the viewport for five links. */}
         <div className="mb-10 grid grid-cols-2 gap-x-6 gap-y-10 md:mb-16 md:grid-cols-4 md:gap-12">
           <div className="col-span-2">
-            <h2 className="mb-4 font-brand text-headline-md text-primary md:mb-6">
+            <h2 className="mb-4 font-display text-headline-md text-primary md:mb-6">
               Seepage Doctor
             </h2>
             <p className="max-w-sm font-sans text-body-md text-on-surface-variant">

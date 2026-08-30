@@ -36,7 +36,7 @@ export function Header({
 
   return (
     <header className="glass fixed top-0 z-50 w-full">
-      <div className="container-max flex h-16 items-center justify-between gap-2">
+      <div className="container-max grid h-16 grid-cols-[auto_1fr_auto] items-center gap-2">
         <div className="flex min-w-0 items-center gap-1 lg:gap-4">
           <button
             type="button"
@@ -51,13 +51,13 @@ export function Header({
           </button>
           <Link
             href={logoHref}
-            className="font-brand text-brand-sm text-primary lg:text-headline-md"
+            className="font-display text-brand-sm text-primary lg:text-headline-md"
           >
             Seepage Doctor
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center justify-center gap-8 lg:flex">
           {navLinks.map((link) => {
             const active = pathname === link.href;
             return (

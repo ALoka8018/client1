@@ -8,9 +8,9 @@ import type {
   CreateTechnicianApplicationInput,
   ReviewTechnicianApplicationInput,
 } from "@repo/validation";
-import { sendMail } from "./mailer.js";
+import { sendMail } from "../common/mailer.js";
 import { logger } from "@repo/logger";
-import { supabaseAdmin } from "./supabase.js";
+import { supabaseAdmin } from "../common/supabase.js";
 
 const SUPPORT_INBOX = process.env.SUPPORT_INBOX_EMAIL ?? "solutions@aiasengineering.com";
 

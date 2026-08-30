@@ -1,6 +1,6 @@
 import type { Context, Next } from "hono";
 import { prisma, UserRole, type User } from "@repo/database";
-import { supabaseAdmin } from "../lib/supabase.js";
+import { supabaseAdmin } from "./supabase.js";
 
 export type AuthUser = User;
 

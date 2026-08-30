@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { prisma } from "@repo/database";
-import { createTechnicianApplication } from "../src/lib/technician-applications.ts";
+import { createTechnicianApplication } from "../src/modules/technicians/technician-applications.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 

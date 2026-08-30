@@ -7,7 +7,7 @@ import {
   type User,
 } from "@repo/database";
 import type { UpdateTechnicianJobStatusInput } from "@repo/validation";
-import { notify, NotificationType } from "./notifications.js";
+import { notify, NotificationType } from "../notifications/notifications.js";
 import { logger } from "@repo/logger";
 
 const ACTION_TO_STATUS: Record<UpdateTechnicianJobStatusInput["action"], BookingStatus> = {

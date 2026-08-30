@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { prisma } from "@repo/database";
-import { createSupportTicket, listSupportTickets } from "../src/lib/support.ts";
+import { createSupportTicket, listSupportTickets } from "../src/modules/support/support.ts";
 
 const suffix = Math.random().toString(36).slice(2, 8);
 
