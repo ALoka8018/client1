@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Local secret material accidentally dropped in repo root
 /key.txt
+
+# Local personal study/interview notes (not pushed to GitHub)
+/PROJECT_INTERVIEW_GUIDE.md

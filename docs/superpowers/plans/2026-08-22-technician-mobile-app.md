@@ -30,7 +30,7 @@ Profile tab), switching based on session presence.
   `POST /v1/bookings/:id/attachments`).
 - No offline-first sync/retry queue for v1 (spec's explicit non-goal).
 - No push notifications for v1 (spec's explicit non-goal, phase 2).
-- Package manager is pnpm (root `packageManager: "pnpm@11.12.0"`,
+- Package manager is pnpm (root `packageManager: "pnpm@11.28.9"`,
   workspace glob `apps/*` already covers a new `apps/mobile`).
 - Env vars use the `EXPO_PUBLIC_` prefix (Expo's equivalent of Next.js's
   `NEXT_PUBLIC_`) — `EXPO_PUBLIC_SUPABASE_URL`,

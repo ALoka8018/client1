@@ -1,7 +1,7 @@
 # 💧 Seepage Doctor (`plumbingAllSolution`)
 
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D22.13-brightgreen.svg)](https://nodejs.org/)
-[![pnpm Version](https://img.shields.io/badge/pnpm-11.12.0-orange.svg)](https://pnpm.io/)
+[![pnpm Version](https://img.shields.io/badge/pnpm-11.28.9-orange.svg)](https://pnpm.io/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-2.x-blue.svg)](https://turbo.build/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2_(App_Router)-black.svg)](https://nextjs.org/)
 [![Hono](https://img.shields.io/badge/Hono-4.12-E36002.svg)](https://hono.dev/)
@@ -172,15 +172,15 @@ flowchart TD
 
 Before getting started, make sure your machine has:
 
-- **Node.js:** `>= 22.13.0` (Required by `pnpm@11.12.0` and Corepack)
-- **pnpm:** `11.12.0`
+- **Node.js:** `>= 22.13.0` (Required by `pnpm@11.x` and Corepack)
+- **pnpm:** `11.28.9`
   ```bash
   # Enable via Corepack (recommended)
   corepack enable
-  corepack prepare pnpm@11.12.0 --activate
+  corepack prepare pnpm@11.28.9 --activate
 
   # Or install globally via npm
-  npm install -g pnpm@11.12.0
+  npm install -g pnpm@11.28.9
   ```
 - **PostgreSQL Database:** A running PostgreSQL instance (or free managed database at [Supabase](https://supabase.com)).
 - **Supabase Account:** For Supabase Auth and database connectivity.

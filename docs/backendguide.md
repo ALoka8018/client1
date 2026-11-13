@@ -56,7 +56,7 @@ EXPOSE 4000
 CMD ["node", "apps/api/dist/index.js"]
 ```
 
-Node **22**, not 20 — `packageManager: pnpm@11.12.0` requires Node ≥22.13; on Node 20,
+Node **22**, not 20 — `packageManager: pnpm@11.28.9` requires Node ≥22.13; on Node 20,
 corepack's pnpm install crashes before it even gets to your code.
 
 `.dockerignore` next to it:
